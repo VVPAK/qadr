@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
-
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../chat/domain/models/component_data.dart';
 
 class PrayerTimesCard extends StatelessWidget {
   const PrayerTimesCard({super.key, required this.data});
   final PrayerTimesData data;
+
+  static String _localizeName(String name, AppLocalizations l10n) {
+    return switch (name) {
+      'fajr' => l10n.fajr,
+      'sunrise' => l10n.sunrise,
+      'dhuhr' => l10n.dhuhr,
+      'asr' => l10n.asr,
+      'maghrib' => l10n.maghrib,
+      'isha' => l10n.isha,
+      _ => name,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +63,7 @@ class PrayerTimesCard extends StatelessWidget {
                         const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          prayer.name,
+                          _localizeName(prayer.name, context.l10n),
                           style: prayer.isNext
                               ? context.textTheme.bodyLarge
                                   ?.copyWith(fontWeight: FontWeight.bold)

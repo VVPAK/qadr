@@ -54,7 +54,7 @@ class PrayerTimesService {
     final prayers = times.map((entry) {
       final (name, time) = entry;
       return PrayerTimeEntry(
-        name: name.displayName,
+        name: name.name,
         time: time.timeString,
         isNext: name == nextPrayer,
       );
