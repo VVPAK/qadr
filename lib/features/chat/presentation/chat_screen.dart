@@ -70,6 +70,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     },
                   ),
           ),
+          if (messages.isNotEmpty) _buildShortcutsBar(context),
           _buildInputBar(context),
         ],
       ),
@@ -168,6 +169,28 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     return MessageBubble(
       message: message,
       child: Text(message.content),
+    );
+  }
+
+  Widget _buildShortcutsBar(BuildContext context) {
+    final shortcuts = _getShortcuts(context);
+
+    return SizedBox(
+      height: 48,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        itemCount: shortcuts.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        itemBuilder: (context, index) {
+          final s = shortcuts[index];
+          return ActionChip(
+            avatar: Text(s.icon),
+            label: Text(s.label),
+            onPressed: () => _handleSubmit(s.message),
+          );
+        },
+      ),
     );
   }
 

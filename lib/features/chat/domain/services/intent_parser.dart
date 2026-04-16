@@ -38,9 +38,16 @@ class IntentParser {
       final compType = componentJson['type'] as String?;
       final compData = componentJson['data'];
       if (compType != null && compType.isNotEmpty) {
+        final Map<String, dynamic> data;
+        if (compData is Map<String, dynamic>) {
+          data = compData;
+        } else {
+          // LLM sometimes puts fields at component level instead of in "data"
+          data = Map<String, dynamic>.from(componentJson)..remove('type');
+        }
         component = ComponentPayload(
           type: compType,
-          data: compData is Map<String, dynamic> ? compData : {},
+          data: data,
         );
       }
     }

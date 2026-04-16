@@ -77,7 +77,8 @@ class ChatMessageRenderer extends StatelessWidget {
   }
 
   Widget _buildLessonCard(Map<String, dynamic> data) {
-    final lessonId = data['lessonId'] as String?;
+    final lessonId = data['lessonId'] as String?
+        ?? data['lesson_id'] as String?;
     if (lessonId == null) {
       return const Text('Invalid lesson');
     }
