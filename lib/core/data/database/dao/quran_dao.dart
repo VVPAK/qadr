@@ -9,13 +9,16 @@ part 'quran_dao.g.dart';
 class QuranDao extends DatabaseAccessor<AppDatabase> with _$QuranDaoMixin {
   QuranDao(super.db);
 
-  Future<List<Surah>> getAllSurahs() => select(surahs).get();
+  Future<List<Surah>> getAllSurahs() =>
+      (select(surahs)..orderBy([(s) => OrderingTerm.asc(s.number)])).get();
 
   Future<Surah> getSurah(int number) =>
       (select(surahs)..where((s) => s.number.equals(number))).getSingle();
 
-  Future<List<Ayah>> getAyahsForSurah(int surahNumber) =>
-      (select(ayahs)..where((a) => a.surahNumber.equals(surahNumber))).get();
+  Future<List<Ayah>> getAyahsForSurah(int surahNumber) => (select(ayahs)
+        ..where((a) => a.surahNumber.equals(surahNumber))
+        ..orderBy([(a) => OrderingTerm.asc(a.ayahNumber)]))
+      .get();
 
   Future<Ayah> getAyah(int surahNumber, int ayahNumber) => (select(ayahs)
         ..where(

@@ -55,5 +55,16 @@
       }
     }
   },
-  "allLessonsComplete": "Вы прошли все уроки!"
+  "allLessonsComplete": "Вы прошли все уроки!",
+  "meccan": "Мекканская",
+  "medinan": "Мединская",
+  "ayahCount": "{count} аятов",
+  "@ayahCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadingQuran": "Подготовка данных Корана..."
 }

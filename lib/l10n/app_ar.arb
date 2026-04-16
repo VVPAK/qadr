@@ -55,5 +55,16 @@
       }
     }
   },
-  "allLessonsComplete": "لقد أكملت جميع الدروس!"
+  "allLessonsComplete": "لقد أكملت جميع الدروس!",
+  "meccan": "مكية",
+  "medinan": "مدنية",
+  "ayahCount": "{count} آيات",
+  "@ayahCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadingQuran": "جارٍ تحضير بيانات القرآن..."
 }

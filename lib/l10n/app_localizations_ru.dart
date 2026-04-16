@@ -138,4 +138,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get allLessonsComplete => 'Вы прошли все уроки!';
+
+  @override
+  String get meccan => 'Мекканская';
+
+  @override
+  String get medinan => 'Мединская';
+
+  @override
+  String ayahCount(int count) {
+    return '$count аятов';
+  }
+
+  @override
+  String get loadingQuran => 'Подготовка данных Корана...';
 }

@@ -137,4 +137,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get allLessonsComplete => 'لقد أكملت جميع الدروس!';
+
+  @override
+  String get meccan => 'مكية';
+
+  @override
+  String get medinan => 'مدنية';
+
+  @override
+  String ayahCount(int count) {
+    return '$count آيات';
+  }
+
+  @override
+  String get loadingQuran => 'جارٍ تحضير بيانات القرآن...';
 }

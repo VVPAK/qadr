@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../features/chat/presentation/chat_screen.dart';
 import '../features/onboarding/presentation/onboarding_screen.dart';
 import '../features/quran/presentation/quran_reader_screen.dart';
+import '../features/quran/presentation/surah_reader_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/dua/presentation/dua_list_screen.dart';
 import '../core/providers/preferences_provider.dart';
@@ -33,6 +34,16 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/quran',
         builder: (context, state) => const QuranReaderScreen(),
+        routes: [
+          GoRoute(
+            path: ':surahNumber',
+            builder: (context, state) {
+              final surahNumber =
+                  int.parse(state.pathParameters['surahNumber']!);
+              return SurahReaderScreen(surahNumber: surahNumber);
+            },
+          ),
+        ],
       ),
       GoRoute(
         path: '/settings',

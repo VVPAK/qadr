@@ -351,6 +351,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have completed all lessons!'**
   String get allLessonsComplete;
+
+  /// No description provided for @meccan.
+  ///
+  /// In en, this message translates to:
+  /// **'Meccan'**
+  String get meccan;
+
+  /// No description provided for @medinan.
+  ///
+  /// In en, this message translates to:
+  /// **'Medinan'**
+  String get medinan;
+
+  /// No description provided for @ayahCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} ayahs'**
+  String ayahCount(int count);
+
+  /// No description provided for @loadingQuran.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing Quran data...'**
+  String get loadingQuran;
 }
 
 class _AppLocalizationsDelegate

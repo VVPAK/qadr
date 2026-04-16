@@ -55,5 +55,16 @@
       }
     }
   },
-  "allLessonsComplete": "You have completed all lessons!"
+  "allLessonsComplete": "You have completed all lessons!",
+  "meccan": "Meccan",
+  "medinan": "Medinan",
+  "ayahCount": "{count} ayahs",
+  "@ayahCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadingQuran": "Preparing Quran data..."
 }
