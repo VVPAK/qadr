@@ -7,9 +7,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/providers/preferences_provider.dart';
+import '../../../chat/domain/chat_component.dart';
 
-class QiblaCompassWidget extends ConsumerStatefulWidget {
+class QiblaCompassWidget extends ConsumerStatefulWidget with ChatComponent {
   const QiblaCompassWidget({super.key});
+
+  @override
+  Map<String, dynamic> toContextJson() => {
+        'type': 'qibla',
+      };
 
   @override
   ConsumerState<QiblaCompassWidget> createState() => _QiblaCompassWidgetState();

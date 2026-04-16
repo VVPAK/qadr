@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import '../../../core/data/preferences/secure_storage.dart';
 import '../../../core/utils/logger.dart';
 import '../domain/models/chat_message.dart';
+import '../domain/services/component_context_builder.dart';
 import '../domain/services/llm_service.dart';
 
 class OpenAiLlmService implements LlmService {
@@ -31,7 +32,16 @@ class OpenAiLlmService implements LlmService {
       ...messages.map((m) {
         String content = m.content;
         if (m.role == MessageRole.assistant && m.llmResponse != null) {
-          content = jsonEncode(m.llmResponse!.toJson());
+          final response = m.llmResponse!;
+          content = jsonEncode({
+            'intent': response.intent.name,
+            'responseType': response.responseType.name,
+            if (response.text != null) 'text': response.text,
+            if (response.component != null)
+              'component': ComponentContextBuilder.buildContextJson(
+                response.component!,
+              ),
+          });
         }
         return {
           'role': m.role == MessageRole.user ? 'user' : 'assistant',

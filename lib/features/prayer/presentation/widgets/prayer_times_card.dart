@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../chat/domain/chat_component.dart';
 import '../../../chat/domain/models/component_data.dart';
 
-class PrayerTimesCard extends StatelessWidget {
+class PrayerTimesCard extends StatelessWidget with ChatComponent {
   const PrayerTimesCard({super.key, required this.data});
   final PrayerTimesData data;
+
+  @override
+  Map<String, dynamic> toContextJson() => {
+        'type': 'prayerTimes',
+        ...data.toJson(),
+      };
 
   static String _localizeName(String name, AppLocalizations l10n) {
     return switch (name) {

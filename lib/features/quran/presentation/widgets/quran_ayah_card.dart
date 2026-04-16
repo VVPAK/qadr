@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../chat/domain/chat_component.dart';
 import '../../../chat/domain/models/component_data.dart';
 
-class QuranAyahCard extends StatelessWidget {
+class QuranAyahCard extends StatelessWidget with ChatComponent {
   const QuranAyahCard({super.key, required this.data});
   final QuranAyahData data;
+
+  @override
+  Map<String, dynamic> toContextJson() => {
+        'type': 'quranAyah',
+        ...data.toJson(),
+      };
 
   @override
   Widget build(BuildContext context) {

@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../chat/domain/chat_component.dart';
 import '../../domain/learning_curriculum.dart';
 import '../providers/learning_provider.dart';
 
-class LessonCardWidget extends ConsumerStatefulWidget {
+class LessonCardWidget extends ConsumerStatefulWidget with ChatComponent {
   const LessonCardWidget({
     super.key,
     required this.lesson,
@@ -15,6 +16,16 @@ class LessonCardWidget extends ConsumerStatefulWidget {
 
   final Lesson lesson;
   final int startAtStep;
+
+  @override
+  Map<String, dynamic> toContextJson() => {
+        'type': 'lessonCard',
+        'lessonId': lesson.id,
+        'title': lesson.title,
+        'titleAr': lesson.titleAr,
+        'description': lesson.description,
+        'stepsCount': lesson.steps.length,
+      };
 
   @override
   ConsumerState<LessonCardWidget> createState() => _LessonCardWidgetState();

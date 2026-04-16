@@ -3,11 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../chat/domain/chat_component.dart';
 import '../../../chat/domain/models/component_data.dart';
 
-class TasbihCounterWidget extends StatefulWidget {
+class TasbihCounterWidget extends StatefulWidget with ChatComponent {
   const TasbihCounterWidget({super.key, required this.data});
   final TasbihData data;
+
+  @override
+  Map<String, dynamic> toContextJson() => {
+        'type': 'tasbih',
+        ...data.toJson(),
+      };
 
   @override
   State<TasbihCounterWidget> createState() => _TasbihCounterWidgetState();

@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../chat/domain/chat_component.dart';
 import '../../domain/learning_curriculum.dart';
 import '../providers/learning_provider.dart';
 
-class LearningProgressCard extends ConsumerWidget {
+class LearningProgressCard extends ConsumerWidget with ChatComponent {
   const LearningProgressCard({super.key, this.onContinue});
   final void Function(Lesson lesson)? onContinue;
+
+  @override
+  Map<String, dynamic> toContextJson() => {
+        'type': 'learningProgress',
+      };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

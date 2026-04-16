@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
+import '../../domain/chat_component.dart';
 import '../../domain/models/component_data.dart';
 
-class DuaChatCard extends StatelessWidget {
+class DuaChatCard extends StatelessWidget with ChatComponent {
   const DuaChatCard({super.key, required this.data});
   final DuaData data;
+
+  @override
+  Map<String, dynamic> toContextJson() => {
+        'type': 'dua',
+        ...data.toJson(),
+      };
 
   @override
   Widget build(BuildContext context) {
