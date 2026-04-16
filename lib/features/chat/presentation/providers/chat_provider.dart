@@ -1,12 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/constants/islamic_constants.dart';
+import '../../../../core/data/preferences/user_preferences.dart';
 import '../../../../core/providers/preferences_provider.dart';
 import '../../data/chat_repository.dart';
 import '../../data/openai_llm_service.dart';
 import '../../domain/models/chat_message.dart';
+import '../../domain/models/component_data.dart';
+import '../../domain/models/llm_response.dart';
 import '../../domain/services/intent_parser.dart';
 import '../../domain/services/system_prompt_builder.dart';
 import '../../../learning/presentation/providers/learning_provider.dart';
+import '../../../prayer/presentation/providers/prayer_times_provider.dart';
 
 final chatRepositoryProvider = Provider((ref) => ChatRepository());
 final llmServiceProvider = Provider((ref) => OpenAiLlmService());
@@ -64,8 +69,9 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
 
       final parsed = IntentParser.parse(rawResponse);
       final response = parsed ?? IntentParser.fallbackTextResponse(rawResponse);
+      final finalResponse = _maybeOverridePrayerTimes(response, prefs);
 
-      final displayText = response.text ?? rawResponse;
+      final displayText = finalResponse.text ?? rawResponse;
 
       state = [
         ...state.where((m) => m.id != assistantId),
@@ -74,7 +80,7 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
           role: MessageRole.assistant,
           content: displayText,
           timestamp: DateTime.now(),
-          llmResponse: response,
+          llmResponse: finalResponse,
           isStreaming: false,
         ),
       ];
@@ -90,5 +96,79 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
         ),
       ];
     }
+  }
+
+  Future<void> showPrayerTimes() async {
+    final prefs = await _ref.read(userPreferencesProvider.future);
+    final lat = prefs.latitude;
+    final lng = prefs.longitude;
+
+    if (lat == null || lng == null) {
+      sendMessage('Prayer Times');
+      return;
+    }
+
+    final service = _ref.read(prayerTimesServiceProvider);
+    final model = service.calculate(latitude: lat, longitude: lng);
+    final componentData = service.toComponentData(model);
+
+    final userMessage = ChatMessage(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      role: MessageRole.user,
+      content: 'Prayer Times',
+      timestamp: DateTime.now(),
+    );
+
+    final assistantId =
+        (DateTime.now().millisecondsSinceEpoch + 1).toString();
+    final assistantMessage = ChatMessage(
+      id: assistantId,
+      role: MessageRole.assistant,
+      content: '',
+      timestamp: DateTime.now(),
+      llmResponse: LlmResponse(
+        intent: ChatIntent.prayerTime,
+        responseType: ResponseType.component,
+        component: ComponentPayload(
+          type: 'prayerTimes',
+          data: _prayerTimesDataToMap(componentData),
+        ),
+      ),
+      isStreaming: false,
+    );
+
+    state = [...state, userMessage, assistantMessage];
+  }
+
+  LlmResponse _maybeOverridePrayerTimes(
+    LlmResponse response,
+    UserPreferences prefs,
+  ) {
+    if (response.intent != ChatIntent.prayerTime) return response;
+
+    final lat = prefs.latitude;
+    final lng = prefs.longitude;
+    if (lat == null || lng == null) return response;
+
+    final service = _ref.read(prayerTimesServiceProvider);
+    final model = service.calculate(latitude: lat, longitude: lng);
+    final componentData = service.toComponentData(model);
+
+    return LlmResponse(
+      intent: response.intent,
+      responseType: ResponseType.component,
+      text: response.text,
+      component: ComponentPayload(
+        type: 'prayerTimes',
+        data: _prayerTimesDataToMap(componentData),
+      ),
+    );
+  }
+
+  static Map<String, dynamic> _prayerTimesDataToMap(PrayerTimesData data) {
+    return {
+      'prayers': data.prayers.map((p) => p.toJson()).toList(),
+      'date': data.date,
+    };
   }
 }

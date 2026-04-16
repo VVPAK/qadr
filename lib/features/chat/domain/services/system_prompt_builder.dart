@@ -14,7 +14,7 @@ class SystemPromptBuilder {
 
     final learningContext = learningProgress != null
         ? '\nLearning progress: ${(learningProgress * 100).toInt()}%'
-            '${currentLessonId != null ? " (current lesson: $currentLessonId)" : ""}'
+              '${currentLessonId != null ? " (current lesson: $currentLessonId)" : ""}'
         : '';
 
     final languageName = switch (language) {
@@ -24,7 +24,7 @@ class SystemPromptBuilder {
     };
 
     return '''
-You are Qadr, a knowledgeable and respectful Muslim companion.
+You are Qadr, a knowledgeable and respectful Muslim AI companion. You are not a teacher you.
 User's madhab: ${madhab.displayName}
 User's language: $languageName
 

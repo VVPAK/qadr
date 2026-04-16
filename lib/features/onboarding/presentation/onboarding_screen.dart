@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/providers/preferences_provider.dart';
 import 'widgets/language_selector.dart';
-import 'widgets/madhab_selector.dart';
 import 'widgets/location_permission_step.dart';
 import 'widgets/name_input_step.dart';
 
@@ -26,7 +25,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   void _nextPage() {
-    if (_currentPage < 3) {
+    if (_currentPage < 2) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -62,7 +61,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   LanguageSelector(onNext: _nextPage),
-                  MadhabSelector(onNext: _nextPage, onBack: _previousPage),
                   LocationPermissionStep(onNext: _nextPage, onBack: _previousPage),
                   NameInputStep(onComplete: _completeOnboarding, onBack: _previousPage),
                 ],
@@ -73,7 +71,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
-                  4,
+                  3,
                   (index) => Container(
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     width: _currentPage == index ? 24 : 8,

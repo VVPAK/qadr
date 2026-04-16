@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/providers/preferences_provider.dart';
+import '../../../prayer/domain/prayer_times_service.dart';
 
 class LocationPermissionStep extends ConsumerWidget {
   const LocationPermissionStep({
@@ -26,6 +27,10 @@ class LocationPermissionStep extends ConsumerWidget {
       final prefs = await ref.read(userPreferencesProvider.future);
       prefs.latitude = position.latitude;
       prefs.longitude = position.longitude;
+      prefs.madhab = PrayerTimesService.madhabForLocation(
+        position.latitude,
+        position.longitude,
+      );
     }
 
     onNext();

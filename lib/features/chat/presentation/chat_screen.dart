@@ -190,7 +190,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           children: [
             IconButton(
               icon: const Icon(Icons.mosque_outlined),
-              onPressed: () => _handleSubmit(context.l10n.prayerTimes),
+              onPressed: () =>
+                  ref.read(chatMessagesProvider.notifier).showPrayerTimes(),
               tooltip: context.l10n.prayerTimes,
             ),
             IconButton(
