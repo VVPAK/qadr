@@ -28,10 +28,16 @@ class OpenAiLlmService implements LlmService {
   ) {
     return [
       {'role': 'system', 'content': systemPrompt},
-      ...messages.map((m) => {
-            'role': m.role == MessageRole.user ? 'user' : 'assistant',
-            'content': m.content,
-          }),
+      ...messages.map((m) {
+        String content = m.content;
+        if (m.role == MessageRole.assistant && m.llmResponse != null) {
+          content = jsonEncode(m.llmResponse!.toJson());
+        }
+        return {
+          'role': m.role == MessageRole.user ? 'user' : 'assistant',
+          'content': content,
+        };
+      }),
     ];
   }
 

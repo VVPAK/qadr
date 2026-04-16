@@ -142,14 +142,6 @@ class _LessonCardWidgetState extends ConsumerState<LessonCardWidget>
                     onPressed: () => _goToStep(_currentStep + 1),
                     icon: Text(context.l10n.next),
                     label: const Icon(Icons.arrow_forward, size: 16),
-                  )
-                else
-                  FilledButton.icon(
-                    onPressed: () {
-                      _onStepViewed(steps.length - 1);
-                    },
-                    icon: const Icon(Icons.check, size: 16),
-                    label: Text(context.l10n.done),
                   ),
               ],
             ),
