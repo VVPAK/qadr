@@ -36,5 +36,24 @@
   "language": "Язык",
   "madhab": "Мазхаб",
   "notifications": "Уведомления",
-  "about": "О приложении"
+  "about": "О приложении",
+  "done": "Готово",
+  "yourLearningJourney": "Ваш путь обучения",
+  "percentComplete": "{percent}% пройдено",
+  "@percentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "continueLesson": "Продолжить: {lessonTitle}",
+  "@continueLesson": {
+    "placeholders": {
+      "lessonTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "allLessonsComplete": "Вы прошли все уроки!"
 }

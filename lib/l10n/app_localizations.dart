@@ -321,6 +321,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About'**
   String get about;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @yourLearningJourney.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Learning Journey'**
+  String get yourLearningJourney;
+
+  /// No description provided for @percentComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% complete'**
+  String percentComplete(int percent);
+
+  /// No description provided for @continueLesson.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue: {lessonTitle}'**
+  String continueLesson(String lessonTitle);
+
+  /// No description provided for @allLessonsComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'You have completed all lessons!'**
+  String get allLessonsComplete;
 }
 
 class _AppLocalizationsDelegate

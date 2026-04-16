@@ -82,7 +82,9 @@ class _LessonCardWidgetState extends ConsumerState<LessonCardWidget>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.lesson.title,
+                        widget.lesson.localizedTitle(
+                          Localizations.localeOf(context).languageCode,
+                        ),
                         style: context.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -147,7 +149,7 @@ class _LessonCardWidgetState extends ConsumerState<LessonCardWidget>
                       _onStepViewed(steps.length - 1);
                     },
                     icon: const Icon(Icons.check, size: 16),
-                    label: const Text('Done'),
+                    label: Text(context.l10n.done),
                   ),
               ],
             ),
@@ -164,18 +166,20 @@ class _StepContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Localizations.localeOf(context).languageCode;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            step.title,
+            step.localizedTitle(lang),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          if (step.titleAr.isNotEmpty) ...[
+          if (lang != 'ar' && step.titleAr.isNotEmpty) ...[
             const SizedBox(height: 2),
             Text(
               step.titleAr,
@@ -189,7 +193,7 @@ class _StepContent extends StatelessWidget {
           ],
           const SizedBox(height: 12),
           Text(
-            step.content,
+            step.localizedContent(lang),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.6),
           ),
           if (step.arabicText != null) ...[
@@ -226,7 +230,7 @@ class _StepContent extends StatelessWidget {
               ),
             ),
           ],
-          if (step.tip != null) ...[
+          if (step.localizedTip(lang) != null) ...[
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(12),
@@ -248,7 +252,7 @@ class _StepContent extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      step.tip!,
+                      step.localizedTip(lang)!,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).colorScheme.onTertiaryContainer,
                           ),

@@ -119,4 +119,23 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get about => 'О приложении';
+
+  @override
+  String get done => 'Готово';
+
+  @override
+  String get yourLearningJourney => 'Ваш путь обучения';
+
+  @override
+  String percentComplete(int percent) {
+    return '$percent% пройдено';
+  }
+
+  @override
+  String continueLesson(String lessonTitle) {
+    return 'Продолжить: $lessonTitle';
+  }
+
+  @override
+  String get allLessonsComplete => 'Вы прошли все уроки!';
 }

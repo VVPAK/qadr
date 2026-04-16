@@ -118,4 +118,23 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get about => 'حول';
+
+  @override
+  String get done => 'تم';
+
+  @override
+  String get yourLearningJourney => 'رحلتك التعليمية';
+
+  @override
+  String percentComplete(int percent) {
+    return '$percent% مكتمل';
+  }
+
+  @override
+  String continueLesson(String lessonTitle) {
+    return 'متابعة: $lessonTitle';
+  }
+
+  @override
+  String get allLessonsComplete => 'لقد أكملت جميع الدروس!';
 }

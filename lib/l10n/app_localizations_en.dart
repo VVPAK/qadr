@@ -119,4 +119,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get about => 'About';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get yourLearningJourney => 'Your Learning Journey';
+
+  @override
+  String percentComplete(int percent) {
+    return '$percent% complete';
+  }
+
+  @override
+  String continueLesson(String lessonTitle) {
+    return 'Continue: $lessonTitle';
+  }
+
+  @override
+  String get allLessonsComplete => 'You have completed all lessons!';
 }

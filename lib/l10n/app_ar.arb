@@ -36,5 +36,24 @@
   "language": "اللغة",
   "madhab": "المذهب",
   "notifications": "الإشعارات",
-  "about": "حول"
+  "about": "حول",
+  "done": "تم",
+  "yourLearningJourney": "رحلتك التعليمية",
+  "percentComplete": "{percent}% مكتمل",
+  "@percentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "continueLesson": "متابعة: {lessonTitle}",
+  "@continueLesson": {
+    "placeholders": {
+      "lessonTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "allLessonsComplete": "لقد أكملت جميع الدروس!"
 }

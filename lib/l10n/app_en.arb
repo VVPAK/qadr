@@ -36,5 +36,24 @@
   "language": "Language",
   "madhab": "Madhab",
   "notifications": "Notifications",
-  "about": "About"
+  "about": "About",
+  "done": "Done",
+  "yourLearningJourney": "Your Learning Journey",
+  "percentComplete": "{percent}% complete",
+  "@percentComplete": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "continueLesson": "Continue: {lessonTitle}",
+  "@continueLesson": {
+    "placeholders": {
+      "lessonTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "allLessonsComplete": "You have completed all lessons!"
 }

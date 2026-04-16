@@ -16,6 +16,8 @@ class LearningProgressCard extends ConsumerWidget {
     final progress = store.overallProgress;
     final next = store.getNextLesson();
 
+    final lang = Localizations.localeOf(context).languageCode;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -27,7 +29,7 @@ class LearningProgressCard extends ConsumerWidget {
                 Icon(Icons.school, color: context.colorScheme.primary),
                 const SizedBox(width: 8),
                 Text(
-                  'Your Learning Journey',
+                  context.l10n.yourLearningJourney,
                   style: context.textTheme.titleMedium,
                 ),
               ],
@@ -45,7 +47,7 @@ class LearningProgressCard extends ConsumerWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '${(progress * 100).toInt()}% complete',
+              context.l10n.percentComplete((progress * 100).toInt()),
               style: context.textTheme.labelSmall?.copyWith(
                 color: context.colorScheme.outline,
               ),
@@ -74,7 +76,7 @@ class LearningProgressCard extends ConsumerWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        '${module.icon} ${module.title}',
+                        '${module.icon} ${module.localizedTitle(lang)}',
                         style: context.textTheme.bodyMedium?.copyWith(
                           decoration:
                               isComplete ? TextDecoration.lineThrough : null,
@@ -96,14 +98,18 @@ class LearningProgressCard extends ConsumerWidget {
                 child: FilledButton.icon(
                   onPressed: () => onContinue?.call(next.lesson),
                   icon: const Icon(Icons.play_arrow, size: 18),
-                  label: Text('Continue: ${next.lesson.title}'),
+                  label: Text(
+                    context.l10n.continueLesson(
+                      next.lesson.localizedTitle(lang),
+                    ),
+                  ),
                 ),
               ),
             ] else
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  'You have completed all lessons!',
+                  context.l10n.allLessonsComplete,
                   style: context.textTheme.bodyMedium?.copyWith(
                     color: context.colorScheme.primary,
                     fontWeight: FontWeight.bold,
