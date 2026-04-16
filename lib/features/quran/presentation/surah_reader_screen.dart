@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/data/database/app_database.dart';
 import '../../../core/extensions/context_extensions.dart';
+import '../../chat/presentation/providers/chat_provider.dart';
 import 'providers/quran_providers.dart';
 
 class SurahReaderScreen extends ConsumerWidget {
@@ -28,6 +30,9 @@ class SurahReaderScreen extends ConsumerWidget {
         error: (error, _) => Center(child: Text('Error: $error')),
         data: (ayahs) => _AyahListView(
           surahNumber: surahNumber,
+          surahName: surahAsync.valueOrNull != null
+              ? _surahTitle(context, surahAsync.valueOrNull!)
+              : '',
           ayahs: ayahs,
         ),
       ),
@@ -47,9 +52,11 @@ class SurahReaderScreen extends ConsumerWidget {
 class _AyahListView extends StatelessWidget {
   const _AyahListView({
     required this.surahNumber,
+    required this.surahName,
     required this.ayahs,
   });
   final int surahNumber;
+  final String surahName;
   final List<Ayah> ayahs;
 
   bool get _showBismillah => surahNumber != 1 && surahNumber != 9;
@@ -64,7 +71,7 @@ class _AyahListView extends StatelessWidget {
           return _BismillahHeader();
         }
         final ayah = ayahs[_showBismillah ? index - 1 : index];
-        return _AyahTile(ayah: ayah);
+        return _AyahTile(ayah: ayah, surahName: surahName);
       },
     );
   }
@@ -89,9 +96,10 @@ class _BismillahHeader extends StatelessWidget {
   }
 }
 
-class _AyahTile extends StatelessWidget {
-  const _AyahTile({required this.ayah});
+class _AyahTile extends ConsumerWidget {
+  const _AyahTile({required this.ayah, required this.surahName});
   final Ayah ayah;
+  final String surahName;
 
   String _translation(BuildContext context) {
     final locale = Localizations.localeOf(context).languageCode;
@@ -102,8 +110,20 @@ class _AyahTile extends StatelessWidget {
     };
   }
 
+  void _discussInChat(BuildContext context, WidgetRef ref) {
+    final translation = _translation(context);
+    ref.read(chatMessagesProvider.notifier).discussAyah(
+          surahNumber: ayah.surahNumber,
+          ayahNumber: ayah.ayahNumber,
+          textArabic: ayah.textArabic,
+          translation: translation.isNotEmpty ? translation : ayah.textEnglish,
+          surahName: surahName,
+        );
+    context.go('/');
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final translation = _translation(context);
 
     return Padding(
@@ -111,25 +131,34 @@ class _AyahTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Ayah number badge
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: context.colorScheme.primaryContainer,
-              ),
-              child: Center(
-                child: Text(
-                  '${ayah.ayahNumber}',
-                  style: context.textTheme.labelSmall?.copyWith(
-                    color: context.colorScheme.onPrimaryContainer,
+          // Ayah number badge + discuss button
+          Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: context.colorScheme.primaryContainer,
+                ),
+                child: Center(
+                  child: Text(
+                    '${ayah.ayahNumber}',
+                    style: context.textTheme.labelSmall?.copyWith(
+                      color: context.colorScheme.onPrimaryContainer,
+                    ),
                   ),
                 ),
               ),
-            ),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.chat_bubble_outline, size: 20),
+                tooltip: context.l10n.discussInChat,
+                onPressed: () => _discussInChat(context, ref),
+                visualDensity: VisualDensity.compact,
+                color: context.colorScheme.onSurfaceVariant,
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           // Arabic text

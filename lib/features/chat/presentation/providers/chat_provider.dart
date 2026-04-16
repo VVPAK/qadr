@@ -98,6 +98,54 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
     }
   }
 
+  Future<void> discussAyah({
+    required int surahNumber,
+    required int ayahNumber,
+    required String textArabic,
+    required String translation,
+    required String surahName,
+  }) async {
+    final ayahRef = '$surahNumber:$ayahNumber';
+
+    // Show ayah card in chat
+    final componentId = DateTime.now().millisecondsSinceEpoch.toString();
+    final componentMessage = ChatMessage(
+      id: componentId,
+      role: MessageRole.assistant,
+      content: '',
+      timestamp: DateTime.now(),
+      llmResponse: LlmResponse(
+        intent: ChatIntent.quranSearch,
+        responseType: ResponseType.component,
+        component: ComponentPayload(
+          type: 'quranAyah',
+          data: {
+            'ayahs': [
+              {
+                'surah': surahNumber,
+                'ayah': ayahNumber,
+                'arabic': textArabic,
+                'translation': translation,
+              }
+            ],
+          },
+        ),
+      ),
+      isStreaming: false,
+    );
+    state = [...state, componentMessage];
+
+    // Ask LLM to explain
+    final prefs = await _ref.read(userPreferencesProvider.future);
+    final lang = prefs.language;
+    final question = switch (lang) {
+      'ru' => 'Объясни аят $ayahRef ($surahName)',
+      'ar' => 'اشرح الآية $ayahRef ($surahName)',
+      _ => 'Explain ayah $ayahRef ($surahName)',
+    };
+    await sendMessage(question);
+  }
+
   Future<void> showPrayerTimes() async {
     final prefs = await _ref.read(userPreferencesProvider.future);
     final lat = prefs.latitude;

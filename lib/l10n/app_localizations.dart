@@ -375,6 +375,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Preparing Quran data...'**
   String get loadingQuran;
+
+  /// No description provided for @discussInChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Discuss in chat'**
+  String get discussInChat;
 }
 
 class _AppLocalizationsDelegate

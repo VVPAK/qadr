@@ -66,5 +66,6 @@
       }
     }
   },
-  "loadingQuran": "Preparing Quran data..."
+  "loadingQuran": "Preparing Quran data...",
+  "discussInChat": "Discuss in chat"
 }

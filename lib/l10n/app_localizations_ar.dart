@@ -151,4 +151,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loadingQuran => 'جارٍ تحضير بيانات القرآن...';
+
+  @override
+  String get discussInChat => 'مناقشة في المحادثة';
 }

@@ -152,4 +152,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingQuran => 'Preparing Quran data...';
+
+  @override
+  String get discussInChat => 'Discuss in chat';
 }
