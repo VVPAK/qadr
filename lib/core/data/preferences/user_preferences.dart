@@ -12,6 +12,7 @@ class UserPreferences {
   static const _keyName = 'name';
   static const _keyLatitude = 'latitude';
   static const _keyLongitude = 'longitude';
+  static const _keyCityName = 'city_name';
   static const _keyNotificationsEnabled = 'notifications_enabled';
 
   bool get onboardingComplete => _prefs.getBool(_keyOnboardingComplete) ?? false;
@@ -50,6 +51,15 @@ class UserPreferences {
       _prefs.setDouble(_keyLongitude, value);
     } else {
       _prefs.remove(_keyLongitude);
+    }
+  }
+
+  String? get cityName => _prefs.getString(_keyCityName);
+  set cityName(String? value) {
+    if (value != null) {
+      _prefs.setString(_keyCityName, value);
+    } else {
+      _prefs.remove(_keyCityName);
     }
   }
 

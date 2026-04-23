@@ -40,8 +40,6 @@ class LearnListScreen extends StatelessWidget {
 
     return ScenePage(
       scene: SceneType.dune,
-      activeNav: NavSection.learn,
-      onNavChanged: onNavChanged,
       topGradientStrength: 0.3,
       children: [
         // Title
@@ -96,7 +94,7 @@ class LearnListScreen extends StatelessWidget {
           top: topPadding + 190,
           left: 22,
           right: 22,
-          bottom: 100,
+          bottom: 145,
           child: GlassContainer(
             borderRadius: 20,
             backgroundOpacity: 0.58,

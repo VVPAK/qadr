@@ -24,8 +24,6 @@ class QuranListScreen extends ConsumerWidget {
 
     return ScenePage(
       scene: SceneType.dusk,
-      activeNav: NavSection.quran,
-      onNavChanged: onNavChanged,
       topGradientStrength: 0.45,
       children: [
         // Title
@@ -69,7 +67,7 @@ class QuranListScreen extends ConsumerWidget {
           top: topPadding + 170,
           left: 22,
           right: 22,
-          bottom: 100,
+          bottom: 145,
           child: surahsAsync.when(
             loading: () => const Center(
               child: CircularProgressIndicator(color: Color(0xFFF4EFE6)),

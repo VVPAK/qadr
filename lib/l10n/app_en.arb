@@ -78,5 +78,44 @@
   "continueReading": "Continue",
   "searchSurahOrAyah": "Search surah or ayah",
   "reset": "Reset",
-  "history": "History"
+  "history": "History",
+  "onboardingWelcomeBasmala": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+  "onboardingWelcomeHeadline1": "A companion",
+  "onboardingWelcomeHeadline2": "for your day",
+  "onboardingWelcomeSubtitle": "Prayer, Qibla, Quran and dhikr — gathered in stillness.",
+  "onboardingWelcomeCta": "Begin",
+  "onboardingNameSalam": "As-salamu alaykum",
+  "onboardingNameHeadline1": "How shall we",
+  "onboardingNameHeadline2": "address you?",
+  "onboardingNameLabel": "Name",
+  "onboardingNamePlaceholder": "Enter your name",
+  "onboardingNamePrivacy": "Used only locally — to greet you in the Prayer section.",
+  "onboardingLocationStepLabel": "Step 1 of 2 · permissions",
+  "onboardingLocationHeadline1": "Where are",
+  "onboardingLocationHeadline2": "you praying?",
+  "onboardingLocationCardTitle": "Detect city",
+  "onboardingLocationCardDesc": "For accurate prayer times and direction to the Kaaba.",
+  "onboardingLocationPrivacy": "Qadr does not store your location. It stays on your device.",
+  "onboardingLocationAllow": "Allow access",
+  "onboardingLocationManual": "Choose city manually",
+  "onboardingNotifsStepLabel": "Step 2 of 2 · permissions",
+  "onboardingNotifsHeadline1": "A quiet",
+  "onboardingNotifsHeadline2": "reminder",
+  "onboardingNotifsSubtitle": "A short adhan five minutes before each prayer. No noise, no ads.",
+  "onboardingNotifsAllow": "Enable reminders",
+  "onboardingNotifsDecline": "Not now",
+  "onboardingBismillahReady": "Ready",
+  "onboardingBismillahReadyWithName": "Ready, {name}",
+  "@onboardingBismillahReadyWithName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingBismillahArabic": "بِسْمِ ٱللَّٰهِ",
+  "onboardingBismillahTranslation": "In the name of Allah — let us begin.",
+  "onboardingBismillahHeadline1": "May every",
+  "onboardingBismillahHeadline2": "prayer be accepted.",
+  "onboardingBismillahCta": "Enter Qadr"
 }

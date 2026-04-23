@@ -67,8 +67,6 @@ class _DhikrScreenState extends State<DhikrScreen> {
 
     return ScenePage(
       scene: SceneType.dawn,
-      activeNav: NavSection.dhikr,
-      onNavChanged: widget.onNavChanged,
       topGradientStrength: 0.3,
       children: [
         // Formula selector
@@ -92,7 +90,7 @@ class _DhikrScreenState extends State<DhikrScreen> {
           left: 0,
           right: 0,
           top: topPadding + 250,
-          bottom: 100,
+          bottom: 145,
           child: GestureDetector(
             onTap: _tap,
             behavior: HitTestBehavior.opaque,
@@ -153,7 +151,7 @@ class _DhikrScreenState extends State<DhikrScreen> {
         Positioned(
           left: 30,
           right: 30,
-          bottom: 90,
+          bottom: 145,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

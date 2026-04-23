@@ -78,5 +78,44 @@
   "continueReading": "Продолжить",
   "searchSurahOrAyah": "Поиск суры или аята",
   "reset": "Сбросить",
-  "history": "История"
+  "history": "История",
+  "onboardingWelcomeBasmala": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+  "onboardingWelcomeHeadline1": "Спутник",
+  "onboardingWelcomeHeadline2": "вашего дня",
+  "onboardingWelcomeSubtitle": "Намаз, Кибла, Коран и зикр — собранные в тишине.",
+  "onboardingWelcomeCta": "Начать знакомство",
+  "onboardingNameSalam": "Ассаламу алейкум",
+  "onboardingNameHeadline1": "Как к вам",
+  "onboardingNameHeadline2": "обращаться?",
+  "onboardingNameLabel": "Имя",
+  "onboardingNamePlaceholder": "Введите имя",
+  "onboardingNamePrivacy": "Используется только локально — для приветствия в разделе «Намаз».",
+  "onboardingLocationStepLabel": "Шаг 1 из 2 · разрешения",
+  "onboardingLocationHeadline1": "Где вы",
+  "onboardingLocationHeadline2": "читаете намаз?",
+  "onboardingLocationCardTitle": "Определить город",
+  "onboardingLocationCardDesc": "Для точного времени намаза и направления на Каабу.",
+  "onboardingLocationPrivacy": "Qadr не сохраняет ваше местоположение. Оно остаётся на устройстве.",
+  "onboardingLocationAllow": "Разрешить доступ",
+  "onboardingLocationManual": "Выбрать город вручную",
+  "onboardingNotifsStepLabel": "Шаг 2 из 2 · разрешения",
+  "onboardingNotifsHeadline1": "Тихое",
+  "onboardingNotifsHeadline2": "напоминание",
+  "onboardingNotifsSubtitle": "Короткий азан за 5 минут до времени. Без шума и уведомлений-рекламы.",
+  "onboardingNotifsAllow": "Включить напоминания",
+  "onboardingNotifsDecline": "Не сейчас",
+  "onboardingBismillahReady": "Готово",
+  "onboardingBismillahReadyWithName": "Готово, {name}",
+  "@onboardingBismillahReadyWithName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingBismillahArabic": "بِسْمِ ٱللَّٰهِ",
+  "onboardingBismillahTranslation": "С именем Аллаха — начнём.",
+  "onboardingBismillahHeadline1": "Пусть каждый",
+  "onboardingBismillahHeadline2": "намаз будет принят.",
+  "onboardingBismillahCta": "Войти в Qadr"
 }

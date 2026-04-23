@@ -1,13 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/providers/preferences_provider.dart';
+import '../../../../core/services/location_service.dart';
 import '../../../chat/domain/chat_component.dart';
+import '../../domain/qibla_providers.dart';
+import '../../domain/qibla_service.dart';
 
 class QiblaCompassWidget extends ConsumerStatefulWidget with ChatComponent {
   const QiblaCompassWidget({super.key});
@@ -26,119 +27,137 @@ class _QiblaCompassWidgetState extends ConsumerState<QiblaCompassWidget>
   @override
   bool get wantKeepAlive => true;
 
-  double _calculateQiblaDirection(double lat, double lng) {
-    const kaabaLat = AppConstants.kaabaLatitude * math.pi / 180;
-    const kaabaLng = AppConstants.kaabaLongitude * math.pi / 180;
-    final userLat = lat * math.pi / 180;
-    final userLng = lng * math.pi / 180;
+  bool _locating = false;
 
-    final dLng = kaabaLng - userLng;
-    final y = math.sin(dLng);
-    final x = math.cos(userLat) * math.tan(kaabaLat) -
-        math.sin(userLat) * math.cos(dLng);
-
-    return (math.atan2(y, x) * 180 / math.pi + 360) % 360;
+  Future<void> _requestLocation() async {
+    setState(() => _locating = true);
+    final prefs = await ref.read(userPreferencesProvider.future);
+    await ref.read(locationServiceProvider).requestAndFetchPosition(prefs);
+    if (!mounted) return;
+    setState(() => _locating = false);
+    ref.invalidate(userPreferencesProvider);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final prefsAsync = ref.watch(userPreferencesProvider);
+    final readingAsync = ref.watch(qiblaReadingProvider);
 
-    return prefsAsync.when(
-      data: (prefs) {
-        final lat = prefs.latitude;
-        final lng = prefs.longitude;
-
-        if (lat == null || lng == null) {
-          return const Card(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Text('Location required for Qibla compass'),
-            ),
-          );
-        }
-
-        final qiblaDirection = _calculateQiblaDirection(lat, lng);
-
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Text(
-                  context.l10n.qibla,
-                  style: context.textTheme.titleMedium,
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: 200,
-                  width: 200,
-                  child: StreamBuilder<CompassEvent>(
-                    stream: FlutterCompass.events,
-                    builder: (context, snapshot) {
-                      final heading = snapshot.data?.heading ?? 0;
-                      final direction = qiblaDirection - heading;
-
-                      return Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          // Compass background
-                          Transform.rotate(
-                            angle: -heading * math.pi / 180,
-                            child: CustomPaint(
-                              size: const Size(200, 200),
-                              painter: _CompassPainter(
-                                color: context.colorScheme.outlineVariant,
-                              ),
-                            ),
-                          ),
-                          // Qibla indicator
-                          Transform.rotate(
-                            angle: direction * math.pi / 180,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.navigation,
-                                  color: context.colorScheme.primary,
-                                  size: 40,
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Kaaba',
-                                  style: context.textTheme.labelSmall?.copyWith(
-                                    color: context.colorScheme.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '${qiblaDirection.toStringAsFixed(1)}°',
-                  style: context.textTheme.bodySmall,
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+    return readingAsync.when(
       loading: () => const Card(
         child: Padding(
           padding: EdgeInsets.all(16),
-          child: CircularProgressIndicator(),
+          child: Center(child: CircularProgressIndicator()),
         ),
       ),
       error: (e, _) => Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Text('Error: $e'),
+        ),
+      ),
+      data: (reading) {
+        if (reading == null) {
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.location_on_outlined, size: 36),
+                  const SizedBox(height: 8),
+                  Text('Location required for Qibla compass',
+                      style: context.textTheme.bodyMedium),
+                  const SizedBox(height: 12),
+                  FilledButton(
+                    onPressed: _locating ? null : _requestLocation,
+                    child: _locating
+                        ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child:
+                                CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Text('Enable location'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        return _CompassCard(reading: reading);
+      },
+    );
+  }
+}
+
+class _CompassCard extends ConsumerWidget {
+  const _CompassCard({required this.reading});
+  final QiblaReading reading;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final compassAsync = ref.watch(compassEventsProvider);
+    final heading = compassAsync.maybeWhen(
+      data: (e) => e?.heading ?? 0,
+      orElse: () => 0.0,
+    );
+    final needleAngle = reading.magneticBearing - heading;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Text(
+              context.l10n.qibla,
+              style: context.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 200,
+              width: 200,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Transform.rotate(
+                    angle: -heading * math.pi / 180,
+                    child: CustomPaint(
+                      size: const Size(200, 200),
+                      painter: _CompassPainter(
+                        color: context.colorScheme.outlineVariant,
+                      ),
+                    ),
+                  ),
+                  Transform.rotate(
+                    angle: needleAngle * math.pi / 180,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.navigation,
+                          color: context.colorScheme.primary,
+                          size: 40,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Kaaba',
+                          style: context.textTheme.labelSmall?.copyWith(
+                            color: context.colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${reading.bearing.toStringAsFixed(1)}°',
+              style: context.textTheme.bodySmall,
+            ),
+          ],
         ),
       ),
     );
@@ -160,7 +179,6 @@ class _CompassPainter extends CustomPainter {
 
     canvas.drawCircle(center, radius, paint);
 
-    // Draw cardinal directions
     const directions = ['N', 'E', 'S', 'W'];
     for (var i = 0; i < 4; i++) {
       final angle = i * math.pi / 2 - math.pi / 2;

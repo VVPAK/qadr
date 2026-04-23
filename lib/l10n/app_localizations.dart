@@ -447,6 +447,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'History'**
   String get history;
+
+  /// No description provided for @onboardingWelcomeBasmala.
+  ///
+  /// In en, this message translates to:
+  /// **'بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ'**
+  String get onboardingWelcomeBasmala;
+
+  /// No description provided for @onboardingWelcomeHeadline1.
+  ///
+  /// In en, this message translates to:
+  /// **'A companion'**
+  String get onboardingWelcomeHeadline1;
+
+  /// No description provided for @onboardingWelcomeHeadline2.
+  ///
+  /// In en, this message translates to:
+  /// **'for your day'**
+  String get onboardingWelcomeHeadline2;
+
+  /// No description provided for @onboardingWelcomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer, Qibla, Quran and dhikr — gathered in stillness.'**
+  String get onboardingWelcomeSubtitle;
+
+  /// No description provided for @onboardingWelcomeCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Begin'**
+  String get onboardingWelcomeCta;
+
+  /// No description provided for @onboardingNameSalam.
+  ///
+  /// In en, this message translates to:
+  /// **'As-salamu alaykum'**
+  String get onboardingNameSalam;
+
+  /// No description provided for @onboardingNameHeadline1.
+  ///
+  /// In en, this message translates to:
+  /// **'How shall we'**
+  String get onboardingNameHeadline1;
+
+  /// No description provided for @onboardingNameHeadline2.
+  ///
+  /// In en, this message translates to:
+  /// **'address you?'**
+  String get onboardingNameHeadline2;
+
+  /// No description provided for @onboardingNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get onboardingNameLabel;
+
+  /// No description provided for @onboardingNamePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get onboardingNamePlaceholder;
+
+  /// No description provided for @onboardingNamePrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Used only locally — to greet you in the Prayer section.'**
+  String get onboardingNamePrivacy;
+
+  /// No description provided for @onboardingLocationStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 1 of 2 · permissions'**
+  String get onboardingLocationStepLabel;
+
+  /// No description provided for @onboardingLocationHeadline1.
+  ///
+  /// In en, this message translates to:
+  /// **'Where are'**
+  String get onboardingLocationHeadline1;
+
+  /// No description provided for @onboardingLocationHeadline2.
+  ///
+  /// In en, this message translates to:
+  /// **'you praying?'**
+  String get onboardingLocationHeadline2;
+
+  /// No description provided for @onboardingLocationCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Detect city'**
+  String get onboardingLocationCardTitle;
+
+  /// No description provided for @onboardingLocationCardDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'For accurate prayer times and direction to the Kaaba.'**
+  String get onboardingLocationCardDesc;
+
+  /// No description provided for @onboardingLocationPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Qadr does not store your location. It stays on your device.'**
+  String get onboardingLocationPrivacy;
+
+  /// No description provided for @onboardingLocationAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow access'**
+  String get onboardingLocationAllow;
+
+  /// No description provided for @onboardingLocationManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose city manually'**
+  String get onboardingLocationManual;
+
+  /// No description provided for @onboardingNotifsStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 2 of 2 · permissions'**
+  String get onboardingNotifsStepLabel;
+
+  /// No description provided for @onboardingNotifsHeadline1.
+  ///
+  /// In en, this message translates to:
+  /// **'A quiet'**
+  String get onboardingNotifsHeadline1;
+
+  /// No description provided for @onboardingNotifsHeadline2.
+  ///
+  /// In en, this message translates to:
+  /// **'reminder'**
+  String get onboardingNotifsHeadline2;
+
+  /// No description provided for @onboardingNotifsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A short adhan five minutes before each prayer. No noise, no ads.'**
+  String get onboardingNotifsSubtitle;
+
+  /// No description provided for @onboardingNotifsAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable reminders'**
+  String get onboardingNotifsAllow;
+
+  /// No description provided for @onboardingNotifsDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get onboardingNotifsDecline;
+
+  /// No description provided for @onboardingBismillahReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get onboardingBismillahReady;
+
+  /// No description provided for @onboardingBismillahReadyWithName.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready, {name}'**
+  String onboardingBismillahReadyWithName(String name);
+
+  /// No description provided for @onboardingBismillahArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'بِسْمِ ٱللَّٰهِ'**
+  String get onboardingBismillahArabic;
+
+  /// No description provided for @onboardingBismillahTranslation.
+  ///
+  /// In en, this message translates to:
+  /// **'In the name of Allah — let us begin.'**
+  String get onboardingBismillahTranslation;
+
+  /// No description provided for @onboardingBismillahHeadline1.
+  ///
+  /// In en, this message translates to:
+  /// **'May every'**
+  String get onboardingBismillahHeadline1;
+
+  /// No description provided for @onboardingBismillahHeadline2.
+  ///
+  /// In en, this message translates to:
+  /// **'prayer be accepted.'**
+  String get onboardingBismillahHeadline2;
+
+  /// No description provided for @onboardingBismillahCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Qadr'**
+  String get onboardingBismillahCta;
 }
 
 class _AppLocalizationsDelegate

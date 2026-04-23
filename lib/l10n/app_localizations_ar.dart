@@ -187,4 +187,107 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get history => 'السجل';
+
+  @override
+  String get onboardingWelcomeBasmala =>
+      'بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
+
+  @override
+  String get onboardingWelcomeHeadline1 => 'رفيق';
+
+  @override
+  String get onboardingWelcomeHeadline2 => 'يومك';
+
+  @override
+  String get onboardingWelcomeSubtitle =>
+      'الصلاة والقبلة والقرآن والذكر — مجموعة في سكون.';
+
+  @override
+  String get onboardingWelcomeCta => 'ابدأ';
+
+  @override
+  String get onboardingNameSalam => 'السلام عليكم';
+
+  @override
+  String get onboardingNameHeadline1 => 'كيف';
+
+  @override
+  String get onboardingNameHeadline2 => 'نناديك؟';
+
+  @override
+  String get onboardingNameLabel => 'الاسم';
+
+  @override
+  String get onboardingNamePlaceholder => 'أدخل اسمك';
+
+  @override
+  String get onboardingNamePrivacy =>
+      'يُستخدم محلياً فقط — للترحيب في قسم «الصلاة».';
+
+  @override
+  String get onboardingLocationStepLabel => 'الخطوة 1 من 2 · الأذونات';
+
+  @override
+  String get onboardingLocationHeadline1 => 'أين';
+
+  @override
+  String get onboardingLocationHeadline2 => 'تصلّي؟';
+
+  @override
+  String get onboardingLocationCardTitle => 'تحديد المدينة';
+
+  @override
+  String get onboardingLocationCardDesc =>
+      'لأوقات صلاة دقيقة واتجاه نحو الكعبة.';
+
+  @override
+  String get onboardingLocationPrivacy => 'قدر لا يحفظ موقعك. يبقى على جهازك.';
+
+  @override
+  String get onboardingLocationAllow => 'السماح بالوصول';
+
+  @override
+  String get onboardingLocationManual => 'اختيار المدينة يدوياً';
+
+  @override
+  String get onboardingNotifsStepLabel => 'الخطوة 2 من 2 · الأذونات';
+
+  @override
+  String get onboardingNotifsHeadline1 => 'تذكير';
+
+  @override
+  String get onboardingNotifsHeadline2 => 'هادئ';
+
+  @override
+  String get onboardingNotifsSubtitle =>
+      'أذان قصير قبل خمس دقائق من الصلاة. بلا ضوضاء ولا إعلانات.';
+
+  @override
+  String get onboardingNotifsAllow => 'تفعيل التذكيرات';
+
+  @override
+  String get onboardingNotifsDecline => 'ليس الآن';
+
+  @override
+  String get onboardingBismillahReady => 'جاهز';
+
+  @override
+  String onboardingBismillahReadyWithName(String name) {
+    return 'جاهز، $name';
+  }
+
+  @override
+  String get onboardingBismillahArabic => 'بِسْمِ ٱللَّٰهِ';
+
+  @override
+  String get onboardingBismillahTranslation => 'باسم الله — لنبدأ.';
+
+  @override
+  String get onboardingBismillahHeadline1 => 'لتُقبل';
+
+  @override
+  String get onboardingBismillahHeadline2 => 'كل صلاة.';
+
+  @override
+  String get onboardingBismillahCta => 'ادخل قدر';
 }

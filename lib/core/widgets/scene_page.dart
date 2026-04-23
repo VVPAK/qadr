@@ -10,22 +10,23 @@ import 'floating_nav_bar.dart';
 /// cards and content absolutely into the remaining space.
 class ScenePage extends StatelessWidget {
   final SceneType scene;
-  final NavSection activeNav;
-  final ValueChanged<NavSection> onNavChanged;
+  final NavSection? activeNav;
+  final ValueChanged<NavSection>? onNavChanged;
   final List<Widget> children;
   final double topGradientStrength;
 
   const ScenePage({
     super.key,
     required this.scene,
-    required this.activeNav,
-    required this.onNavChanged,
+    this.activeNav,
+    this.onNavChanged,
     required this.children,
     this.topGradientStrength = 0.38,
   });
 
   @override
   Widget build(BuildContext context) {
+    final showNav = activeNav != null && onNavChanged != null;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Stack(
@@ -58,11 +59,12 @@ class ScenePage extends StatelessWidget {
           // Children (screen content)
           ...children,
 
-          // Floating nav
-          FloatingNavBar(
-            active: activeNav,
-            onChanged: onNavChanged,
-          ),
+          // Floating nav (hidden on onboarding / single-screen flows)
+          if (showNav)
+            FloatingNavBar(
+              active: activeNav!,
+              onChanged: onNavChanged!,
+            ),
         ],
       ),
     );

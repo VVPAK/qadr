@@ -78,5 +78,44 @@
   "continueReading": "متابعة",
   "searchSurahOrAyah": "بحث عن سورة أو آية",
   "reset": "إعادة",
-  "history": "السجل"
+  "history": "السجل",
+  "onboardingWelcomeBasmala": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+  "onboardingWelcomeHeadline1": "رفيق",
+  "onboardingWelcomeHeadline2": "يومك",
+  "onboardingWelcomeSubtitle": "الصلاة والقبلة والقرآن والذكر — مجموعة في سكون.",
+  "onboardingWelcomeCta": "ابدأ",
+  "onboardingNameSalam": "السلام عليكم",
+  "onboardingNameHeadline1": "كيف",
+  "onboardingNameHeadline2": "نناديك؟",
+  "onboardingNameLabel": "الاسم",
+  "onboardingNamePlaceholder": "أدخل اسمك",
+  "onboardingNamePrivacy": "يُستخدم محلياً فقط — للترحيب في قسم «الصلاة».",
+  "onboardingLocationStepLabel": "الخطوة 1 من 2 · الأذونات",
+  "onboardingLocationHeadline1": "أين",
+  "onboardingLocationHeadline2": "تصلّي؟",
+  "onboardingLocationCardTitle": "تحديد المدينة",
+  "onboardingLocationCardDesc": "لأوقات صلاة دقيقة واتجاه نحو الكعبة.",
+  "onboardingLocationPrivacy": "قدر لا يحفظ موقعك. يبقى على جهازك.",
+  "onboardingLocationAllow": "السماح بالوصول",
+  "onboardingLocationManual": "اختيار المدينة يدوياً",
+  "onboardingNotifsStepLabel": "الخطوة 2 من 2 · الأذونات",
+  "onboardingNotifsHeadline1": "تذكير",
+  "onboardingNotifsHeadline2": "هادئ",
+  "onboardingNotifsSubtitle": "أذان قصير قبل خمس دقائق من الصلاة. بلا ضوضاء ولا إعلانات.",
+  "onboardingNotifsAllow": "تفعيل التذكيرات",
+  "onboardingNotifsDecline": "ليس الآن",
+  "onboardingBismillahReady": "جاهز",
+  "onboardingBismillahReadyWithName": "جاهز، {name}",
+  "@onboardingBismillahReadyWithName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingBismillahArabic": "بِسْمِ ٱللَّٰهِ",
+  "onboardingBismillahTranslation": "باسم الله — لنبدأ.",
+  "onboardingBismillahHeadline1": "لتُقبل",
+  "onboardingBismillahHeadline2": "كل صلاة.",
+  "onboardingBismillahCta": "ادخل قدر"
 }

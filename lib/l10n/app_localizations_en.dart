@@ -188,4 +188,109 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get history => 'History';
+
+  @override
+  String get onboardingWelcomeBasmala =>
+      'بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
+
+  @override
+  String get onboardingWelcomeHeadline1 => 'A companion';
+
+  @override
+  String get onboardingWelcomeHeadline2 => 'for your day';
+
+  @override
+  String get onboardingWelcomeSubtitle =>
+      'Prayer, Qibla, Quran and dhikr — gathered in stillness.';
+
+  @override
+  String get onboardingWelcomeCta => 'Begin';
+
+  @override
+  String get onboardingNameSalam => 'As-salamu alaykum';
+
+  @override
+  String get onboardingNameHeadline1 => 'How shall we';
+
+  @override
+  String get onboardingNameHeadline2 => 'address you?';
+
+  @override
+  String get onboardingNameLabel => 'Name';
+
+  @override
+  String get onboardingNamePlaceholder => 'Enter your name';
+
+  @override
+  String get onboardingNamePrivacy =>
+      'Used only locally — to greet you in the Prayer section.';
+
+  @override
+  String get onboardingLocationStepLabel => 'Step 1 of 2 · permissions';
+
+  @override
+  String get onboardingLocationHeadline1 => 'Where are';
+
+  @override
+  String get onboardingLocationHeadline2 => 'you praying?';
+
+  @override
+  String get onboardingLocationCardTitle => 'Detect city';
+
+  @override
+  String get onboardingLocationCardDesc =>
+      'For accurate prayer times and direction to the Kaaba.';
+
+  @override
+  String get onboardingLocationPrivacy =>
+      'Qadr does not store your location. It stays on your device.';
+
+  @override
+  String get onboardingLocationAllow => 'Allow access';
+
+  @override
+  String get onboardingLocationManual => 'Choose city manually';
+
+  @override
+  String get onboardingNotifsStepLabel => 'Step 2 of 2 · permissions';
+
+  @override
+  String get onboardingNotifsHeadline1 => 'A quiet';
+
+  @override
+  String get onboardingNotifsHeadline2 => 'reminder';
+
+  @override
+  String get onboardingNotifsSubtitle =>
+      'A short adhan five minutes before each prayer. No noise, no ads.';
+
+  @override
+  String get onboardingNotifsAllow => 'Enable reminders';
+
+  @override
+  String get onboardingNotifsDecline => 'Not now';
+
+  @override
+  String get onboardingBismillahReady => 'Ready';
+
+  @override
+  String onboardingBismillahReadyWithName(String name) {
+    return 'Ready, $name';
+  }
+
+  @override
+  String get onboardingBismillahArabic => 'بِسْمِ ٱللَّٰهِ';
+
+  @override
+  String get onboardingBismillahTranslation =>
+      'In the name of Allah — let us begin.';
+
+  @override
+  String get onboardingBismillahHeadline1 => 'May every';
+
+  @override
+  String get onboardingBismillahHeadline2 => 'prayer be accepted.';
+
+  @override
+  String get onboardingBismillahCta => 'Enter Qadr';
 }

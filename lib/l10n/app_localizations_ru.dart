@@ -188,4 +188,108 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get history => 'История';
+
+  @override
+  String get onboardingWelcomeBasmala =>
+      'بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
+
+  @override
+  String get onboardingWelcomeHeadline1 => 'Спутник';
+
+  @override
+  String get onboardingWelcomeHeadline2 => 'вашего дня';
+
+  @override
+  String get onboardingWelcomeSubtitle =>
+      'Намаз, Кибла, Коран и зикр — собранные в тишине.';
+
+  @override
+  String get onboardingWelcomeCta => 'Начать знакомство';
+
+  @override
+  String get onboardingNameSalam => 'Ассаламу алейкум';
+
+  @override
+  String get onboardingNameHeadline1 => 'Как к вам';
+
+  @override
+  String get onboardingNameHeadline2 => 'обращаться?';
+
+  @override
+  String get onboardingNameLabel => 'Имя';
+
+  @override
+  String get onboardingNamePlaceholder => 'Введите имя';
+
+  @override
+  String get onboardingNamePrivacy =>
+      'Используется только локально — для приветствия в разделе «Намаз».';
+
+  @override
+  String get onboardingLocationStepLabel => 'Шаг 1 из 2 · разрешения';
+
+  @override
+  String get onboardingLocationHeadline1 => 'Где вы';
+
+  @override
+  String get onboardingLocationHeadline2 => 'читаете намаз?';
+
+  @override
+  String get onboardingLocationCardTitle => 'Определить город';
+
+  @override
+  String get onboardingLocationCardDesc =>
+      'Для точного времени намаза и направления на Каабу.';
+
+  @override
+  String get onboardingLocationPrivacy =>
+      'Qadr не сохраняет ваше местоположение. Оно остаётся на устройстве.';
+
+  @override
+  String get onboardingLocationAllow => 'Разрешить доступ';
+
+  @override
+  String get onboardingLocationManual => 'Выбрать город вручную';
+
+  @override
+  String get onboardingNotifsStepLabel => 'Шаг 2 из 2 · разрешения';
+
+  @override
+  String get onboardingNotifsHeadline1 => 'Тихое';
+
+  @override
+  String get onboardingNotifsHeadline2 => 'напоминание';
+
+  @override
+  String get onboardingNotifsSubtitle =>
+      'Короткий азан за 5 минут до времени. Без шума и уведомлений-рекламы.';
+
+  @override
+  String get onboardingNotifsAllow => 'Включить напоминания';
+
+  @override
+  String get onboardingNotifsDecline => 'Не сейчас';
+
+  @override
+  String get onboardingBismillahReady => 'Готово';
+
+  @override
+  String onboardingBismillahReadyWithName(String name) {
+    return 'Готово, $name';
+  }
+
+  @override
+  String get onboardingBismillahArabic => 'بِسْمِ ٱللَّٰهِ';
+
+  @override
+  String get onboardingBismillahTranslation => 'С именем Аллаха — начнём.';
+
+  @override
+  String get onboardingBismillahHeadline1 => 'Пусть каждый';
+
+  @override
+  String get onboardingBismillahHeadline2 => 'намаз будет принят.';
+
+  @override
+  String get onboardingBismillahCta => 'Войти в Qadr';
 }

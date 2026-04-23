@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme.dart';
 import '../../../core/extensions/datetime_extensions.dart';
 import '../../../core/providers/preferences_provider.dart';
+import '../../../core/utils/hijri_date.dart';
 import '../../../core/widgets/floating_nav_bar.dart';
 import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/scene_background.dart';
@@ -66,12 +67,18 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           longitude: lng,
           date: _now,
         );
-        return _buildContent(prayerModel);
+        return _buildContent(
+          prayerModel,
+          cityName: prefs.cityName ?? 'Казань',
+        );
       },
     );
   }
 
-  Widget _buildContent(PrayerTimeModel model) {
+  Widget _buildContent(
+    PrayerTimeModel model, {
+    required String cityName,
+  }) {
     final prayers = [
       _PrayerRow('Фаджр', model.fajr, false),
       _PrayerRow('Восход', model.sunrise, true),
@@ -103,8 +110,6 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
 
     return ScenePage(
       scene: _scenes[_sceneIdx],
-      activeNav: NavSection.prayer,
-      onNavChanged: widget.onNavChanged,
       children: [
         // Top row: scene picker + city info
         Positioned(
@@ -118,7 +123,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
               _buildScenePicker(),
               const Spacer(),
               // City + Hijri date
-              _buildCityInfo(),
+              _buildCityInfo(cityName: cityName),
             ],
           ),
         ),
@@ -164,7 +169,8 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
     );
   }
 
-  Widget _buildCityInfo() {
+  Widget _buildCityInfo({required String cityName}) {
+    final hijri = HijriDate.fromGregorian(_now);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -175,7 +181,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                 size: 13, color: Color(0xFFF4EFE6)),
             const SizedBox(width: 4),
             Text(
-              'Казань', // TODO: reverse geocode from prefs
+              cityName,
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -187,7 +193,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         ),
         const SizedBox(height: 2),
         Text(
-          '22 Шавваля, 1446', // TODO: Hijri date calculation
+          hijri.formattedRu(),
           style: QadrTheme.display(
             fontSize: 12,
             fontWeight: FontWeight.w400,
