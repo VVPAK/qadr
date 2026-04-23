@@ -130,16 +130,16 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           ),
         ),
 
-        // Floating glass prayer card
-        Positioned(
-          left: 28,
-          right: 28,
-          top: topPadding + 166,
+        // Floating glass prayer card — centred vertically and horizontally
+        Positioned.fill(
           child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: 280),
-              child: IntrinsicWidth(
-                child: _buildPrayerCard(prayers, next, countdown),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 280),
+                child: IntrinsicWidth(
+                  child: _buildPrayerCard(prayers, next, countdown),
+                ),
               ),
             ),
           ),
