@@ -10,9 +10,9 @@ class PrayerTimesCard extends StatelessWidget with ChatComponent {
 
   @override
   Map<String, dynamic> toContextJson() => {
-        'type': 'prayerTimes',
-        ...data.toJson(),
-      };
+    'type': 'prayerTimes',
+    ...data.toJson(),
+  };
 
   static String _localizeName(String name, AppLocalizations l10n) {
     return switch (name) {
@@ -28,68 +28,78 @@ class PrayerTimesCard extends StatelessWidget with ChatComponent {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minWidth: 200),
+      child: IntrinsicWidth(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.mosque, color: context.colorScheme.primary),
-                const SizedBox(width: 8),
-                Text(
-                  context.l10n.prayerTimes,
-                  style: context.textTheme.titleMedium,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.mosque, color: context.colorScheme.primary),
+                    const SizedBox(width: 8),
+                    Text(
+                      context.l10n.prayerTimes,
+                      style: context.textTheme.titleMedium,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      data.date,
+                      style: context.textTheme.labelMedium?.copyWith(
+                        color: context.colorScheme.outline,
+                      ),
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                Text(
-                  data.date,
-                  style: context.textTheme.labelMedium?.copyWith(
-                    color: context.colorScheme.outline,
+                const Divider(),
+                ...data.prayers.map(
+                  (prayer) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      children: [
+                        if (prayer.isNext)
+                          Container(
+                            width: 4,
+                            height: 24,
+                            margin: const EdgeInsets.only(right: 8),
+                            decoration: BoxDecoration(
+                              color: context.colorScheme.primary,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          )
+                        else
+                          const SizedBox(width: 12),
+                        Text(
+                          _localizeName(prayer.name, context.l10n),
+                          style: prayer.isNext
+                              ? context.textTheme.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                )
+                              : context.textTheme.bodyLarge,
+                        ),
+                        const Spacer(),
+                        const SizedBox(width: 16),
+                        Text(
+                          prayer.time,
+                          style: prayer.isNext
+                              ? context.textTheme.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: context.colorScheme.primary,
+                                )
+                              : context.textTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-            const Divider(),
-            ...data.prayers.map((prayer) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Row(
-                    children: [
-                      if (prayer.isNext)
-                        Container(
-                          width: 4,
-                          height: 24,
-                          margin: const EdgeInsets.only(right: 8),
-                          decoration: BoxDecoration(
-                            color: context.colorScheme.primary,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        )
-                      else
-                        const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          _localizeName(prayer.name, context.l10n),
-                          style: prayer.isNext
-                              ? context.textTheme.bodyLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold)
-                              : context.textTheme.bodyLarge,
-                        ),
-                      ),
-                      Text(
-                        prayer.time,
-                        style: prayer.isNext
-                            ? context.textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: context.colorScheme.primary,
-                              )
-                            : context.textTheme.bodyLarge,
-                      ),
-                    ],
-                  ),
-                )),
-          ],
+          ),
         ),
       ),
     );

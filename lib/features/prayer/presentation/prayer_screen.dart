@@ -135,7 +135,14 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           left: 28,
           right: 28,
           top: topPadding + 166,
-          child: _buildPrayerCard(prayers, next, countdown),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: 280),
+              child: IntrinsicWidth(
+                child: _buildPrayerCard(prayers, next, countdown),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -214,6 +221,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
       backgroundOpacity: 0.55,
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
@@ -287,29 +295,25 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         opacity: prayer.passive ? 0.6 : (passed ? 0.5 : 1.0),
         child: Row(
           children: [
-            Expanded(
-              child: Row(
-                children: [
-                  Text(
-                    prayer.name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: isNext ? FontWeight.w500 : FontWeight.w400,
-                      color: textColor,
-                      letterSpacing: -0.1,
-                    ),
-                  ),
-                  if (prayer.passive)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Text(
-                        'восход',
-                        style: TextStyle(fontSize: 11, color: muted),
-                      ),
-                    ),
-                ],
+            Text(
+              prayer.name,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: isNext ? FontWeight.w500 : FontWeight.w400,
+                color: textColor,
+                letterSpacing: -0.1,
               ),
             ),
+            if (prayer.passive)
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  'восход',
+                  style: TextStyle(fontSize: 11, color: muted),
+                ),
+              ),
+            const Spacer(),
+            const SizedBox(width: 16),
             Container(
               padding: isNext
                   ? const EdgeInsets.symmetric(horizontal: 9, vertical: 3)
