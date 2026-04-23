@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
+import '../../../../core/services/haptic_service.dart';
 import '../../../chat/domain/chat_component.dart';
 import '../../../chat/domain/models/component_data.dart';
 
 import '../../../../app/theme.dart';
 
-class TasbihCounterWidget extends StatefulWidget with ChatComponent {
+class TasbihCounterWidget extends ConsumerStatefulWidget with ChatComponent {
   const TasbihCounterWidget({super.key, required this.data});
   final TasbihData data;
 
@@ -19,10 +20,11 @@ class TasbihCounterWidget extends StatefulWidget with ChatComponent {
       };
 
   @override
-  State<TasbihCounterWidget> createState() => _TasbihCounterWidgetState();
+  ConsumerState<TasbihCounterWidget> createState() =>
+      _TasbihCounterWidgetState();
 }
 
-class _TasbihCounterWidgetState extends State<TasbihCounterWidget>
+class _TasbihCounterWidgetState extends ConsumerState<TasbihCounterWidget>
     with AutomaticKeepAliveClientMixin {
   int _count = 0;
 
@@ -32,13 +34,11 @@ class _TasbihCounterWidgetState extends State<TasbihCounterWidget>
   void _increment() {
     setState(() => _count++);
 
-    // Vibration at milestones
-    if (_count == 33 || _count == 66) {
-      HapticFeedback.lightImpact();
-    } else if (_count == 99) {
-      HapticFeedback.mediumImpact();
-    } else if (_count == 100 || _count == widget.data.targetCount) {
-      HapticFeedback.heavyImpact();
+    final haptic = ref.read(hapticServiceProvider);
+    if (_count == widget.data.targetCount) {
+      haptic.success();
+    } else {
+      haptic.lightImpact();
     }
   }
 

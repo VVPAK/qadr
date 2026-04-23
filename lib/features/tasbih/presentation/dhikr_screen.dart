@@ -1,10 +1,11 @@
 import 'dart:math' as math;
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/theme.dart';
+import '../../../core/services/haptic_service.dart';
 import '../../../core/widgets/floating_nav_bar.dart';
 import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/scene_background.dart';
@@ -28,15 +29,15 @@ const _formulas = [
       'Нет бога, кроме Аллаха', 100),
 ];
 
-class DhikrScreen extends StatefulWidget {
+class DhikrScreen extends ConsumerStatefulWidget {
   final ValueChanged<NavSection> onNavChanged;
   const DhikrScreen({super.key, required this.onNavChanged});
 
   @override
-  State<DhikrScreen> createState() => _DhikrScreenState();
+  ConsumerState<DhikrScreen> createState() => _DhikrScreenState();
 }
 
-class _DhikrScreenState extends State<DhikrScreen> {
+class _DhikrScreenState extends ConsumerState<DhikrScreen> {
   int _idx = 0;
   final Map<String, int> _counts = {};
 
@@ -49,13 +50,11 @@ class _DhikrScreenState extends State<DhikrScreen> {
       _counts[_formula.id] = _count + 1;
     });
 
-    final c = _count;
-    if (c == 33 || c == 66) {
-      HapticFeedback.lightImpact();
-    } else if (c == 99) {
-      HapticFeedback.mediumImpact();
-    } else if (c == _formula.target) {
-      HapticFeedback.heavyImpact();
+    final haptic = ref.read(hapticServiceProvider);
+    if (_count == _formula.target) {
+      haptic.success();
+    } else {
+      haptic.lightImpact();
     }
   }
 
