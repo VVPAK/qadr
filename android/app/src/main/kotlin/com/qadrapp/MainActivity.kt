@@ -1,4 +1,4 @@
-package com.example.qadr
+package com.qadrapp
 
 import io.flutter.embedding.android.FlutterActivity
 

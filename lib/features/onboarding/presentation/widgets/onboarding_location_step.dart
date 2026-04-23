@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/providers/preferences_provider.dart';
+import '../../../../core/providers/widget_service_provider.dart';
 import '../../../../core/services/location_service.dart';
 import '../../../../core/widgets/glass_container.dart';
 import '../../../../core/widgets/scene_background.dart';
@@ -32,6 +35,7 @@ class _OnboardingLocationStepState
       await ref
           .read(locationServiceProvider)
           .requestAndFetchPosition(prefs);
+      unawaited(ref.read(widgetServiceProvider)?.update());
     } finally {
       if (mounted) setState(() => _requesting = false);
       widget.onNext();
