@@ -23,6 +23,7 @@ jobs:
               - 'lib/**'
               - 'ios/**'
               - 'assets/**'
+              - 'google_fonts/**'
               - 'pubspec.yaml'
               - 'pubspec.lock'
               - '.github/workflows/build_ios.yml'

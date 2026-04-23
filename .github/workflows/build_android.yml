@@ -23,6 +23,7 @@ jobs:
               - 'lib/**'
               - 'android/**'
               - 'assets/**'
+              - 'google_fonts/**'
               - 'pubspec.yaml'
               - 'pubspec.lock'
               - '.github/workflows/build_android.yml'
