@@ -14,20 +14,24 @@ Qadr is a Flutter-based Muslim companion app with a conversational UI. The main 
 fvm flutter run                          # Run the app
 fvm flutter build apk                    # Build Android APK
 fvm flutter build ios                    # Build iOS
-fvm flutter analyze                      # Run lint analysis
-fvm flutter test                         # Run all tests
-fvm flutter test test/widget_test.dart   # Run a single test
+fvm flutter analyze                      # Run lint analysis (CI uses --fatal-infos)
+fvm flutter test --exclude-tags golden   # Run unit + widget tests (what CI does)
+fvm flutter test --tags golden --update-goldens  # Regenerate golden snapshots (macOS only; CI regenerates but does not fail on Linux)
+fvm flutter test test/widget_test.dart   # Run a single test file
 fvm dart run build_runner build --delete-conflicting-outputs  # Regenerate code (freezed, json_serializable, drift, riverpod)
 fvm flutter gen-l10n                     # Regenerate localization files
+fvm dart run tool/generate_quran_data.dart  # Re-download Quran text into assets/data/quran.json
 ```
 
 Flutter version is pinned in `.fvmrc` (currently 3.41.6).
+
+Install the pre-commit hook (runs `flutter analyze --fatal-infos --fatal-warnings`) once per clone: `./scripts/install-hooks.sh`.
 
 ## Architecture
 
 **State management:** Riverpod (with riverpod_generator for code-gen providers).
 
-**Navigation:** GoRouter with onboarding guard — redirects to `/onboarding` until `onboardingComplete` is set.
+**Navigation:** GoRouter (`lib/app/router.dart`) with onboarding guard — redirects to `/onboarding` until `onboardingComplete` is set. Top-level routes: `/` (MainShell bottom-nav), `/onboarding`, `/quran/:surahNumber` (accepts `?ayah=N`), `/settings`.
 
 **Data layer:**
 - `UserPreferences` (SharedPreferences) — madhab, language, location, notifications, onboarding state
@@ -51,7 +55,7 @@ Flutter version is pinned in `.fvmrc` (currently 3.41.6).
 
 ## Feature Structure
 
-Each feature follows: `feature_name/domain/` (models, services), `feature_name/data/` (repositories, API), `feature_name/presentation/` (screens, widgets, providers).
+Each feature under `lib/features/` follows: `feature_name/domain/` (models, services), `feature_name/data/` (repositories, API), `feature_name/presentation/` (screens, widgets, providers). Current features: `chat`, `dua`, `learning`, `onboarding`, `prayer`, `qibla`, `quran`, `settings`, `tasbih`. Shared app-level code (router, shell, theme, providers) lives in `lib/app/`; cross-cutting code (constants, models, extensions, services, widgets) lives in `lib/core/`.
 
 ## Troubleshooting
 
@@ -84,6 +88,9 @@ Every screen (`*Screen` widget) must have a golden test using the helper in `tes
 
 ```dart
 // test/features/my_feature/my_screen_golden_test.dart
+@Tags(['golden'])
+library;
+
 import '../../helpers/golden_test_helpers.dart';
 
 void main() {
@@ -94,8 +101,8 @@ void main() {
 }
 ```
 
+- **Every golden file must declare `@Tags(['golden'])` at the top** so CI can exclude them with `--exclude-tags golden` (goldens are generated on macOS; Linux CI runs them with `--update-goldens` as a no-op to avoid cross-platform pixel diffs)
 - Golden files land at `test/goldens/{locale}/{screen}/{name}.png`
-- Generate/update goldens: `fvm flutter test --update-goldens test/features/my_feature/my_screen_golden_test.dart`
-- CI runs goldens without `--update-goldens` to catch regressions
+- Generate/update goldens: `fvm flutter test --tags golden --update-goldens`
 - Use `providerOverrides:` to stub data-dependent providers so the screen renders deterministically
-- Fonts render as Ahem rectangles (intentional — goldens catch layout/RTL regressions, not typography)
+- Fonts render as Ahem rectangles (intentional — goldens catch layout/RTL regressions, not typography). Bundled fonts are in `google_fonts/`; `flutter_test_config.dart` sets `GoogleFonts.config.allowRuntimeFetching = false` so tests never hit the network.
