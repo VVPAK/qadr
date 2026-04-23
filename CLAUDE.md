@@ -53,6 +53,10 @@ Flutter version is pinned in `.fvmrc` (currently 3.41.6).
 
 Each feature follows: `feature_name/domain/` (models, services), `feature_name/data/` (repositories, API), `feature_name/presentation/` (screens, widgets, providers).
 
+## Troubleshooting
+
+When an error occurs, read `TROUBLESHOOT.md` — it may already have the fix. When you solve a new error, add it there concisely.
+
 ## Development Workflow — Test Driven Development (REQUIRED)
 
 **All non-trivial code changes must follow TDD.** This is a hard rule, not a preference.
