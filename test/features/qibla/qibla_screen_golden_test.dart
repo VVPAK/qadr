@@ -2,7 +2,6 @@
 library;
 
 import 'package:flutter_compass/flutter_compass.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:qadr/core/data/preferences/user_preferences.dart';
 import 'package:qadr/core/providers/preferences_provider.dart';

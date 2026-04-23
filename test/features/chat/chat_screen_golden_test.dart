@@ -1,7 +1,6 @@
 @Tags(['golden'])
 library;
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:qadr/features/chat/domain/models/chat_message.dart';
 import 'package:qadr/features/chat/presentation/providers/chat_provider.dart';
