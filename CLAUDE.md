@@ -52,3 +52,24 @@ Flutter version is pinned in `.fvmrc` (currently 3.41.6).
 ## Feature Structure
 
 Each feature follows: `feature_name/domain/` (models, services), `feature_name/data/` (repositories, API), `feature_name/presentation/` (screens, widgets, providers).
+
+## Development Workflow — Test Driven Development (REQUIRED)
+
+**All non-trivial code changes must follow TDD.** This is a hard rule, not a preference.
+
+The red-green-refactor loop:
+
+1. **Red** — Write a failing test first. Place unit tests in `test/` mirroring `lib/` structure; widget tests for UI in `test/<feature>/…_test.dart`; integration tests (if any) in `integration_test/`. Use `flutter_test` for widgets, plain `test` for pure Dart. Run `fvm flutter test <path>` and confirm the test fails for the right reason.
+2. **Green** — Write the minimum production code needed to make the test pass. Do not add extra functionality. Run the test again and confirm it passes.
+3. **Refactor** — Clean up the implementation (and the test) without changing behaviour. Run `fvm flutter test` and `fvm flutter analyze` after every refactor; both must stay clean.
+
+**What counts as "non-trivial":** new public function/class/provider, bug fix, behaviour change, new widget with logic, any change to `domain/` services, intent parsing, prayer-time calculation, LLM request/response shape. Pure styling tweaks, copy changes, and l10n additions are exempt — but anything that has branching, state, or I/O needs a test first.
+
+**Don't commit without tests.** If a PR/commit introduces logic without an accompanying failing-then-passing test, it's incomplete. Widget tests for visual screens may assert key rendered text, tap handlers firing, or navigation — not pixel layout.
+
+**Practical expectations:**
+- Mock `SharedPreferences` with `SharedPreferences.setMockInitialValues({})` in preferences tests.
+- Stub `Dio` via `dio_adapter` or a fake `HttpClient` for LLM/network tests — never hit real endpoints.
+- Use `ProviderContainer` with `overrides` for Riverpod tests; prefer overriding services at the provider level rather than peeking into widgets.
+- Fake async time with `fake_async` for timers (`PrayerScreen` countdown, dhikr debounce, etc.).
+- When fixing a bug, the first commit in the fix must be a regression test that reproduces it.

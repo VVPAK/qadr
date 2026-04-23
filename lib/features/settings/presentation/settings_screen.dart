@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/providers.dart';
 import '../../../core/constants/islamic_constants.dart';
@@ -216,8 +218,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             leading: const Icon(Icons.info_outline),
             title: Text(context.l10n.about),
           ),
+          if (kDebugMode) ...[
+            const Divider(height: 32),
+            Text(
+              'Debug',
+              style: context.textTheme.titleSmall?.copyWith(
+                color: context.colorScheme.primary,
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.restart_alt),
+              title: const Text('Replay onboarding'),
+              subtitle: const Text(
+                'Resets the onboarding flag and returns to the welcome screen',
+              ),
+              onTap: _replayOnboarding,
+            ),
+          ],
         ],
       ),
     );
+  }
+
+  Future<void> _replayOnboarding() async {
+    final prefs = await ref.read(userPreferencesProvider.future);
+    prefs.onboardingComplete = false;
+    ref.invalidate(userPreferencesProvider);
+    if (mounted) context.go('/onboarding');
   }
 }
