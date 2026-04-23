@@ -9,6 +9,8 @@ import '../../../core/data/preferences/secure_storage.dart';
 import '../../../core/extensions/context_extensions.dart';
 import '../../../core/providers/preferences_provider.dart';
 
+import '../../../app/theme.dart';
+
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
@@ -143,7 +145,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         title: Text(context.l10n.settings),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(QadrSpacing.md),
         children: [
           // AI section
           Text(
@@ -152,7 +154,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               color: context.colorScheme.primary,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: QadrSpacing.sm),
           TextField(
             controller: _baseUrlController,
             decoration: const InputDecoration(

@@ -110,7 +110,7 @@ class _QiblaBody extends StatelessWidget {
                   color: Color(0x99F4EFE6),
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: QadrSpacing.xs),
               Text(
                 '$locationLabel · ${reading.bearing.round()}° от севера',
                 style: QadrTheme.display(
@@ -308,7 +308,7 @@ class _QiblaCompassState extends ConsumerState<_QiblaCompass> {
             ],
           ),
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: QadrSpacing.xl),
         _ReadoutPill(
           reading: reading,
           diff: diff,
@@ -379,7 +379,7 @@ class _ReadoutPill extends StatelessWidget {
                   color: const Color(0xFFF4EFE6),
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: QadrSpacing.xs),
               Text(
                 secondary,
                 style: const TextStyle(
@@ -439,7 +439,7 @@ class _LocationRequestCardState extends ConsumerState<_LocationRequestCard> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
           child: Container(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(QadrSpacing.lg),
             constraints: const BoxConstraints(maxWidth: 320),
             decoration: BoxDecoration(
               color: const Color(0x80140C0C),
@@ -464,7 +464,7 @@ class _LocationRequestCardState extends ConsumerState<_LocationRequestCard> {
                     color: const Color(0xFFF4EFE6),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: QadrSpacing.sm),
                 const Text(
                   'Нужно определить ваше местоположение, чтобы направить стрелку на Каабу.',
                   textAlign: TextAlign.center,

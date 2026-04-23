@@ -12,6 +12,8 @@ import '../../../../features/learning/presentation/widgets/learning_progress_car
 import '../../../../features/learning/domain/learning_curriculum.dart';
 import 'dua_chat_card.dart';
 
+import '../../../../app/theme.dart';
+
 class ChatMessageRenderer extends StatelessWidget {
   const ChatMessageRenderer({super.key, required this.response});
   final LlmResponse response;
@@ -28,7 +30,7 @@ class ChatMessageRenderer extends StatelessWidget {
     final component = response.component!;
     final textWidget = response.text != null && response.text!.isNotEmpty
         ? Padding(
-            padding: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.only(bottom: QadrSpacing.sm),
             child: MarkdownBody(
               data: response.text!,
               styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),

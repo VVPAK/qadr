@@ -6,6 +6,8 @@ import '../../../chat/domain/chat_component.dart';
 import '../../domain/learning_curriculum.dart';
 import '../providers/learning_provider.dart';
 
+import '../../../../app/theme.dart';
+
 class LearningProgressCard extends ConsumerWidget with ChatComponent {
   const LearningProgressCard({super.key, this.onContinue});
   final void Function(Lesson lesson)? onContinue;
@@ -26,14 +28,14 @@ class LearningProgressCard extends ConsumerWidget with ChatComponent {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(QadrSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Icon(Icons.school, color: context.colorScheme.primary),
-                const SizedBox(width: 8),
+                const SizedBox(width: QadrSpacing.sm),
                 Text(
                   context.l10n.yourLearningJourney,
                   style: context.textTheme.titleMedium,
@@ -43,7 +45,7 @@ class LearningProgressCard extends ConsumerWidget with ChatComponent {
             const SizedBox(height: 12),
             // Progress bar
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: QadrRadius.smAll,
               child: LinearProgressIndicator(
                 value: progress,
                 minHeight: 8,
@@ -51,7 +53,7 @@ class LearningProgressCard extends ConsumerWidget with ChatComponent {
                 color: context.colorScheme.primary,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: QadrSpacing.xs),
             Text(
               context.l10n.percentComplete((progress * 100).toInt()),
               style: context.textTheme.labelSmall?.copyWith(
@@ -67,7 +69,7 @@ class LearningProgressCard extends ConsumerWidget with ChatComponent {
                   .length;
 
               return Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.only(bottom: QadrSpacing.sm),
                 child: Row(
                   children: [
                     Icon(
@@ -79,7 +81,7 @@ class LearningProgressCard extends ConsumerWidget with ChatComponent {
                           ? context.colorScheme.primary
                           : context.colorScheme.outline,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: QadrSpacing.sm),
                     Expanded(
                       child: Text(
                         '${module.icon} ${module.localizedTitle(lang)}',
@@ -98,7 +100,7 @@ class LearningProgressCard extends ConsumerWidget with ChatComponent {
               );
             }),
             if (next != null) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: QadrSpacing.sm),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(

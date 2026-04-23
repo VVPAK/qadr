@@ -167,7 +167,7 @@ class _PrayerRowView extends StatelessWidget {
               width: 14,
               height: 14,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: QadrRadius.xsAll,
                 border: Border.all(
                   color: QadrColors.cream.withValues(alpha: 0.35),
                 ),

@@ -80,7 +80,7 @@ class LearnListScreen extends StatelessWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
+              separatorBuilder: (_, _) => const SizedBox(width: QadrSpacing.sm),
               itemBuilder: (_, i) {
                 final (name, count) = categories[i];
                 return _buildCategoryChip(name, count);
@@ -102,7 +102,7 @@ class LearnListScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
+                  padding: EdgeInsets.fromLTRB(QadrSpacing.screenH, QadrSpacing.md, QadrSpacing.screenH, 0),
                   child: Text(
                     'РЕКОМЕНДОВАНО',
                     style: TextStyle(
@@ -114,7 +114,7 @@ class LearnListScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 14),
+                    padding: const EdgeInsets.fromLTRB(QadrSpacing.screenH, 10, QadrSpacing.screenH, 14),
                     itemCount: allLessons.length,
                     itemBuilder: (_, i) {
                       final (cat, lesson) = allLessons[i];

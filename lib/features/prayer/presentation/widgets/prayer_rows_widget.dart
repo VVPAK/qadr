@@ -66,14 +66,14 @@ class PrayerRowsWidget extends StatelessWidget {
             ),
             if (passive)
               Padding(
-                padding: const EdgeInsets.only(left: 8),
+                padding: const EdgeInsets.only(left: QadrSpacing.sm),
                 child: Text(
                   context.l10n.sunrise.toLowerCase(),
                   style: const TextStyle(fontSize: 11, color: muted),
                 ),
               ),
             const Spacer(),
-            const SizedBox(width: 16),
+            const SizedBox(width: QadrSpacing.md),
             Container(
               padding: prayer.isNext
                   ? const EdgeInsets.symmetric(horizontal: 9, vertical: 3)

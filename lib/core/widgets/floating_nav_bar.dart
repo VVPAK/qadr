@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+import '../../app/theme.dart';
+
 /// Navigation section identifiers.
 enum NavSection { prayer, qibla, quran, dhikr, learn }
 
@@ -25,14 +27,14 @@ class FloatingNavBar extends StatelessWidget {
       bottom: 30,
       child: Center(
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: QadrRadius.pillAll,
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
             child: Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: const Color(0x5C140C0C),
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: QadrRadius.pillAll,
                 border: Border.all(
                   color: Colors.white.withValues(alpha: 0.12),
                 ),

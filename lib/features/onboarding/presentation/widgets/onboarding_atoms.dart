@@ -27,13 +27,13 @@ class OnbDots extends StatelessWidget {
           return AnimatedContainer(
             duration: const Duration(milliseconds: 350),
             curve: Curves.easeOut,
-            margin: const EdgeInsets.symmetric(horizontal: 4),
+            margin: const EdgeInsets.symmetric(horizontal: QadrSpacing.xs),
             width: active ? 20 : 6,
             height: 6,
             decoration: BoxDecoration(
               color:
                   _cream.withValues(alpha: active ? 0.95 : 0.32),
-              borderRadius: BorderRadius.circular(999),
+              borderRadius: QadrRadius.pillAll,
             ),
           );
         }),
@@ -67,13 +67,13 @@ class OnbCTA extends StatelessWidget {
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.lg, vertical: 15),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: primary
                 ? _cream.withValues(alpha: 0.96)
                 : Colors.transparent,
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: QadrRadius.pillAll,
             border: primary
                 ? null
                 : Border.all(
@@ -136,11 +136,11 @@ class OnbCTAStack extends StatelessWidget {
             child: Container(
               width: double.infinity,
               padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+                  const EdgeInsets.symmetric(horizontal: QadrSpacing.lg, vertical: 15),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: _cream.withValues(alpha: 0.96),
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: QadrRadius.pillAll,
                 boxShadow: [
                   BoxShadow(
                     color: const Color(0xFF0A0602).withValues(alpha: 0.28),
@@ -326,20 +326,20 @@ class OnbGlassPill extends StatelessWidget {
   const OnbGlassPill({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.all(4),
+    this.padding = const EdgeInsets.all(QadrSpacing.xs),
   });
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: QadrRadius.pillAll,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
         child: Container(
           padding: padding,
           decoration: BoxDecoration(
             color: const Color(0xFF14100C).withValues(alpha: 0.32),
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: QadrRadius.pillAll,
             border: Border.all(
               color: _cream.withValues(alpha: 0.12),
             ),

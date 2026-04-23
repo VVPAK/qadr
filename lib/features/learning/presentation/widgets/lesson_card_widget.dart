@@ -7,6 +7,8 @@ import '../../../chat/domain/chat_component.dart';
 import '../../domain/learning_curriculum.dart';
 import '../providers/learning_provider.dart';
 
+import '../../../../app/theme.dart';
+
 class LessonCardWidget extends ConsumerStatefulWidget with ChatComponent {
   const LessonCardWidget({
     super.key,
@@ -87,7 +89,7 @@ class _LessonCardWidgetState extends ConsumerState<LessonCardWidget>
             child: Row(
               children: [
                 Text(widget.lesson.icon, style: const TextStyle(fontSize: 24)),
-                const SizedBox(width: 8),
+                const SizedBox(width: QadrSpacing.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +138,7 @@ class _LessonCardWidgetState extends ConsumerState<LessonCardWidget>
           ),
           // Navigation
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.sm, vertical: QadrSpacing.xs),
             child: Row(
               children: [
                 if (_currentStep > 0)
@@ -202,10 +204,10 @@ class _StepContent extends StatelessWidget {
           if (step.arabicText != null) ...[
             const SizedBox(height: 16),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(QadrSpacing.md),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: QadrRadius.mdAll,
               ),
               child: Column(
                 children: [
@@ -219,7 +221,7 @@ class _StepContent extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   if (step.transliteration != null) ...[
-                    const SizedBox(height: 8),
+                    const SizedBox(height: QadrSpacing.sm),
                     Text(
                       step.transliteration!,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -239,7 +241,7 @@ class _StepContent extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.tertiaryContainer.withValues(alpha: 0.4),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: QadrRadius.smAll,
                 border: Border.all(
                   color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.3),
                 ),
@@ -252,7 +254,7 @@ class _StepContent extends StatelessWidget {
                     size: 16,
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: QadrSpacing.sm),
                   Expanded(
                     child: Text(
                       step.localizedTip(lang)!,

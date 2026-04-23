@@ -9,6 +9,8 @@ import 'widgets/chat_message_renderer.dart';
 import 'widgets/message_bubble.dart';
 import 'widgets/typing_indicator.dart';
 
+import '../../../app/theme.dart';
+
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key});
 
@@ -64,7 +66,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 ? _buildEmptyState(context)
                 : ListView.builder(
                     controller: _scrollController,
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.symmetric(vertical: QadrSpacing.sm),
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message = messages[index];
@@ -115,7 +117,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(QadrSpacing.lg),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -124,15 +126,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               size: 64,
               color: context.colorScheme.primary.withValues(alpha: 0.5),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: QadrSpacing.md),
             Text(
               'Assalamu Alaikum!',
               style: context.textTheme.headlineSmall,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: QadrSpacing.lg),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: QadrSpacing.sm,
+              runSpacing: QadrSpacing.sm,
               alignment: WrapAlignment.center,
               children: shortcuts.map((s) => ActionChip(
                 avatar: Text(s.icon),
@@ -184,7 +186,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         itemCount: shortcuts.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: QadrSpacing.sm),
         itemBuilder: (context, index) {
           final s = shortcuts[index];
           return ActionChip(
@@ -199,7 +201,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   Widget _buildInputBar(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+      padding: const EdgeInsets.all(QadrSpacing.sm),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
         boxShadow: [

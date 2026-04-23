@@ -33,6 +33,10 @@ enum GoldenScreen {
 /// Registers one [testWidgets] per locale × screen combination (9 total by default).
 /// Golden files land at `test/goldens/{locale}/{screen}/{name}.png`.
 ///
+/// Every file that calls this function must declare `@Tags(['golden'])` at the
+/// top so CI can exclude them with `--exclude-tags golden` (goldens are
+/// generated on macOS and not compared on Linux CI).
+///
 /// The [builder] receives the current [Locale] so widgets that need it
 /// (e.g. conditional Arabic text) can react accordingly.
 ///

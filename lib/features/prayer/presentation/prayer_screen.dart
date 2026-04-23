@@ -188,7 +188,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           children: [
             const Icon(Icons.location_on_outlined,
                 size: 13, color: Color(0xFFF4EFE6)),
-            const SizedBox(width: 4),
+            const SizedBox(width: QadrSpacing.xs),
             Text(
               cityName,
               style: const TextStyle(
@@ -224,7 +224,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
+            padding: const EdgeInsets.fromLTRB(QadrSpacing.screenH, 14, QadrSpacing.screenH, QadrSpacing.sm),
             child: Column(
               children: [
                 for (int i = 0; i < prayers.length; i++)
@@ -234,7 +234,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           ),
           // Countdown footer
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+            padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.screenH, vertical: 13),
             decoration: const BoxDecoration(
               color: Color(0x8C8A6E4F),
               border: Border(
@@ -306,14 +306,14 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
             ),
             if (prayer.passive)
               Padding(
-                padding: const EdgeInsets.only(left: 8),
+                padding: const EdgeInsets.only(left: QadrSpacing.sm),
                 child: Text(
                   'восход',
                   style: TextStyle(fontSize: 11, color: muted),
                 ),
               ),
             const Spacer(),
-            const SizedBox(width: 16),
+            const SizedBox(width: QadrSpacing.md),
             Container(
               padding: isNext
                   ? const EdgeInsets.symmetric(horizontal: 9, vertical: 3)

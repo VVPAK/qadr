@@ -52,7 +52,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(QadrRadius.xl)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -64,7 +64,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
                   ? _buildEmptyState(context)
                   : ListView.builder(
                       controller: _scrollController,
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: QadrSpacing.sm),
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
                         return _buildMessage(context, messages[index]);
@@ -149,7 +149,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
     final shortcuts = _getShortcuts(context);
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(QadrSpacing.lg),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -158,7 +158,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
               size: 48,
               color: context.colorScheme.primary.withValues(alpha: 0.5),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: QadrSpacing.md),
             Text(
               'Assalamu Alaikum',
               style: QadrTheme.display(
@@ -167,7 +167,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
                 color: context.colorScheme.onSurface,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: QadrSpacing.sm),
             Text(
               'Задай вопрос или выбери тему',
               style: TextStyle(
@@ -175,10 +175,10 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
                 color: context.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: QadrSpacing.lg),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: QadrSpacing.sm,
+              runSpacing: QadrSpacing.sm,
               alignment: WrapAlignment.center,
               children: shortcuts
                   .map((s) => ActionChip(
@@ -218,7 +218,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         itemCount: shortcuts.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: QadrSpacing.sm),
         itemBuilder: (context, index) {
           final s = shortcuts[index];
           return ActionChip(
@@ -233,7 +233,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
 
   Widget _buildInputBar(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+      padding: const EdgeInsets.all(QadrSpacing.sm),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
         border: Border(

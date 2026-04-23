@@ -5,6 +5,8 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../domain/chat_component.dart';
 import '../../domain/models/component_data.dart';
 
+import '../../../../app/theme.dart';
+
 class DuaChatCard extends StatelessWidget with ChatComponent {
   const DuaChatCard({super.key, required this.data});
   final DuaData data;
@@ -19,7 +21,7 @@ class DuaChatCard extends StatelessWidget with ChatComponent {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(QadrSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -41,13 +43,13 @@ class DuaChatCard extends StatelessWidget with ChatComponent {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: QadrSpacing.sm),
             Text(
               data.translation,
               style: context.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: QadrSpacing.sm),
             Text(
               data.source,
               style: context.textTheme.labelSmall?.copyWith(

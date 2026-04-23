@@ -63,7 +63,7 @@ class OnboardingWelcomeStep extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(999),
+                        borderRadius: QadrRadius.pillAll,
                         color: active
                             ? QadrColors.cream.withValues(alpha: 0.95)
                             : Colors.transparent,

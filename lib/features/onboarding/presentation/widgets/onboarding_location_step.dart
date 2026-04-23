@@ -94,7 +94,7 @@ class _OnboardingLocationStepState
                         size: 24,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: QadrSpacing.md),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +126,7 @@ class _OnboardingLocationStepState
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                  padding: const EdgeInsets.symmetric(vertical: QadrSpacing.md),
                   child: Container(
                     height: 1,
                     color: QadrColors.cream.withValues(alpha: 0.1),

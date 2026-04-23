@@ -6,6 +6,8 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../chat/domain/chat_component.dart';
 import '../../../chat/domain/models/component_data.dart';
 
+import '../../../../app/theme.dart';
+
 class QuranAyahCard extends StatelessWidget with ChatComponent {
   const QuranAyahCard({super.key, required this.data});
   final QuranAyahData data;
@@ -20,12 +22,12 @@ class QuranAyahCard extends StatelessWidget with ChatComponent {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(QadrSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ...data.ayahs.map((ayah) => Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.only(bottom: QadrSpacing.md),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -36,7 +38,7 @@ class QuranAyahCard extends StatelessWidget with ChatComponent {
                           color: context.colorScheme.primary,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: QadrSpacing.sm),
                       // Arabic text
                       Text(
                         ayah.arabic,
@@ -47,7 +49,7 @@ class QuranAyahCard extends StatelessWidget with ChatComponent {
                         textDirection: TextDirection.rtl,
                         textAlign: TextAlign.right,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: QadrSpacing.sm),
                       // Translation
                       Text(
                         ayah.translation,

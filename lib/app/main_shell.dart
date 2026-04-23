@@ -8,6 +8,8 @@ import '../features/quran/presentation/quran_list_screen.dart';
 import '../features/tasbih/presentation/dhikr_screen.dart';
 import '../features/learning/presentation/learn_list_screen.dart';
 
+import 'theme.dart';
+
 /// Main app shell — manages the 5 top-level sections and the
 /// floating navigation bar. A pull handle above the nav (and a
 /// generous swipe-up band at the bottom of the screen) reveals
@@ -177,12 +179,12 @@ class _PullHandleState extends State<_PullHandle> {
       },
       child: Padding(
         // Enlarge hit area beyond the visible pill.
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.xl, vertical: QadrSpacing.sm),
         child: AnimatedScale(
           duration: const Duration(milliseconds: 140),
           scale: _pressed ? 0.92 : 1.0,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: QadrRadius.pillAll,
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
               child: Container(
@@ -190,7 +192,7 @@ class _PullHandleState extends State<_PullHandle> {
                     horizontal: 14, vertical: 6),
                 decoration: BoxDecoration(
                   color: const Color(0x4D140C0C),
-                  borderRadius: BorderRadius.circular(999),
+                  borderRadius: QadrRadius.pillAll,
                   border: Border.all(
                     color: Colors.white.withValues(alpha: 0.14),
                   ),

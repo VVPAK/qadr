@@ -7,6 +7,8 @@ import '../../../core/data/database/app_database.dart';
 import '../../../core/extensions/context_extensions.dart';
 import 'providers/quran_providers.dart';
 
+import '../../../app/theme.dart';
+
 class QuranReaderScreen extends ConsumerWidget {
   const QuranReaderScreen({super.key});
 
@@ -24,7 +26,7 @@ class QuranReaderScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(),
-              const SizedBox(height: 16),
+              const SizedBox(height: QadrSpacing.md),
               Text(
                 context.l10n.loadingQuran,
                 style: context.textTheme.bodyMedium?.copyWith(

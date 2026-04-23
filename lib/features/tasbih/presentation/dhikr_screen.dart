@@ -166,14 +166,14 @@ class _DhikrScreenState extends State<DhikrScreen> {
 
   Widget _buildFormulaSelector() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: QadrRadius.pillAll,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
         child: Container(
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(QadrSpacing.xs),
           decoration: BoxDecoration(
             color: const Color(0x52140C0C),
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: QadrRadius.pillAll,
             border: Border.all(color: const Color(0x1FFFFFFF)),
           ),
           child: SingleChildScrollView(
@@ -188,7 +188,7 @@ class _DhikrScreenState extends State<DhikrScreen> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(999),
+                      borderRadius: QadrRadius.pillAll,
                       color: isActive
                           ? const Color(0xF2F4EFE6)
                           : Colors.transparent,
@@ -215,7 +215,7 @@ class _DhikrScreenState extends State<DhikrScreen> {
 
   Widget _buildFormulaCard() {
     return GlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.screenH, vertical: 18),
       borderRadius: 18,
       backgroundOpacity: 0.38,
       child: Column(
@@ -256,14 +256,14 @@ class _DhikrScreenState extends State<DhikrScreen> {
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: QadrRadius.pillAll,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               color: const Color(0x59140C0C),
-              borderRadius: BorderRadius.circular(999),
+              borderRadius: QadrRadius.pillAll,
               border: Border.all(color: const Color(0x1AFFFFFF)),
             ),
             child: Text(

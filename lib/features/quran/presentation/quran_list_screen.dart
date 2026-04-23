@@ -85,14 +85,14 @@ class QuranListScreen extends ConsumerWidget {
 
   Widget _buildSearchPill() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: QadrRadius.pillAll,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
             color: const Color(0x52140C0C),
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: QadrRadius.pillAll,
             border: Border.all(color: const Color(0x1AFFFFFF)),
           ),
           child: const Row(
@@ -120,7 +120,7 @@ class _SurahListCard extends StatelessWidget {
     return GlassContainer(
       borderRadius: 20,
       child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.md, vertical: 6),
         itemCount: surahs.length,
         itemBuilder: (context, index) {
           final surah = surahs[index];

@@ -164,7 +164,7 @@ class _OnboardingNameStepState extends ConsumerState<OnboardingNameStep>
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 4),
+                              const SizedBox(width: QadrSpacing.xs),
                               AnimatedBuilder(
                                 animation: _caret,
                                 builder: (_, _) => Opacity(
@@ -172,7 +172,7 @@ class _OnboardingNameStepState extends ConsumerState<OnboardingNameStep>
                                   child: Container(
                                     width: 2,
                                     height: 32,
-                                    margin: const EdgeInsets.only(bottom: 4),
+                                    margin: const EdgeInsets.only(bottom: QadrSpacing.xs),
                                     color: QadrColors.cream
                                         .withValues(alpha: 0.82),
                                   ),

@@ -6,6 +6,8 @@ import '../../../../core/extensions/context_extensions.dart';
 import '../../../chat/domain/chat_component.dart';
 import '../../../chat/domain/models/component_data.dart';
 
+import '../../../../app/theme.dart';
+
 class TasbihCounterWidget extends StatefulWidget with ChatComponent {
   const TasbihCounterWidget({super.key, required this.data});
   final TasbihData data;
@@ -47,7 +49,7 @@ class _TasbihCounterWidgetState extends State<TasbihCounterWidget>
     super.build(context);
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(QadrSpacing.md),
         child: Column(
           children: [
             Text(
@@ -55,7 +57,7 @@ class _TasbihCounterWidgetState extends State<TasbihCounterWidget>
               style: GoogleFonts.amiri(fontSize: 20),
               textDirection: TextDirection.rtl,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: QadrSpacing.md),
             GestureDetector(
               onTap: _increment,
               child: Container(
@@ -80,14 +82,14 @@ class _TasbihCounterWidgetState extends State<TasbihCounterWidget>
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: QadrSpacing.sm),
             Text(
               '/ ${widget.data.targetCount}',
               style: context.textTheme.bodySmall?.copyWith(
                 color: context.colorScheme.outline,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: QadrSpacing.sm),
             TextButton.icon(
               onPressed: _reset,
               icon: const Icon(Icons.refresh, size: 16),

@@ -10,6 +10,8 @@ import '../../../chat/domain/chat_component.dart';
 import '../../domain/qibla_providers.dart';
 import '../../domain/qibla_service.dart';
 
+import '../../../../app/theme.dart';
+
 class QiblaCompassWidget extends ConsumerStatefulWidget with ChatComponent {
   const QiblaCompassWidget({super.key});
 
@@ -46,7 +48,7 @@ class _QiblaCompassWidgetState extends ConsumerState<QiblaCompassWidget>
     return readingAsync.when(
       loading: () => const Card(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(QadrSpacing.md),
           child: Center(child: CircularProgressIndicator()),
         ),
       ),
@@ -65,7 +67,7 @@ class _QiblaCompassWidgetState extends ConsumerState<QiblaCompassWidget>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.location_on_outlined, size: 36),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: QadrSpacing.sm),
                   Text('Location required for Qibla compass',
                       style: context.textTheme.bodyMedium),
                   const SizedBox(height: 12),
@@ -113,7 +115,7 @@ class _CompassCard extends ConsumerWidget {
               context.l10n.qibla,
               style: context.textTheme.titleMedium,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: QadrSpacing.md),
             SizedBox(
               height: 200,
               width: 200,
@@ -139,7 +141,7 @@ class _CompassCard extends ConsumerWidget {
                           color: context.colorScheme.primary,
                           size: 40,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: QadrSpacing.xs),
                         Text(
                           'Kaaba',
                           style: context.textTheme.labelSmall?.copyWith(
@@ -152,7 +154,7 @@ class _CompassCard extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: QadrSpacing.sm),
             Text(
               '${reading.bearing.toStringAsFixed(1)}°',
               style: context.textTheme.bodySmall,

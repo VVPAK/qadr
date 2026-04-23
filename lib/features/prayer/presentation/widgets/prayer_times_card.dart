@@ -4,6 +4,8 @@ import '../../../chat/domain/chat_component.dart';
 import '../../../chat/domain/models/component_data.dart';
 import 'prayer_rows_widget.dart';
 
+import '../../../../app/theme.dart';
+
 class PrayerTimesCard extends StatelessWidget with ChatComponent {
   const PrayerTimesCard({super.key, required this.data});
   final PrayerTimesData data;
@@ -28,11 +30,11 @@ class PrayerTimesCard extends StatelessWidget with ChatComponent {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
+                padding: const EdgeInsets.fromLTRB(QadrSpacing.screenH, 14, QadrSpacing.screenH, QadrSpacing.sm),
                 child: PrayerRowsWidget(prayers: data.prayers),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+                padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.screenH, vertical: 13),
                 decoration: const BoxDecoration(
                   color: Color(0x8C8A6E4F),
                   border: Border(top: BorderSide(color: Color(0x14FFFFFF))),
