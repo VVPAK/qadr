@@ -17,7 +17,7 @@ class MainShell extends StatefulWidget {
 }
 
 class _MainShellState extends State<MainShell> {
-  NavSection _active = NavSection.prayer;
+  NavSection _active = NavSection.qibla;
 
   void _onNavChanged(NavSection section) {
     setState(() => _active = section);

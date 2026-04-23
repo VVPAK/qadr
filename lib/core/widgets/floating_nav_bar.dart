@@ -49,6 +49,7 @@ class FloatingNavBar extends StatelessWidget {
                 children: NavSection.values.map((section) {
                   final isActive = section == active;
                   return GestureDetector(
+                    key: ValueKey('nav_${section.name}'),
                     onTap: () => onChanged(section),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),

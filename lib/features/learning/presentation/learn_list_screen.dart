@@ -8,6 +8,15 @@ import '../../../core/widgets/scene_background.dart';
 import '../../../core/widgets/scene_page.dart';
 import '../domain/learning_curriculum.dart';
 
+String _pluralRu(int n, String one, String few, String many) {
+  final mod100 = n % 100;
+  if (mod100 >= 11 && mod100 <= 14) return many;
+  final mod10 = n % 10;
+  if (mod10 == 1) return one;
+  if (mod10 >= 2 && mod10 <= 4) return few;
+  return many;
+}
+
 class LearnListScreen extends StatelessWidget {
   final ValueChanged<NavSection> onNavChanged;
   const LearnListScreen({super.key, required this.onNavChanged});
@@ -69,7 +78,7 @@ class LearnListScreen extends StatelessWidget {
           left: 22,
           right: 22,
           child: SizedBox(
-            height: 60,
+            height: 64,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
@@ -153,7 +162,7 @@ class LearnListScreen extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                '$count уроков',
+                '$count ${_pluralRu(count, 'урок', 'урока', 'уроков')}',
                 style: const TextStyle(
                   fontSize: 10.5,
                   color: Color(0x99F4EFE6),
@@ -208,7 +217,7 @@ class _LessonRow extends StatelessWidget {
                       fontSize: 11, color: Color(0x66F4EFE6))),
               const SizedBox(width: 8),
               Text(
-                '${lesson.steps.length} шагов',
+                '${lesson.steps.length} ${_pluralRu(lesson.steps.length, 'шаг', 'шага', 'шагов')}',
                 style: const TextStyle(
                   fontSize: 11,
                   color: Color(0x8CF4EFE6),
