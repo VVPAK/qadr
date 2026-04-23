@@ -1,6 +1,7 @@
 # Qadr
 
-[![Build](https://github.com/VVPAK/qadr/actions/workflows/build.yml/badge.svg)](https://github.com/VVPAK/qadr/actions/workflows/build.yml)
+[![Build Android](https://github.com/VVPAK/qadr/actions/workflows/build_android.yml/badge.svg)](https://github.com/VVPAK/qadr/actions/workflows/build_android.yml)
+[![Build iOS](https://github.com/VVPAK/qadr/actions/workflows/build_ios.yml/badge.svg)](https://github.com/VVPAK/qadr/actions/workflows/build_ios.yml)
 [![Tests](https://github.com/VVPAK/qadr/actions/workflows/test.yml/badge.svg)](https://github.com/VVPAK/qadr/actions/workflows/test.yml)
 [![Analyze](https://github.com/VVPAK/qadr/actions/workflows/analyze.yml/badge.svg)](https://github.com/VVPAK/qadr/actions/workflows/analyze.yml)
 
