@@ -2,6 +2,7 @@
 
 [![Build](https://github.com/VVPAK/qadr/actions/workflows/build.yml/badge.svg)](https://github.com/VVPAK/qadr/actions/workflows/build.yml)
 [![Tests](https://github.com/VVPAK/qadr/actions/workflows/test.yml/badge.svg)](https://github.com/VVPAK/qadr/actions/workflows/test.yml)
+[![Analyze](https://github.com/VVPAK/qadr/actions/workflows/analyze.yml/badge.svg)](https://github.com/VVPAK/qadr/actions/workflows/analyze.yml)
 
 A Flutter-based Muslim companion app with a conversational UI. The main screen is a chat interface powered by an OpenAI-compatible LLM that returns structured JSON responses, rendered as rich UI components — prayer times, Quran ayahs, duas, tasbih counter, qibla compass, and learning cards.
 
