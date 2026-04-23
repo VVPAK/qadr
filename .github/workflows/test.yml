@@ -3,28 +3,8 @@ name: Tests
 on:
   push:
     branches: [main]
-    paths:
-      - "lib/**"
-      - "test/**"
-      - "integration_test/**"
-      - "assets/**"
-      - "pubspec.yaml"
-      - "pubspec.lock"
-      - "analysis_options.yaml"
-      - "l10n.yaml"
-      - ".github/workflows/test.yml"
   pull_request:
     branches: [main]
-    paths:
-      - "lib/**"
-      - "test/**"
-      - "integration_test/**"
-      - "assets/**"
-      - "pubspec.yaml"
-      - "pubspec.lock"
-      - "analysis_options.yaml"
-      - "l10n.yaml"
-      - ".github/workflows/test.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -37,21 +17,45 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            code:
+              - 'lib/**'
+              - 'test/**'
+              - 'integration_test/**'
+              - 'assets/**'
+              - 'pubspec.yaml'
+              - 'pubspec.lock'
+              - 'analysis_options.yaml'
+              - 'l10n.yaml'
+              - '.github/workflows/test.yml'
+
       - uses: subosito/flutter-action@v2
+        if: steps.changes.outputs.code == 'true'
         with:
           flutter-version: "3.41.6"
           channel: stable
           cache: true
 
       - name: Install dependencies
+        if: steps.changes.outputs.code == 'true'
         run: flutter pub get
 
       - name: Analyze
+        if: steps.changes.outputs.code == 'true'
         run: flutter analyze --fatal-infos
 
       - name: Run tests
+        if: steps.changes.outputs.code == 'true'
         run: flutter test --exclude-tags golden
 
       - name: Run golden tests
+        if: steps.changes.outputs.code == 'true'
         run: flutter test --tags golden --update-goldens
         continue-on-error: true
+
+      - name: Skip (no relevant changes)
+        if: steps.changes.outputs.code != 'true'
+        run: echo "No code changes — tests skipped."

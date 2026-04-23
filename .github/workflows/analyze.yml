@@ -3,26 +3,8 @@ name: Analyze
 on:
   push:
     branches: [main]
-    paths:
-      - "lib/**"
-      - "test/**"
-      - "integration_test/**"
-      - "pubspec.yaml"
-      - "pubspec.lock"
-      - "analysis_options.yaml"
-      - "l10n.yaml"
-      - ".github/workflows/analyze.yml"
   pull_request:
     branches: [main]
-    paths:
-      - "lib/**"
-      - "test/**"
-      - "integration_test/**"
-      - "pubspec.yaml"
-      - "pubspec.lock"
-      - "analysis_options.yaml"
-      - "l10n.yaml"
-      - ".github/workflows/analyze.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -35,14 +17,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            code:
+              - 'lib/**'
+              - 'test/**'
+              - 'integration_test/**'
+              - 'pubspec.yaml'
+              - 'pubspec.lock'
+              - 'analysis_options.yaml'
+              - 'l10n.yaml'
+              - '.github/workflows/analyze.yml'
+
       - uses: subosito/flutter-action@v2
+        if: steps.changes.outputs.code == 'true'
         with:
           flutter-version: "3.41.6"
           channel: stable
           cache: true
 
       - name: Install dependencies
+        if: steps.changes.outputs.code == 'true'
         run: flutter pub get
 
       - name: Dart analyze
+        if: steps.changes.outputs.code == 'true'
         run: flutter analyze --fatal-infos --fatal-warnings
+
+      - name: Skip (no relevant changes)
+        if: steps.changes.outputs.code != 'true'
+        run: echo "No code changes — analyze skipped."
