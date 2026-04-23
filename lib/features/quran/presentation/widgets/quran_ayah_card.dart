@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/extensions/context_extensions.dart';
@@ -57,6 +58,19 @@ class QuranAyahCard extends StatelessWidget with ChatComponent {
                     ],
                   ),
                 )),
+            // Open in Quran reader button
+            if (data.ayahs.isNotEmpty)
+              Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: TextButton.icon(
+                  onPressed: () {
+                    final ayah = data.ayahs.first;
+                    context.push('/quran/${ayah.surah}?ayah=${ayah.ayah}');
+                  },
+                  icon: const Icon(Icons.menu_book_outlined, size: 18),
+                  label: Text(context.l10n.openInQuran),
+                ),
+              ),
           ],
         ),
       ),

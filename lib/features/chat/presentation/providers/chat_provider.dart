@@ -139,9 +139,9 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
     final prefs = await _ref.read(userPreferencesProvider.future);
     final lang = prefs.language;
     final question = switch (lang) {
-      'ru' => 'Объясни аят $ayahRef ($surahName)',
-      'ar' => 'اشرح الآية $ayahRef ($surahName)',
-      _ => 'Explain ayah $ayahRef ($surahName)',
+      'ru' => 'Расскажи об аяте $ayahRef ($surahName)',
+      'ar' => 'أخبرني عن الآية $ayahRef ($surahName)',
+      _ => 'Tell me about ayah $ayahRef ($surahName)',
     };
     await sendMessage(question);
   }

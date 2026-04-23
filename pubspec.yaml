@@ -62,6 +62,7 @@ dependencies:
   # Serialization
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
+  scrollable_positioned_list: ^0.3.8
 
 dev_dependencies:
   flutter_test:
@@ -80,4 +81,14 @@ flutter:
   assets:
     - assets/
     - assets/data/
+
+  fonts:
+    - family: GeneralSans
+      fonts:
+        - asset: assets/fonts/general_sans/GeneralSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/general_sans/GeneralSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/general_sans/GeneralSans-Semibold.ttf
+          weight: 600
 

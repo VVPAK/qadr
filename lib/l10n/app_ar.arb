@@ -67,5 +67,16 @@
     }
   },
   "loadingQuran": "جارٍ تحضير بيانات القرآن...",
-  "discussInChat": "مناقشة في المحادثة"
+  "discussInChat": "مناقشة في المحادثة",
+  "openInQuran": "فتح في القرآن",
+  "prayer": "الصلاة",
+  "dhikr": "ذكر",
+  "learn": "العلم",
+  "surahs": "السور",
+  "library": "المكتبة",
+  "recommended": "موصى به",
+  "continueReading": "متابعة",
+  "searchSurahOrAyah": "بحث عن سورة أو آية",
+  "reset": "إعادة",
+  "history": "السجل"
 }

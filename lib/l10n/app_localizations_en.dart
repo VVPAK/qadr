@@ -155,4 +155,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get discussInChat => 'Discuss in chat';
+
+  @override
+  String get openInQuran => 'Open in Quran';
+
+  @override
+  String get prayer => 'Prayer';
+
+  @override
+  String get dhikr => 'Dhikr';
+
+  @override
+  String get learn => 'Knowledge';
+
+  @override
+  String get surahs => 'Surahs';
+
+  @override
+  String get library => 'Library';
+
+  @override
+  String get recommended => 'Recommended';
+
+  @override
+  String get continueReading => 'Continue';
+
+  @override
+  String get searchSurahOrAyah => 'Search surah or ayah';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get history => 'History';
 }

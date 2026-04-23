@@ -67,5 +67,16 @@
     }
   },
   "loadingQuran": "Preparing Quran data...",
-  "discussInChat": "Discuss in chat"
+  "discussInChat": "Discuss in chat",
+  "openInQuran": "Open in Quran",
+  "prayer": "Prayer",
+  "dhikr": "Dhikr",
+  "learn": "Knowledge",
+  "surahs": "Surahs",
+  "library": "Library",
+  "recommended": "Recommended",
+  "continueReading": "Continue",
+  "searchSurahOrAyah": "Search surah or ayah",
+  "reset": "Reset",
+  "history": "History"
 }

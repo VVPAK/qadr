@@ -45,7 +45,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
     ref.listen(chatMessagesProvider, (_, _) => _scrollToBottom());
 
-    return Scaffold(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
       appBar: AppBar(
         title: const Text('Qadr'),
         actions: [
@@ -74,6 +76,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           _buildInputBar(context),
         ],
       ),
+    ),
     );
   }
 

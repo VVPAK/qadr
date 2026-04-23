@@ -381,6 +381,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discuss in chat'**
   String get discussInChat;
+
+  /// No description provided for @openInQuran.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Quran'**
+  String get openInQuran;
+
+  /// No description provided for @prayer.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer'**
+  String get prayer;
+
+  /// No description provided for @dhikr.
+  ///
+  /// In en, this message translates to:
+  /// **'Dhikr'**
+  String get dhikr;
+
+  /// No description provided for @learn.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge'**
+  String get learn;
+
+  /// No description provided for @surahs.
+  ///
+  /// In en, this message translates to:
+  /// **'Surahs'**
+  String get surahs;
+
+  /// No description provided for @library.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get library;
+
+  /// No description provided for @recommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get recommended;
+
+  /// No description provided for @continueReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueReading;
+
+  /// No description provided for @searchSurahOrAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'Search surah or ayah'**
+  String get searchSurahOrAyah;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @history.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get history;
 }
 
 class _AppLocalizationsDelegate

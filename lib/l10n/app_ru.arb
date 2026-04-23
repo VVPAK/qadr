@@ -67,5 +67,16 @@
     }
   },
   "loadingQuran": "Подготовка данных Корана...",
-  "discussInChat": "Обсудить в чате"
+  "discussInChat": "Обсудить в чате",
+  "openInQuran": "Открыть в Коране",
+  "prayer": "Намаз",
+  "dhikr": "Зикр",
+  "learn": "Знание",
+  "surahs": "Суры",
+  "library": "Библиотека",
+  "recommended": "Рекомендовано",
+  "continueReading": "Продолжить",
+  "searchSurahOrAyah": "Поиск суры или аята",
+  "reset": "Сбросить",
+  "history": "История"
 }

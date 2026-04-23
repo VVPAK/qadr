@@ -155,4 +155,37 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get discussInChat => 'Обсудить в чате';
+
+  @override
+  String get openInQuran => 'Открыть в Коране';
+
+  @override
+  String get prayer => 'Намаз';
+
+  @override
+  String get dhikr => 'Зикр';
+
+  @override
+  String get learn => 'Знание';
+
+  @override
+  String get surahs => 'Суры';
+
+  @override
+  String get library => 'Библиотека';
+
+  @override
+  String get recommended => 'Рекомендовано';
+
+  @override
+  String get continueReading => 'Продолжить';
+
+  @override
+  String get searchSurahOrAyah => 'Поиск суры или аята';
+
+  @override
+  String get reset => 'Сбросить';
+
+  @override
+  String get history => 'История';
 }
