@@ -40,11 +40,7 @@ class _MainShellState extends State<MainShell> {
   void _onNavChanged(NavSection section) {
     if (section == _active) return;
     setState(() => _active = section);
-    _pageController.animateToPage(
-      section.index,
-      duration: const Duration(milliseconds: 320),
-      curve: Curves.easeOutCubic,
-    );
+    _pageController.jumpToPage(section.index);
   }
 
   void _onPageChanged(int index) {

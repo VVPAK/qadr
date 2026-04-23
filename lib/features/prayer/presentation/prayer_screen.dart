@@ -11,6 +11,7 @@ import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/scene_background.dart';
 import '../../../core/widgets/scene_page.dart';
 import '../../../core/models/prayer_time_model.dart';
+import '../../../core/services/clock.dart';
 import 'providers/prayer_times_provider.dart';
 
 class PrayerScreen extends ConsumerStatefulWidget {
@@ -25,7 +26,7 @@ class PrayerScreen extends ConsumerStatefulWidget {
 class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   int _sceneIdx = 0;
   Timer? _timer;
-  DateTime _now = DateTime.now();
+  late DateTime _now;
 
   static const _scenes = [
     SceneType.dusk,
@@ -37,8 +38,9 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   @override
   void initState() {
     super.initState();
+    _now = ref.read(clockProvider).now();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() => _now = DateTime.now());
+      setState(() => _now = ref.read(clockProvider).now());
     });
   }
 

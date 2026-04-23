@@ -83,6 +83,7 @@ flutter:
   assets:
     - assets/
     - assets/data/
+    - google_fonts/
 
   fonts:
     - family: GeneralSans

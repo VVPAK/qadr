@@ -73,3 +73,25 @@ The red-green-refactor loop:
 - Use `ProviderContainer` with `overrides` for Riverpod tests; prefer overriding services at the provider level rather than peeking into widgets.
 - Fake async time with `fake_async` for timers (`PrayerScreen` countdown, dhikr debounce, etc.).
 - When fixing a bug, the first commit in the fix must be a regression test that reproduces it.
+
+## Golden Tests (REQUIRED for every screen)
+
+Every screen (`*Screen` widget) must have a golden test using the helper in `test/helpers/golden_test_helpers.dart`. The helper runs **9 combinations** automatically: 3 locales (en, ar, ru) × 3 screen sizes (small 375×667, medium 390×844, tablet 768×1024).
+
+```dart
+// test/features/my_feature/my_screen_golden_test.dart
+import '../../helpers/golden_test_helpers.dart';
+
+void main() {
+  goldenTest(
+    'my_screen',
+    builder: (_) => const MyScreen(),
+  );
+}
+```
+
+- Golden files land at `test/goldens/{locale}/{screen}/{name}.png`
+- Generate/update goldens: `fvm flutter test --update-goldens test/features/my_feature/my_screen_golden_test.dart`
+- CI runs goldens without `--update-goldens` to catch regressions
+- Use `providerOverrides:` to stub data-dependent providers so the screen renders deterministically
+- Fonts render as Ahem rectangles (intentional — goldens catch layout/RTL regressions, not typography)
