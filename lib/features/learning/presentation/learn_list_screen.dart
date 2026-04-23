@@ -201,12 +201,15 @@ class _LessonRow extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                category.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 10.5,
-                  letterSpacing: 1.5,
-                  color: Color(0xFFE4C7A0),
+              Flexible(
+                child: Text(
+                  category.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 10.5,
+                    letterSpacing: 1.5,
+                    color: Color(0xFFE4C7A0),
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
