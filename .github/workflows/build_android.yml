@@ -1,8 +1,6 @@
 name: Build Android
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
@@ -17,19 +15,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            code:
+              - 'lib/**'
+              - 'android/**'
+              - 'assets/**'
+              - 'google_fonts/**'
+              - 'pubspec.yaml'
+              - 'pubspec.lock'
+              - '.github/workflows/build_android.yml'
+
+      - name: Skip (no relevant changes)
+        if: steps.changes.outputs.code != 'true'
+        run: echo "No code changes — Android build skipped."
+
       - uses: actions/setup-java@v4
+        if: steps.changes.outputs.code == 'true'
         with:
           distribution: temurin
           java-version: "17"
 
       - uses: subosito/flutter-action@v2
+        if: steps.changes.outputs.code == 'true'
         with:
           flutter-version: "3.41.6"
           channel: stable
           cache: true
 
       - name: Install dependencies
+        if: steps.changes.outputs.code == 'true'
         run: flutter pub get
 
       - name: Build Android APK (debug)
+        if: steps.changes.outputs.code == 'true'
         run: flutter build apk --debug
