@@ -5,7 +5,6 @@ import 'package:qadr/core/services/haptic_service.dart';
 import 'package:qadr/features/chat/domain/models/component_data.dart';
 import 'package:qadr/features/tasbih/presentation/widgets/tasbih_counter_widget.dart';
 import 'package:qadr/features/tasbih/presentation/dhikr_screen.dart';
-import 'package:qadr/core/widgets/floating_nav_bar.dart';
 
 class _FakeHapticService extends HapticService {
   final calls = <String>[];
