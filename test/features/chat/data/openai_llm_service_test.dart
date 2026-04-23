@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide ResponseType;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:qadr/core/constants/islamic_constants.dart';
@@ -78,15 +77,11 @@ ResponseBody _jsonBody(Object body, {int status = 200}) {
 }
 
 ResponseBody _sseBody(List<String> chunks) {
-  final controller = StreamController<Uint8List>();
-  Future<void>(() async {
-    for (final chunk in chunks) {
-      controller.add(Uint8List.fromList(utf8.encode(chunk)));
-    }
-    await controller.close();
-  });
+  final stream = Stream<Uint8List>.fromIterable(
+    chunks.map((c) => Uint8List.fromList(utf8.encode(c))),
+  );
   return ResponseBody(
-    controller.stream,
+    stream,
     200,
     headers: {
       'content-type': ['text/event-stream'],

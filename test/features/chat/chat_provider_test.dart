@@ -14,7 +14,7 @@ import 'package:qadr/features/learning/presentation/providers/learning_provider.
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _FakeLlmService implements LlmService {
-  _FakeLlmService({this.response = '', this.error});
+  _FakeLlmService({this.response = ''});
 
   String response;
   Object? error;
@@ -269,7 +269,12 @@ void main() {
       final container = await _makeContainer(llm: llm);
       addTearDown(container.dispose);
 
+      // showPrayerTimes fires sendMessage without awaiting it, so pump the
+      // event loop until the inner sendMessage has reached the LLM call.
       await container.read(chatMessagesProvider.notifier).showPrayerTimes();
+      for (var i = 0; i < 20 && llm.lastMessages == null; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+      }
 
       expect(llm.lastMessages, isNotNull);
       expect(llm.lastMessages!.first.content, 'Prayer Times');

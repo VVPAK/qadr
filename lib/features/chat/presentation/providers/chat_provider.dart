@@ -9,12 +9,13 @@ import '../../domain/models/chat_message.dart';
 import '../../domain/models/component_data.dart';
 import '../../domain/models/llm_response.dart';
 import '../../domain/services/intent_parser.dart';
+import '../../domain/services/llm_service.dart';
 import '../../domain/services/system_prompt_builder.dart';
 import '../../../learning/presentation/providers/learning_provider.dart';
 import '../../../prayer/presentation/providers/prayer_times_provider.dart';
 
 final chatRepositoryProvider = Provider((ref) => ChatRepository());
-final llmServiceProvider = Provider((ref) => OpenAiLlmService());
+final llmServiceProvider = Provider<LlmService>((ref) => OpenAiLlmService());
 
 final chatMessagesProvider =
     StateNotifierProvider<ChatMessagesNotifier, List<ChatMessage>>((ref) {
