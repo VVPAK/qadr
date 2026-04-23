@@ -29,6 +29,10 @@ jobs:
               - 'l10n.yaml'
               - '.github/workflows/analyze.yml'
 
+      - name: Skip (no relevant changes)
+        if: steps.changes.outputs.code != 'true'
+        run: echo "No code changes — analyze skipped."
+
       - uses: subosito/flutter-action@v2
         if: steps.changes.outputs.code == 'true'
         with:
@@ -43,7 +47,3 @@ jobs:
       - name: Dart analyze
         if: steps.changes.outputs.code == 'true'
         run: flutter analyze --fatal-infos --fatal-warnings
-
-      - name: Skip (no relevant changes)
-        if: steps.changes.outputs.code != 'true'
-        run: echo "No code changes — analyze skipped."

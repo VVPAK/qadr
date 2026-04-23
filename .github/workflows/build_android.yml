@@ -27,6 +27,10 @@ jobs:
               - 'pubspec.lock'
               - '.github/workflows/build_android.yml'
 
+      - name: Skip (no relevant changes)
+        if: steps.changes.outputs.code != 'true'
+        run: echo "No code changes — Android build skipped."
+
       - uses: actions/setup-java@v4
         if: steps.changes.outputs.code == 'true'
         with:
@@ -47,7 +51,3 @@ jobs:
       - name: Build Android APK (debug)
         if: steps.changes.outputs.code == 'true'
         run: flutter build apk --debug
-
-      - name: Skip (no relevant changes)
-        if: steps.changes.outputs.code != 'true'
-        run: echo "No code changes — Android build skipped."

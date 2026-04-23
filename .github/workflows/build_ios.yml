@@ -27,6 +27,10 @@ jobs:
               - 'pubspec.lock'
               - '.github/workflows/build_ios.yml'
 
+      - name: Skip (no relevant changes)
+        if: steps.changes.outputs.code != 'true'
+        run: echo "No code changes — iOS build skipped."
+
       - uses: subosito/flutter-action@v2
         if: steps.changes.outputs.code == 'true'
         with:
@@ -41,7 +45,3 @@ jobs:
       - name: Build iOS (no codesign)
         if: steps.changes.outputs.code == 'true'
         run: flutter build ios --debug --no-codesign
-
-      - name: Skip (no relevant changes)
-        if: steps.changes.outputs.code != 'true'
-        run: echo "No code changes — iOS build skipped."

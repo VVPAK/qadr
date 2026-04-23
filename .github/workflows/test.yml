@@ -30,6 +30,10 @@ jobs:
               - 'l10n.yaml'
               - '.github/workflows/test.yml'
 
+      - name: Skip (no relevant changes)
+        if: steps.changes.outputs.code != 'true'
+        run: echo "No code changes — tests skipped."
+
       - uses: subosito/flutter-action@v2
         if: steps.changes.outputs.code == 'true'
         with:
@@ -53,7 +57,3 @@ jobs:
         if: steps.changes.outputs.code == 'true'
         run: flutter test --tags golden --update-goldens
         continue-on-error: true
-
-      - name: Skip (no relevant changes)
-        if: steps.changes.outputs.code != 'true'
-        run: echo "No code changes — tests skipped."
