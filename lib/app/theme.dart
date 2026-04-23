@@ -42,6 +42,69 @@ abstract final class QadrColors {
   static const darkSuccess = Color(0xFF9CAE87);
 }
 
+/// Spacing scale — use these instead of raw pixel values.
+abstract final class QadrSpacing {
+  static const double xs = 4;
+  static const double sm = 8;
+  static const double md = 16;
+  static const double lg = 24;
+  static const double xl = 40;
+
+  /// Standard horizontal screen inset.
+  static const double screenH = 20;
+  /// Standard vertical screen inset.
+  static const double screenV = 24;
+}
+
+/// Border-radius scale.
+abstract final class QadrRadius {
+  static const double xs = 4;
+  static const double sm = 8;
+  static const double md = 12;
+  static const double lg = 16;
+  static const double xl = 24;
+
+  /// Fully-rounded pills — nav bar, chips, buttons.
+  static const double pill = 999;
+
+  static BorderRadius get xsAll => BorderRadius.circular(xs);
+  static BorderRadius get smAll => BorderRadius.circular(sm);
+  static BorderRadius get mdAll => BorderRadius.circular(md);
+  static BorderRadius get lgAll => BorderRadius.circular(lg);
+  static BorderRadius get xlAll => BorderRadius.circular(xl);
+  static BorderRadius get pillAll => BorderRadius.circular(pill);
+}
+
+/// Elevation / shadow tokens.
+abstract final class QadrShadow {
+  /// Subtle card lift.
+  static List<BoxShadow> get card => [
+        BoxShadow(
+          color: QadrColors.text.withValues(alpha: 0.06),
+          blurRadius: 12,
+          offset: const Offset(0, 2),
+        ),
+      ];
+
+  /// Floating elements — nav bar, FAB.
+  static List<BoxShadow> get float => [
+        BoxShadow(
+          color: QadrColors.text.withValues(alpha: 0.12),
+          blurRadius: 24,
+          offset: const Offset(0, 6),
+        ),
+      ];
+
+  /// Bottom sheet / modal overlay.
+  static List<BoxShadow> get overlay => [
+        BoxShadow(
+          color: QadrColors.text.withValues(alpha: 0.18),
+          blurRadius: 40,
+          offset: const Offset(0, -4),
+        ),
+      ];
+}
+
 abstract final class QadrTheme {
   static const _fontFamily = 'GeneralSans';
 
@@ -152,15 +215,17 @@ abstract final class QadrTheme {
         filled: true,
         fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: QadrRadius.xlAll,
           borderSide: BorderSide.none,
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: QadrSpacing.screenH,
+          vertical: 12,
+        ),
       ),
       cardTheme: CardThemeData(
         elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: QadrRadius.lgAll),
         color: colorScheme.surface,
       ),
       dividerTheme: DividerThemeData(

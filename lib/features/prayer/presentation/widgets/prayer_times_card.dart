@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/extensions/context_extensions.dart';
-import '../../../../l10n/app_localizations.dart';
+import '../../../../core/widgets/glass_container.dart';
 import '../../../chat/domain/chat_component.dart';
 import '../../../chat/domain/models/component_data.dart';
+import 'prayer_rows_widget.dart';
 
 class PrayerTimesCard extends StatelessWidget with ChatComponent {
   const PrayerTimesCard({super.key, required this.data});
@@ -10,95 +10,43 @@ class PrayerTimesCard extends StatelessWidget with ChatComponent {
 
   @override
   Map<String, dynamic> toContextJson() => {
-    'type': 'prayerTimes',
-    ...data.toJson(),
-  };
-
-  static String _localizeName(String name, AppLocalizations l10n) {
-    return switch (name) {
-      'fajr' => l10n.fajr,
-      'sunrise' => l10n.sunrise,
-      'dhuhr' => l10n.dhuhr,
-      'asr' => l10n.asr,
-      'maghrib' => l10n.maghrib,
-      'isha' => l10n.isha,
-      _ => name,
-    };
-  }
+        'type': 'prayerTimes',
+        ...data.toJson(),
+      };
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 200),
+      constraints: const BoxConstraints(minWidth: 280),
       child: IntrinsicWidth(
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.mosque, color: context.colorScheme.primary),
-                    const SizedBox(width: 8),
-                    Text(
-                      context.l10n.prayerTimes,
-                      style: context.textTheme.titleMedium,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      data.date,
-                      style: context.textTheme.labelMedium?.copyWith(
-                        color: context.colorScheme.outline,
-                      ),
-                    ),
-                  ],
+        child: GlassContainer(
+          borderRadius: 24,
+          blur: 22,
+          backgroundOpacity: 0.55,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
+                child: PrayerRowsWidget(prayers: data.prayers),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+                decoration: const BoxDecoration(
+                  color: Color(0x8C8A6E4F),
+                  border: Border(top: BorderSide(color: Color(0x14FFFFFF))),
                 ),
-                const Divider(),
-                ...data.prayers.map(
-                  (prayer) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6),
-                    child: Row(
-                      children: [
-                        if (prayer.isNext)
-                          Container(
-                            width: 4,
-                            height: 24,
-                            margin: const EdgeInsets.only(right: 8),
-                            decoration: BoxDecoration(
-                              color: context.colorScheme.primary,
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                          )
-                        else
-                          const SizedBox(width: 12),
-                        Text(
-                          _localizeName(prayer.name, context.l10n),
-                          style: prayer.isNext
-                              ? context.textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                )
-                              : context.textTheme.bodyLarge,
-                        ),
-                        const Spacer(),
-                        const SizedBox(width: 16),
-                        Text(
-                          prayer.time,
-                          style: prayer.isNext
-                              ? context.textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: context.colorScheme.primary,
-                                )
-                              : context.textTheme.bodyLarge,
-                        ),
-                      ],
-                    ),
+                child: Text(
+                  data.date,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xA6F4EFE6),
+                    letterSpacing: -0.1,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
