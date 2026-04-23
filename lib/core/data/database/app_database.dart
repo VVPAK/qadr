@@ -16,6 +16,10 @@ part 'app_database.g.dart';
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
+  /// Injects a custom [QueryExecutor] — used by tests to run against an
+  /// in-memory sqlite instance without touching the filesystem.
+  AppDatabase.withExecutor(super.executor);
+
   @override
   int get schemaVersion => 1;
 
