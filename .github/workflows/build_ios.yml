@@ -3,6 +3,13 @@ name: Build iOS
 on:
   push:
     branches: [main]
+    paths:
+      - "lib/**"
+      - "ios/**"
+      - "assets/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - ".github/workflows/build_ios.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

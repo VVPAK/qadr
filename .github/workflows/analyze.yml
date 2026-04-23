@@ -3,8 +3,26 @@ name: Analyze
 on:
   push:
     branches: [main]
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "integration_test/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - "analysis_options.yaml"
+      - "l10n.yaml"
+      - ".github/workflows/analyze.yml"
   pull_request:
     branches: [main]
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "integration_test/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - "analysis_options.yaml"
+      - "l10n.yaml"
+      - ".github/workflows/analyze.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
