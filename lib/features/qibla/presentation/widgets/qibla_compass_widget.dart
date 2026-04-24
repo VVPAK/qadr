@@ -128,12 +128,10 @@ class _CompassCard extends ConsumerWidget {
                       size: const Size(200, 200),
                       painter: _CompassPainter(
                         color: context.colorScheme.outlineVariant,
-                        directions: [
-                          context.l10n.compassN,
-                          context.l10n.compassE,
-                          context.l10n.compassS,
-                          context.l10n.compassW,
-                        ],
+                        n: context.l10n.compassN,
+                        e: context.l10n.compassE,
+                        s: context.l10n.compassS,
+                        w: context.l10n.compassW,
                       ),
                     ),
                   ),
@@ -173,9 +171,15 @@ class _CompassCard extends ConsumerWidget {
 }
 
 class _CompassPainter extends CustomPainter {
-  _CompassPainter({required this.color, required this.directions});
+  _CompassPainter({
+    required this.color,
+    required this.n,
+    required this.e,
+    required this.s,
+    required this.w,
+  });
   final Color color;
-  final List<String> directions;
+  final String n, e, s, w;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -188,11 +192,12 @@ class _CompassPainter extends CustomPainter {
 
     canvas.drawCircle(center, radius, paint);
 
+    final labels = [n, e, s, w];
     for (var i = 0; i < 4; i++) {
       final angle = i * math.pi / 2 - math.pi / 2;
       final textPainter = TextPainter(
         text: TextSpan(
-          text: directions[i],
+          text: labels[i],
           style: TextStyle(color: color, fontSize: 14),
         ),
         textDirection: TextDirection.ltr,
@@ -208,5 +213,5 @@ class _CompassPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_CompassPainter old) =>
-      old.color != color || old.directions != directions;
+      old.color != color || old.n != n || old.e != e || old.s != s || old.w != w;
 }

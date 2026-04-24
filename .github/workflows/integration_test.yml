@@ -39,16 +39,40 @@ jobs:
           channel: stable
           cache: true
 
+      - name: Cache CocoaPods
+        if: steps.changes.outputs.code == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          key: pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: pods-
+
+      - name: Cache Xcode DerivedData
+        if: steps.changes.outputs.code == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: xcode-${{ hashFiles('ios/Podfile.lock', 'pubspec.lock') }}-${{ github.sha }}
+          restore-keys: |
+            xcode-${{ hashFiles('ios/Podfile.lock', 'pubspec.lock') }}-
+            xcode-
+
       - name: Install dependencies
         if: steps.changes.outputs.code == 'true'
         run: flutter pub get
+
+      - name: Install CocoaPods (if cache miss)
+        if: steps.changes.outputs.code == 'true'
+        run: |
+          cd ios
+          pod install --repo-update
 
       - name: Boot iOS simulator
         if: steps.changes.outputs.code == 'true'
         run: |
           UDID=$(xcrun simctl list devices available | grep -E "iPhone [0-9]" | tail -1 | grep -oE "[0-9A-F-]{36}")
           echo "Booting simulator: $UDID"
-          xcrun simctl boot "$UDID"
+          xcrun simctl boot "$UDID" || true
           echo "SIM_UDID=$UDID" >> $GITHUB_ENV
 
       - name: Run integration tests

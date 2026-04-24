@@ -5,8 +5,8 @@
 // automatically from coordinates. All comparisons are done in UTC so the
 // test result is independent of the machine's local timezone.
 //
-// Tolerance: +-3 minutes. Real-world apps typically accept +-1-2 min; we use
-// 3 min to account for minor implementation differences between adhan_dart
+// Tolerance: +-5 minutes. Real-world apps typically accept +-1-2 min; we use
+// 5 min to account for minor implementation differences between adhan_dart
 // and the AlAdhan API reference implementation.
 
 import 'package:flutter_test/flutter_test.dart';

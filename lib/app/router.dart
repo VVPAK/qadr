@@ -39,10 +39,18 @@ class RouterListenable extends ChangeNotifier {
 
   @visibleForTesting
   RouterListenable.fromContainer(ProviderContainer container) {
-    container.listen<AsyncValue<UserPreferences>>(
+    _subscription = container.listen<AsyncValue<UserPreferences>>(
       userPreferencesProvider,
       (_, next) => _onChanged(next),
     );
+  }
+
+  ProviderSubscription<AsyncValue<UserPreferences>>? _subscription;
+
+  @override
+  void dispose() {
+    _subscription?.close();
+    super.dispose();
   }
 
   void _onChanged(AsyncValue<UserPreferences> next) {

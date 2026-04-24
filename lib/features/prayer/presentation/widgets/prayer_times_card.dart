@@ -30,7 +30,7 @@ class PrayerTimesCard extends StatelessWidget with ChatComponent {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(QadrSpacing.screenH, 14, QadrSpacing.screenH, QadrSpacing.sm),
+                padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.screenH, vertical: 14),
                 child: PrayerRowsWidget(prayers: data.prayers),
               ),
               Container(
