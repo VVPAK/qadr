@@ -1,0 +1,10 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Recursively call toJson() on nested objects / lists of objects
+          # when serializing. Without this, fromJson(toJson(x)) round-trips
+          # break for any model that holds custom objects (e.g. the List
+          # of PrayerTimeEntry inside PrayerTimesData).
+          explicit_to_json: true

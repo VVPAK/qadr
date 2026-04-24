@@ -19,7 +19,7 @@ _$PrayerTimesDataImpl _$$PrayerTimesDataImplFromJson(
 Map<String, dynamic> _$$PrayerTimesDataImplToJson(
   _$PrayerTimesDataImpl instance,
 ) => <String, dynamic>{
-  'prayers': instance.prayers,
+  'prayers': instance.prayers.map((e) => e.toJson()).toList(),
   'date': instance.date,
   'runtimeType': instance.$type,
 };
@@ -33,7 +33,10 @@ _$QuranAyahDataImpl _$$QuranAyahDataImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$QuranAyahDataImplToJson(_$QuranAyahDataImpl instance) =>
-    <String, dynamic>{'ayahs': instance.ayahs, 'runtimeType': instance.$type};
+    <String, dynamic>{
+      'ayahs': instance.ayahs.map((e) => e.toJson()).toList(),
+      'runtimeType': instance.$type,
+    };
 
 _$DuaDataImpl _$$DuaDataImplFromJson(Map<String, dynamic> json) =>
     _$DuaDataImpl(
