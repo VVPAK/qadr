@@ -1,0 +1,56 @@
+name: Integration Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration-test:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            code:
+              - 'lib/**'
+              - 'integration_test/**'
+              - 'assets/**'
+              - 'google_fonts/**'
+              - 'pubspec.yaml'
+              - 'pubspec.lock'
+              - '.github/workflows/integration_test.yml'
+
+      - name: Skip (no relevant changes)
+        if: steps.changes.outputs.code != 'true'
+        run: echo "No code changes — integration tests skipped."
+
+      - uses: subosito/flutter-action@v2
+        if: steps.changes.outputs.code == 'true'
+        with:
+          flutter-version: "3.41.6"
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        if: steps.changes.outputs.code == 'true'
+        run: flutter pub get
+
+      - name: Boot iOS simulator
+        if: steps.changes.outputs.code == 'true'
+        run: |
+          UDID=$(xcrun simctl list devices available | grep -E "iPhone [0-9]" | tail -1 | grep -oE "[0-9A-F-]{36}")
+          echo "Booting simulator: $UDID"
+          xcrun simctl boot "$UDID"
+          echo "SIM_UDID=$UDID" >> $GITHUB_ENV
+
+      - name: Run integration tests
+        if: steps.changes.outputs.code == 'true'
+        run: flutter test integration_test/onboarding_test.dart -d "$SIM_UDID"
