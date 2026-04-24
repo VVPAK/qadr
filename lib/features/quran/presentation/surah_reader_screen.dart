@@ -6,7 +6,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/data/database/app_database.dart';
-import '../../../core/widgets/floating_nav_bar.dart';
 import '../../../core/widgets/scene_page.dart';
 import '../../../core/widgets/star8_medallion.dart';
 import 'providers/quran_providers.dart';
@@ -27,11 +26,6 @@ class SurahReaderScreen extends ConsumerWidget {
 
     return Scaffold(
       body: ParchmentPage(
-        activeNav: NavSection.quran,
-        onNavChanged: (section) {
-          context.go('/');
-          // Navigation will be handled by MainShell
-        },
         children: [
           // Header bar
           Positioned(
