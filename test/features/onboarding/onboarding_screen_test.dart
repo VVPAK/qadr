@@ -187,6 +187,37 @@ void main() {
       expect(ctx.prefs.name, isNull);
       expect(find.text('Allow access'), findsOneWidget);
     });
+
+    testWidgets('tapping Next dismisses the keyboard', (tester) async {
+      await _pump(tester);
+      await tester.tap(find.text('Begin'));
+      await _settle(tester);
+
+      await tester.tap(find.byType(TextField));
+      await tester.pump();
+      expect(tester.testTextInput.isVisible, isTrue);
+
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(tester.testTextInput.isVisible, isFalse);
+    });
+
+    testWidgets('tapping outside the input dismisses the keyboard',
+        (tester) async {
+      await _pump(tester);
+      await tester.tap(find.text('Begin'));
+      await _settle(tester);
+
+      await tester.tap(find.byType(TextField));
+      await tester.pump();
+      expect(tester.testTextInput.isVisible, isTrue);
+
+      // Tap above the glass card (which starts around y=296), outside any
+      // focusable widget — should unfocus via the screen-level GestureDetector.
+      await tester.tapAt(const Offset(200, 200));
+      await tester.pump();
+      expect(tester.testTextInput.isVisible, isFalse);
+    });
   });
 
   group('Location step', () {
