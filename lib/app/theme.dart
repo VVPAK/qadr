@@ -150,7 +150,8 @@ abstract final class QadrTheme {
     FontWeight fontWeight = FontWeight.w500,
     Color? color,
   }) {
-    return _displayFont.copyWith(
+    return TextStyle(
+      fontFamily: _fontFamily,
       fontSize: fontSize,
       fontWeight: fontWeight,
       fontFeatures: const [FontFeature.tabularFigures()],
