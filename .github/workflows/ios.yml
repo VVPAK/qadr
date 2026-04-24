@@ -106,4 +106,9 @@ jobs:
         run: xcrun simctl install "$SIM_UDID" build/ios/iphonesimulator/Runner.app
 
       - name: Run integration tests
-        run: flutter test integration_test/onboarding_test.dart -d "$SIM_UDID" --no-build
+        run: |
+          flutter drive \
+            --driver=test_driver/integration_test.dart \
+            --target=integration_test/onboarding_test.dart \
+            -d "$SIM_UDID" \
+            --use-application-binary=build/ios/iphonesimulator/Runner.app
