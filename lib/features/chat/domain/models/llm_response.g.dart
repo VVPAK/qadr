@@ -23,7 +23,7 @@ Map<String, dynamic> _$$LlmResponseImplToJson(_$LlmResponseImpl instance) =>
       'intent': _$ChatIntentEnumMap[instance.intent]!,
       'responseType': _$ResponseTypeEnumMap[instance.responseType]!,
       'text': instance.text,
-      'component': instance.component,
+      'component': instance.component?.toJson(),
     };
 
 const _$ChatIntentEnumMap = {
@@ -32,6 +32,7 @@ const _$ChatIntentEnumMap = {
   ChatIntent.duaRequest: 'duaRequest',
   ChatIntent.tasbih: 'tasbih',
   ChatIntent.qibla: 'qibla',
+  ChatIntent.learning: 'learning',
   ChatIntent.generalQuestion: 'generalQuestion',
 };
 

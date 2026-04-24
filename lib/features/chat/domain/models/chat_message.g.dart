@@ -24,7 +24,7 @@ Map<String, dynamic> _$$ChatMessageImplToJson(_$ChatMessageImpl instance) =>
       'role': _$MessageRoleEnumMap[instance.role]!,
       'content': instance.content,
       'timestamp': instance.timestamp.toIso8601String(),
-      'llmResponse': instance.llmResponse,
+      'llmResponse': instance.llmResponse?.toJson(),
       'isStreaming': instance.isStreaming,
     };
 

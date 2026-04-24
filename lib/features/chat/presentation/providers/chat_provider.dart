@@ -214,10 +214,6 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
     );
   }
 
-  static Map<String, dynamic> _prayerTimesDataToMap(PrayerTimesData data) {
-    return {
-      'prayers': data.prayers.map((p) => p.toJson()).toList(),
-      'date': data.date,
-    };
-  }
+  static Map<String, dynamic> _prayerTimesDataToMap(PrayerTimesData data) =>
+      data.toJson()..remove('runtimeType');
 }
