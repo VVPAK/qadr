@@ -35,6 +35,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _completeOnboarding() async {
     final prefs = await ref.read(userPreferencesProvider.future);
     prefs.onboardingComplete = true;
+    ref.invalidate(userPreferencesProvider);
+    await ref.read(userPreferencesProvider.future);
     if (mounted) context.go('/');
   }
 
