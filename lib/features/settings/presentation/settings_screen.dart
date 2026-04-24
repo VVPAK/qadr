@@ -52,7 +52,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await SecureStorage.setApiBaseUrl(_baseUrlController.text.trim());
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('API settings saved')),
+        SnackBar(content: Text(context.l10n.apiSettingsSaved)),
       );
     }
   }
@@ -149,7 +149,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         children: [
           // AI section
           Text(
-            'AI Chat',
+            context.l10n.aiChat,
             style: context.textTheme.titleSmall?.copyWith(
               color: context.colorScheme.primary,
             ),
@@ -157,10 +157,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(height: QadrSpacing.sm),
           TextField(
             controller: _baseUrlController,
-            decoration: const InputDecoration(
-              labelText: 'API Base URL',
+            decoration: InputDecoration(
+              labelText: context.l10n.apiBaseUrl,
               hintText: 'https://api.openai.com/v1',
-              prefixIcon: Icon(Icons.link),
+              prefixIcon: const Icon(Icons.link),
             ),
           ),
           const SizedBox(height: 12),
@@ -168,7 +168,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             controller: _apiKeyController,
             obscureText: _obscureKey,
             decoration: InputDecoration(
-              labelText: 'API Key',
+              labelText: context.l10n.apiKey,
               hintText: 'sk-...',
               prefixIcon: const Icon(Icons.key),
               suffixIcon: IconButton(
@@ -183,7 +183,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           FilledButton.icon(
             onPressed: _saveApiSettings,
             icon: const Icon(Icons.save),
-            label: const Text('Save API Settings'),
+            label: Text(context.l10n.saveApiSettings),
           ),
           const Divider(height: 32),
           // General settings

@@ -51,7 +51,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
       appBar: AppBar(
-        title: const Text('Qadr'),
+        title: Text(context.l10n.appTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/data/database/app_database.dart';
+import '../../../core/extensions/context_extensions.dart';
 import '../../../core/widgets/floating_nav_bar.dart';
 import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/scene_background.dart';
@@ -34,9 +35,9 @@ class QuranListScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'КОРАН',
-                style: TextStyle(
+              Text(
+                context.l10n.quran.toUpperCase(),
+                style: const TextStyle(
                   fontSize: 11,
                   letterSpacing: 2,
                   color: Color(0x99F4EFE6),
@@ -44,7 +45,7 @@ class QuranListScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Суры',
+                context.l10n.surahs,
                 style: QadrTheme.display(
                   fontSize: 34,
                   color: const Color(0xFFF4EFE6),
@@ -59,7 +60,7 @@ class QuranListScreen extends ConsumerWidget {
           top: topPadding + 116,
           left: 22,
           right: 22,
-          child: _buildSearchPill(),
+          child: _buildSearchPill(context),
         ),
 
         // Sura list
@@ -83,7 +84,7 @@ class QuranListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSearchPill() {
+  Widget _buildSearchPill(BuildContext context) {
     return ClipRRect(
       borderRadius: QadrRadius.pillAll,
       child: BackdropFilter(
@@ -95,13 +96,13 @@ class QuranListScreen extends ConsumerWidget {
             borderRadius: QadrRadius.pillAll,
             border: Border.all(color: const Color(0x1AFFFFFF)),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(Icons.search, size: 15, color: Color(0xBFF4EFE6)),
-              SizedBox(width: 10),
+              const Icon(Icons.search, size: 15, color: Color(0xBFF4EFE6)),
+              const SizedBox(width: 10),
               Text(
-                'Поиск суры или аята',
-                style: TextStyle(fontSize: 13, color: Color(0xBFF4EFE6)),
+                context.l10n.searchSurahOrAyah,
+                style: const TextStyle(fontSize: 13, color: Color(0xBFF4EFE6)),
               ),
             ],
           ),
@@ -148,7 +149,9 @@ class _SurahRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final place = surah.revelationType == 'Meccan' ? 'мекк.' : 'мед.';
+    final place = surah.revelationType == 'Meccan'
+        ? context.l10n.meccan
+        : context.l10n.medinan;
 
     return GestureDetector(
       onTap: onTap,
@@ -189,7 +192,7 @@ class _SurahRow extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${surah.nameRussian} · ${surah.ayahCount} аятов · $place',
+                    '${surah.nameRussian} · ${context.l10n.ayahCount(surah.ayahCount)} · $place',
                     style: const TextStyle(
                       fontSize: 12,
                       color: Color(0x8CF4EFE6),

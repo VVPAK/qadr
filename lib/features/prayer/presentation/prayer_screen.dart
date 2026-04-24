@@ -11,6 +11,7 @@ import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/scene_background.dart';
 import '../../../core/widgets/scene_page.dart';
 import '../../../core/models/prayer_time_model.dart';
+import '../../../core/extensions/context_extensions.dart';
 import '../../../core/services/clock.dart';
 import 'providers/prayer_times_provider.dart';
 
@@ -81,13 +82,14 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
     PrayerTimeModel model, {
     required String cityName,
   }) {
+    final l10n = context.l10n;
     final prayers = [
-      _PrayerRow('Фаджр', model.fajr, false),
-      _PrayerRow('Восход', model.sunrise, true),
-      _PrayerRow('Зухр', model.dhuhr, false),
-      _PrayerRow('Аср', model.asr, false),
-      _PrayerRow('Магриб', model.maghrib, false),
-      _PrayerRow('Иша', model.isha, false),
+      _PrayerRow(l10n.fajr, model.fajr, false),
+      _PrayerRow(l10n.sunrise, model.sunrise, true),
+      _PrayerRow(l10n.dhuhr, model.dhuhr, false),
+      _PrayerRow(l10n.asr, model.asr, false),
+      _PrayerRow(l10n.maghrib, model.maghrib, false),
+      _PrayerRow(l10n.isha, model.isha, false),
     ];
 
     // Find next prayer
@@ -306,14 +308,6 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                 letterSpacing: -0.1,
               ),
             ),
-            if (prayer.passive)
-              Padding(
-                padding: const EdgeInsets.only(left: QadrSpacing.sm),
-                child: Text(
-                  'восход',
-                  style: TextStyle(fontSize: 11, color: muted),
-                ),
-              ),
             const Spacer(),
             const SizedBox(width: QadrSpacing.md),
             Container(

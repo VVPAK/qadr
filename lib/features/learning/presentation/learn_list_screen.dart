@@ -2,20 +2,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../../app/theme.dart';
+import '../../../core/extensions/context_extensions.dart';
 import '../../../core/widgets/floating_nav_bar.dart';
 import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/scene_background.dart';
 import '../../../core/widgets/scene_page.dart';
 import '../domain/learning_curriculum.dart';
-
-String _pluralRu(int n, String one, String few, String many) {
-  final mod100 = n % 100;
-  if (mod100 >= 11 && mod100 <= 14) return many;
-  final mod10 = n % 10;
-  if (mod10 == 1) return one;
-  if (mod10 >= 2 && mod10 <= 4) return few;
-  return many;
-}
 
 class LearnListScreen extends StatelessWidget {
   final ValueChanged<NavSection> onNavChanged;
@@ -50,9 +42,9 @@ class LearnListScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'ЗНАНИЕ',
-                style: TextStyle(
+              Text(
+                context.l10n.learn.toUpperCase(),
+                style: const TextStyle(
                   fontSize: 11,
                   letterSpacing: 2,
                   color: Color(0xB3F4EFE6),
@@ -60,7 +52,7 @@ class LearnListScreen extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Библиотека',
+                context.l10n.library,
                 style: QadrTheme.display(
                   fontSize: 34,
                   color: const Color(0xFFF4EFE6),
@@ -83,7 +75,7 @@ class LearnListScreen extends StatelessWidget {
               separatorBuilder: (_, _) => const SizedBox(width: QadrSpacing.sm),
               itemBuilder: (_, i) {
                 final (name, count) = categories[i];
-                return _buildCategoryChip(name, count);
+                return _buildCategoryChip(context, name, count);
               },
             ),
           ),
@@ -101,11 +93,11 @@ class LearnListScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(QadrSpacing.screenH, QadrSpacing.md, QadrSpacing.screenH, 0),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(QadrSpacing.screenH, QadrSpacing.md, QadrSpacing.screenH, 0),
                   child: Text(
-                    'РЕКОМЕНДОВАНО',
-                    style: TextStyle(
+                    context.l10n.recommended.toUpperCase(),
+                    style: const TextStyle(
                       fontSize: 11,
                       letterSpacing: 2,
                       color: Color(0x99F4EFE6),
@@ -134,7 +126,7 @@ class LearnListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryChip(String name, int count) {
+  Widget _buildCategoryChip(BuildContext context, String name, int count) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(14),
       child: BackdropFilter(
@@ -160,7 +152,7 @@ class LearnListScreen extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                '$count ${_pluralRu(count, 'урок', 'урока', 'уроков')}',
+                context.l10n.lessonCount(count),
                 style: const TextStyle(
                   fontSize: 10.5,
                   color: Color(0x99F4EFE6),
@@ -218,7 +210,7 @@ class _LessonRow extends StatelessWidget {
                       fontSize: 11, color: Color(0x66F4EFE6))),
               const SizedBox(width: 8),
               Text(
-                '${lesson.steps.length} ${_pluralRu(lesson.steps.length, 'шаг', 'шага', 'шагов')}',
+                context.l10n.stepCount(lesson.steps.length),
                 style: const TextStyle(
                   fontSize: 11,
                   color: Color(0x8CF4EFE6),

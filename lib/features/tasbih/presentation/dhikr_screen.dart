@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/theme.dart';
+import '../../../core/extensions/context_extensions.dart';
 import '../../../core/services/haptic_service.dart';
 import '../../../core/widgets/floating_nav_bar.dart';
 import '../../../core/widgets/glass_container.dart';
@@ -130,7 +131,7 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'из ${_formula.target}',
+                          context.l10n.ofTarget(_formula.target),
                           style: const TextStyle(
                             fontSize: 11,
                             letterSpacing: 2,
@@ -154,8 +155,8 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildFooterButton('Сбросить', onTap: _reset),
-              _buildFooterButton('История'),
+              _buildFooterButton(context.l10n.reset, onTap: _reset),
+              _buildFooterButton(context.l10n.history),
             ],
           ),
         ),

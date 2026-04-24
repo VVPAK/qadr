@@ -290,4 +290,99 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingBismillahCta => 'ادخل قدر';
+
+  @override
+  String get kaaba => 'الكعبة';
+
+  @override
+  String degreesFromNorth(int degrees) {
+    return '$degrees° من الشمال';
+  }
+
+  @override
+  String get facingKaaba => 'باتجاه الكعبة';
+
+  @override
+  String get turnRight => 'يمين';
+
+  @override
+  String get turnLeft => 'يسار';
+
+  @override
+  String get compassUnavailable => 'البوصلة غير متاحة على هذا الجهاز';
+
+  @override
+  String get calibrateCompass => 'حرك هاتفك على شكل رقم 8 للمعايرة';
+
+  @override
+  String get calibrationHigh => 'دقة المعايرة: عالية';
+
+  @override
+  String get calibrationMedium => 'دقة المعايرة: متوسطة';
+
+  @override
+  String get calibrationLow => 'دقة المعايرة: منخفضة — يلزم المعايرة';
+
+  @override
+  String get qiblaLocationTitle => 'السماح بالوصول إلى الموقع';
+
+  @override
+  String get qiblaLocationDesc => 'يلزم تحديد موقعك لتوجيه السهم نحو الكعبة.';
+
+  @override
+  String get detectLocation => 'تحديد الموقع';
+
+  @override
+  String get aiChat => 'محادثة ذكية';
+
+  @override
+  String get apiBaseUrl => 'رابط API الأساسي';
+
+  @override
+  String get apiKey => 'مفتاح API';
+
+  @override
+  String get saveApiSettings => 'حفظ إعدادات API';
+
+  @override
+  String get apiSettingsSaved => 'تم حفظ إعدادات API';
+
+  @override
+  String ofTarget(int target) {
+    return 'من $target';
+  }
+
+  @override
+  String get compassN => 'N';
+
+  @override
+  String get compassE => 'E';
+
+  @override
+  String get compassS => 'S';
+
+  @override
+  String get compassW => 'W';
+
+  @override
+  String lessonCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دروس',
+      one: 'درس واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String stepCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count خطوات',
+      one: 'خطوة واحدة',
+    );
+    return '$_temp0';
+  }
 }

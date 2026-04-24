@@ -639,6 +639,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter Qadr'**
   String get onboardingBismillahCta;
+
+  /// No description provided for @kaaba.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaaba'**
+  String get kaaba;
+
+  /// No description provided for @degreesFromNorth.
+  ///
+  /// In en, this message translates to:
+  /// **'{degrees}° from north'**
+  String degreesFromNorth(int degrees);
+
+  /// No description provided for @facingKaaba.
+  ///
+  /// In en, this message translates to:
+  /// **'Facing the Kaaba'**
+  String get facingKaaba;
+
+  /// No description provided for @turnRight.
+  ///
+  /// In en, this message translates to:
+  /// **'right'**
+  String get turnRight;
+
+  /// No description provided for @turnLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'left'**
+  String get turnLeft;
+
+  /// No description provided for @compassUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Compass unavailable on this device'**
+  String get compassUnavailable;
+
+  /// No description provided for @calibrateCompass.
+  ///
+  /// In en, this message translates to:
+  /// **'Move your phone in a figure-8 to calibrate'**
+  String get calibrateCompass;
+
+  /// No description provided for @calibrationHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Calibration accuracy: high'**
+  String get calibrationHigh;
+
+  /// No description provided for @calibrationMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Calibration accuracy: medium'**
+  String get calibrationMedium;
+
+  /// No description provided for @calibrationLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Calibration accuracy: low — calibrate'**
+  String get calibrationLow;
+
+  /// No description provided for @qiblaLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow location access'**
+  String get qiblaLocationTitle;
+
+  /// No description provided for @qiblaLocationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is needed to point the arrow towards the Kaaba.'**
+  String get qiblaLocationDesc;
+
+  /// No description provided for @detectLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Detect location'**
+  String get detectLocation;
+
+  /// No description provided for @aiChat.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Chat'**
+  String get aiChat;
+
+  /// No description provided for @apiBaseUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'API Base URL'**
+  String get apiBaseUrl;
+
+  /// No description provided for @apiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'API Key'**
+  String get apiKey;
+
+  /// No description provided for @saveApiSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Save API Settings'**
+  String get saveApiSettings;
+
+  /// No description provided for @apiSettingsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'API settings saved'**
+  String get apiSettingsSaved;
+
+  /// No description provided for @ofTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'of {target}'**
+  String ofTarget(int target);
+
+  /// No description provided for @compassN.
+  ///
+  /// In en, this message translates to:
+  /// **'N'**
+  String get compassN;
+
+  /// No description provided for @compassE.
+  ///
+  /// In en, this message translates to:
+  /// **'E'**
+  String get compassE;
+
+  /// No description provided for @compassS.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get compassS;
+
+  /// No description provided for @compassW.
+  ///
+  /// In en, this message translates to:
+  /// **'W'**
+  String get compassW;
+
+  /// No description provided for @lessonCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} lesson} other{{count} lessons}}'**
+  String lessonCount(int count);
+
+  /// No description provided for @stepCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} step} other{{count} steps}}'**
+  String stepCount(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme.dart';
+import '../../../core/extensions/context_extensions.dart';
 import '../../../core/providers/preferences_provider.dart';
 import '../../../core/services/location_service.dart';
 import '../../../core/widgets/floating_nav_bar.dart';
@@ -102,9 +103,9 @@ class _QiblaBody extends StatelessWidget {
           right: 0,
           child: Column(
             children: [
-              const Text(
-                'КИБЛА',
-                style: TextStyle(
+              Text(
+                context.l10n.qibla.toUpperCase(),
+                style: const TextStyle(
                   fontSize: 11,
                   letterSpacing: 2,
                   color: Color(0x99F4EFE6),
@@ -112,7 +113,7 @@ class _QiblaBody extends StatelessWidget {
               ),
               const SizedBox(height: QadrSpacing.xs),
               Text(
-                '$locationLabel · ${reading.bearing.round()}° от севера',
+                '$locationLabel · ${context.l10n.degreesFromNorth(reading.bearing.round())}',
                 style: QadrTheme.display(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -234,7 +235,13 @@ class _QiblaCompassState extends ConsumerState<_QiblaCompass> {
                 angle: -effectiveHeading * math.pi / 180,
                 child: CustomPaint(
                   size: const Size(310, 310),
-                  painter: _CompassTicksPainter(heading: effectiveHeading),
+                  painter: _CompassTicksPainter(
+                    heading: effectiveHeading,
+                    north: context.l10n.compassN,
+                    east: context.l10n.compassE,
+                    south: context.l10n.compassS,
+                    west: context.l10n.compassW,
+                  ),
                 ),
               ),
               Container(
@@ -294,9 +301,9 @@ class _QiblaCompassState extends ConsumerState<_QiblaCompass> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    const Text(
-                      'КААБА',
-                      style: TextStyle(
+                    Text(
+                      context.l10n.kaaba.toUpperCase(),
+                      style: const TextStyle(
                         fontSize: 10,
                         letterSpacing: 2,
                         color: Color(0xB3F4EFE6),
@@ -336,6 +343,13 @@ class _ReadoutPill extends StatelessWidget {
   final double? accuracy;
   final bool hasCompass;
 
+  String _calibrationLabel(double? accuracy, BuildContext context) {
+    if (accuracy == null) return context.l10n.calibrateCompass;
+    if (accuracy < 0.26) return context.l10n.calibrationHigh;
+    if (accuracy < 0.52) return context.l10n.calibrationMedium;
+    return context.l10n.calibrationLow;
+  }
+
   @override
   Widget build(BuildContext context) {
     final String primary;
@@ -343,17 +357,17 @@ class _ReadoutPill extends StatelessWidget {
     final bool italic;
 
     if (!hasCompass) {
-      primary = '${reading.bearing.round()}° от севера';
-      secondary = 'Компас недоступен на этом устройстве';
+      primary = context.l10n.degreesFromNorth(reading.bearing.round());
+      secondary = context.l10n.compassUnavailable;
       italic = false;
     } else if (aligned) {
-      primary = 'Точно на Каабу';
-      secondary = _calibrationLabel(accuracy);
+      primary = context.l10n.facingKaaba;
+      secondary = _calibrationLabel(accuracy, context);
       italic = true;
     } else {
       final d = diff!.abs().round();
-      primary = '$d° ${diff! > 0 ? 'вправо' : 'влево'}';
-      secondary = _calibrationLabel(accuracy);
+      primary = '$d° ${diff! > 0 ? context.l10n.turnRight : context.l10n.turnLeft}';
+      secondary = _calibrationLabel(accuracy, context);
       italic = false;
     }
 
@@ -396,16 +410,6 @@ class _ReadoutPill extends StatelessWidget {
     );
   }
 
-  // flutter_compass reports accuracy in radians. <15° = high, <30° = medium,
-  // else low. Null means unknown — prompt the user to calibrate.
-  String _calibrationLabel(double? accuracy) {
-    if (accuracy == null) {
-      return 'Покачайте телефон восьмёркой для калибровки';
-    }
-    if (accuracy < 0.26) return 'Точность калибровки: высокая';
-    if (accuracy < 0.52) return 'Точность калибровки: средняя';
-    return 'Точность калибровки: низкая — калибруйте';
-  }
 }
 
 class _LocationRequestCard extends ConsumerStatefulWidget {
@@ -456,7 +460,7 @@ class _LocationRequestCardState extends ConsumerState<_LocationRequestCard> {
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  'Разрешите доступ к геолокации',
+                  context.l10n.qiblaLocationTitle,
                   textAlign: TextAlign.center,
                   style: QadrTheme.display(
                     fontSize: 18,
@@ -465,10 +469,10 @@ class _LocationRequestCardState extends ConsumerState<_LocationRequestCard> {
                   ),
                 ),
                 const SizedBox(height: QadrSpacing.sm),
-                const Text(
-                  'Нужно определить ваше местоположение, чтобы направить стрелку на Каабу.',
+                Text(
+                  context.l10n.qiblaLocationDesc,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 13,
                     height: 1.4,
                     color: Color(0xB3F4EFE6),
@@ -491,7 +495,7 @@ class _LocationRequestCardState extends ConsumerState<_LocationRequestCard> {
                             color: Color(0xFF140C0C),
                           ),
                         )
-                      : const Text('Определить местоположение'),
+                      : Text(context.l10n.detectLocation),
                 ),
               ],
             ),
@@ -514,7 +518,18 @@ class _Centered extends StatelessWidget {
 
 class _CompassTicksPainter extends CustomPainter {
   final double heading;
-  _CompassTicksPainter({required this.heading});
+  final String north;
+  final String east;
+  final String south;
+  final String west;
+
+  _CompassTicksPainter({
+    required this.heading,
+    required this.north,
+    required this.east,
+    required this.south,
+    required this.west,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -545,11 +560,11 @@ class _CompassTicksPainter extends CustomPainter {
       );
     }
 
-    const cardinals = [
-      ('С', 0.0, true),
-      ('В', 90.0, false),
-      ('Ю', 180.0, false),
-      ('З', 270.0, false),
+    final cardinals = [
+      (north, 0.0, true),
+      (east, 90.0, false),
+      (south, 180.0, false),
+      (west, 270.0, false),
     ];
     for (final (letter, angleDeg, isNorth) in cardinals) {
       final angle = angleDeg * math.pi / 180;
@@ -580,7 +595,12 @@ class _CompassTicksPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_CompassTicksPainter old) => old.heading != heading;
+  bool shouldRepaint(_CompassTicksPainter old) =>
+      old.heading != heading ||
+      old.north != north ||
+      old.east != east ||
+      old.south != south ||
+      old.west != west;
 }
 
 class _NeedlePainter extends CustomPainter {

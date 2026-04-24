@@ -6,6 +6,7 @@ import 'package:qadr/core/providers/preferences_provider.dart';
 import 'package:qadr/core/services/clock.dart';
 import 'package:qadr/core/widgets/scene_background.dart';
 import 'package:qadr/features/prayer/presentation/prayer_screen.dart';
+import 'package:qadr/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _FixedClock implements Clock {
@@ -29,6 +30,8 @@ Future<void> _pump(WidgetTester tester) async {
         userPreferencesProvider.overrideWith((_) async => userPrefs),
       ],
       child: const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: PrayerScreen(onNavChanged: _noopNav),
       ),
     ),
