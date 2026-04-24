@@ -417,4 +417,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorWithMessage(String error) {
     return 'Error: $error';
   }
+
+  @override
+  String get searchResultsAyahs => 'Verses';
+
+  @override
+  String get searchNoResults => 'No results found';
 }

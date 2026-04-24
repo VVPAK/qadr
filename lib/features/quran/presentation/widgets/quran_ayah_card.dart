@@ -26,42 +26,45 @@ class QuranAyahCard extends StatelessWidget with ChatComponent {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ...data.ayahs.map((ayah) => Padding(
-                  padding: const EdgeInsets.only(bottom: QadrSpacing.md),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Surah:Ayah reference
-                      Text(
-                        '${ayah.surah}:${ayah.ayah}',
-                        style: context.textTheme.labelSmall?.copyWith(
-                          color: context.colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(height: QadrSpacing.sm),
-                      // Arabic text
-                      Text(
-                        ayah.arabic,
-                        style: GoogleFonts.amiri(
-                          fontSize: 22,
-                          height: 1.8,
-                        ),
-                        textDirection: TextDirection.rtl,
-                        textAlign: TextAlign.right,
-                      ),
-                      const SizedBox(height: QadrSpacing.sm),
-                      // Translation
-                      Text(
-                        ayah.translation,
-                        style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
+            for (int i = 0; i < data.ayahs.length; i++) ...[
+              if (i > 0) const SizedBox(height: QadrSpacing.md),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Surah:Ayah reference
+                  Text(
+                    '${data.ayahs[i].surah}:${data.ayahs[i].ayah}',
+                    style: context.textTheme.labelSmall?.copyWith(
+                      color: context.colorScheme.primary,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                )),
+                  const SizedBox(height: QadrSpacing.sm),
+                  // Arabic text
+                  Text(
+                    data.ayahs[i].arabic,
+                    style: GoogleFonts.amiri(
+                      fontSize: 22,
+                      height: 1.8,
+                    ),
+                    textDirection: TextDirection.rtl,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: QadrSpacing.sm),
+                  // Translation
+                  Text(
+                    data.ayahs[i].translation,
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: context.colorScheme.onSurfaceVariant,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ],
             // Open in Quran reader button
-            if (data.ayahs.isNotEmpty)
+            if (data.ayahs.isNotEmpty) ...[
+              const SizedBox(height: QadrSpacing.sm),
               Align(
                 alignment: AlignmentDirectional.centerEnd,
                 child: TextButton.icon(
@@ -73,6 +76,7 @@ class QuranAyahCard extends StatelessWidget with ChatComponent {
                   label: Text(context.l10n.openInQuran),
                 ),
               ),
+            ],
           ],
         ),
       ),

@@ -418,4 +418,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String errorWithMessage(String error) {
     return 'Ошибка: $error';
   }
+
+  @override
+  String get searchResultsAyahs => 'Аяты';
+
+  @override
+  String get searchNoResults => 'Ничего не найдено';
 }

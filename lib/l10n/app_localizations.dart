@@ -837,6 +837,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error: {error}'**
   String errorWithMessage(String error);
+
+  /// No description provided for @searchResultsAyahs.
+  ///
+  /// In en, this message translates to:
+  /// **'Verses'**
+  String get searchResultsAyahs;
+
+  /// No description provided for @searchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get searchNoResults;
 }
 
 class _AppLocalizationsDelegate

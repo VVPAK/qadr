@@ -413,4 +413,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String errorWithMessage(String error) {
     return 'خطأ: $error';
   }
+
+  @override
+  String get searchResultsAyahs => 'الآيات';
+
+  @override
+  String get searchNoResults => 'لا توجد نتائج';
 }

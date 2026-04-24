@@ -67,7 +67,7 @@ class PrayerRowsWidget extends StatelessWidget {
         opacity: opacity,
         child: Row(
           children: [
-            Flexible(
+            Expanded(
               child: Text(
                 _localizeName(prayer.name, context.l10n),
                 overflow: TextOverflow.ellipsis,
@@ -87,7 +87,6 @@ class PrayerRowsWidget extends StatelessWidget {
                   style: const TextStyle(fontSize: 11, color: muted),
                 ),
               ),
-            const Spacer(),
             const SizedBox(width: QadrSpacing.md),
             Container(
               padding: prayer.isNext

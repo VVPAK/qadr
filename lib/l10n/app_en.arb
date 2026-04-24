@@ -180,5 +180,7 @@
     "placeholders": {
       "error": {"type": "String"}
     }
-  }
+  },
+  "searchResultsAyahs": "Verses",
+  "searchNoResults": "No results found"
 }

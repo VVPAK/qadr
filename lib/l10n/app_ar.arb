@@ -180,5 +180,7 @@
     "placeholders": {
       "error": {"type": "String"}
     }
-  }
+  },
+  "searchResultsAyahs": "الآيات",
+  "searchNoResults": "لا توجد نتائج"
 }

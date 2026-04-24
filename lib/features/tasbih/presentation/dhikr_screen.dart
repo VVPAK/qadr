@@ -205,7 +205,7 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
             _formula.ar,
             style: GoogleFonts.amiri(
               fontSize: 30,
-              height: 1.4,
+              height: 1.8,
               color: const Color(0xFFF4EFE6),
             ),
             textDirection: TextDirection.rtl,
