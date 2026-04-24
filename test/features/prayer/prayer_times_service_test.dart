@@ -232,5 +232,91 @@ void main() {
       final data = service.toComponentData(model);
       expect(data.prayers.any((p) => p.isNext), isFalse);
     });
+
+    test('only one prayer is ever marked isNext', () {
+      final future = DateTime.now().add(const Duration(hours: 3));
+      final model = buildModel(
+        fajr: future,
+        sunrise: future.add(const Duration(hours: 1)),
+        dhuhr: future.add(const Duration(hours: 2)),
+        asr: future.add(const Duration(hours: 3)),
+        maghrib: future.add(const Duration(hours: 4)),
+        isha: future.add(const Duration(hours: 5)),
+      );
+
+      final data = service.toComponentData(model);
+      expect(data.prayers.where((p) => p.isNext).length, 1);
+    });
+
+    test('output contains exactly 6 prayers in canonical name order', () {
+      final future = DateTime.now().add(const Duration(days: 1));
+      final model = buildModel(
+        fajr: future,
+        sunrise: future.add(const Duration(hours: 1)),
+        dhuhr: future.add(const Duration(hours: 2)),
+        asr: future.add(const Duration(hours: 3)),
+        maghrib: future.add(const Duration(hours: 4)),
+        isha: future.add(const Duration(hours: 5)),
+      );
+
+      final data = service.toComponentData(model);
+      expect(data.prayers.length, 6);
+      expect(
+        data.prayers.map((p) => p.name).toList(),
+        ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'],
+      );
+    });
+
+    test('times in output use HH:mm zero-padded format', () {
+      final base = DateTime(2026, 4, 24);
+      final model = buildModel(
+        fajr: base.add(const Duration(hours: 4, minutes: 5)),
+        sunrise: base.add(const Duration(hours: 6, minutes: 0)),
+        dhuhr: base.add(const Duration(hours: 12, minutes: 9)),
+        asr: base.add(const Duration(hours: 15, minutes: 3)),
+        maghrib: base.add(const Duration(hours: 19, minutes: 8)),
+        isha: base.add(const Duration(hours: 20, minutes: 0)),
+        date: base,
+      );
+
+      final data = service.toComponentData(model);
+      final times = data.prayers.map((p) => p.time).toList();
+      for (final t in times) {
+        // Must be exactly HH:mm — length 5, colon at index 2
+        expect(t.length, 5, reason: '$t is not HH:mm');
+        expect(t[2], ':', reason: '$t missing colon at index 2');
+        expect(int.tryParse(t.substring(0, 2)), isNotNull,
+            reason: '$t hour part is not numeric');
+        expect(int.tryParse(t.substring(3)), isNotNull,
+            reason: '$t minute part is not numeric');
+      }
+      // Spot-check single-digit hours/minutes get zero-padded
+      expect(times[0], '04:05'); // Fajr
+      expect(times[1], '06:00'); // Sunrise
+      expect(times[2], '12:09'); // Dhuhr
+      expect(times[3], '15:03'); // Asr
+    });
+
+    test('sunrise can be marked isNext when fajr has passed but sunrise has not', () {
+      // toComponentData iterates all 6 prayers including sunrise. When fajr
+      // has passed and sunrise is the first future time, sunrise gets isNext.
+      // This documents current behaviour (the PrayerScreen excludes sunrise
+      // from the next-prayer search using the "passive" flag, but
+      // toComponentData does not apply that exclusion).
+      final now = DateTime.now();
+      final model = buildModel(
+        fajr: now.subtract(const Duration(minutes: 30)),
+        sunrise: now.add(const Duration(minutes: 15)),
+        dhuhr: now.add(const Duration(hours: 4)),
+        asr: now.add(const Duration(hours: 7)),
+        maghrib: now.add(const Duration(hours: 10)),
+        isha: now.add(const Duration(hours: 12)),
+      );
+
+      final data = service.toComponentData(model);
+      final next = data.prayers.where((p) => p.isNext).toList();
+      expect(next.length, 1);
+      expect(next.first.name, 'sunrise');
+    });
   });
 }
