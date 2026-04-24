@@ -67,13 +67,16 @@ class PrayerRowsWidget extends StatelessWidget {
         opacity: opacity,
         child: Row(
           children: [
-            Text(
-              _localizeName(prayer.name, context.l10n),
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: prayer.isNext ? FontWeight.w500 : FontWeight.w400,
-                color: textColor,
-                letterSpacing: -0.1,
+            Flexible(
+              child: Text(
+                _localizeName(prayer.name, context.l10n),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: prayer.isNext ? FontWeight.w500 : FontWeight.w400,
+                  color: textColor,
+                  letterSpacing: -0.1,
+                ),
               ),
             ),
             if (prayer.isPassive)

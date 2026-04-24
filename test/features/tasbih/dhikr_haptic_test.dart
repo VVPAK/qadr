@@ -64,6 +64,45 @@ void main() {
     });
   });
 
+  group('DhikrScreen done state', () {
+    testWidgets('counter continues incrementing past target', (tester) async {
+      final fake = _FakeHapticService();
+      await tester.pumpWidget(_wrap(
+        DhikrScreen(onNavChanged: (_) {}),
+        fake,
+      ));
+      await tester.pump();
+
+      for (var i = 0; i < 34; i++) {
+        await tester.tap(find.text('$i'));
+        await tester.pump();
+      }
+
+      expect(find.text('34'), findsOneWidget);
+    });
+
+    testWidgets('tap past target fires lightImpact not success', (tester) async {
+      final fake = _FakeHapticService();
+      await tester.pumpWidget(_wrap(
+        DhikrScreen(onNavChanged: (_) {}),
+        fake,
+      ));
+      await tester.pump();
+
+      for (var i = 0; i < 33; i++) {
+        await tester.tap(find.text('$i'));
+        await tester.pump();
+      }
+      fake.calls.clear();
+
+      // One tap past the target
+      await tester.tap(find.text('33'));
+      await tester.pump();
+
+      expect(fake.calls, equals(['light']));
+    });
+  });
+
   group('TasbihCounterWidget haptics', () {
     testWidgets('every tap triggers lightImpact', (tester) async {
       final fake = _FakeHapticService();
