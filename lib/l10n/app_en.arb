@@ -162,5 +162,23 @@
     "placeholders": {
       "count": {"type": "int"}
     }
+  },
+  "chatGreeting": "Assalamu Alaikum",
+  "chatSubtitle": "Ask a question or choose a topic",
+  "qiblaLocationRequired": "Location required for Qibla compass",
+  "enableLocation": "Enable location",
+  "duaComingSoon": "Dua List — coming soon",
+  "invalidLesson": "Invalid lesson",
+  "lessonNotFound": "Lesson not found: {lessonId}",
+  "@lessonNotFound": {
+    "placeholders": {
+      "lessonId": {"type": "String"}
+    }
+  },
+  "errorWithMessage": "Error: {error}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
   }
 }

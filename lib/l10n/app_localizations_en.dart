@@ -389,4 +389,32 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get chatGreeting => 'Assalamu Alaikum';
+
+  @override
+  String get chatSubtitle => 'Ask a question or choose a topic';
+
+  @override
+  String get qiblaLocationRequired => 'Location required for Qibla compass';
+
+  @override
+  String get enableLocation => 'Enable location';
+
+  @override
+  String get duaComingSoon => 'Dua List — coming soon';
+
+  @override
+  String get invalidLesson => 'Invalid lesson';
+
+  @override
+  String lessonNotFound(String lessonId) {
+    return 'Lesson not found: $lessonId';
+  }
+
+  @override
+  String errorWithMessage(String error) {
+    return 'Error: $error';
+  }
 }

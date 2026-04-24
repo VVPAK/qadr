@@ -162,5 +162,23 @@
     "placeholders": {
       "count": {"type": "int"}
     }
+  },
+  "chatGreeting": "السلام عليكم",
+  "chatSubtitle": "اطرح سؤالاً أو اختر موضوعاً",
+  "qiblaLocationRequired": "الموقع مطلوب لبوصلة القبلة",
+  "enableLocation": "تفعيل الموقع",
+  "duaComingSoon": "قائمة الأدعية — قريباً",
+  "invalidLesson": "درس غير صالح",
+  "lessonNotFound": "الدرس غير موجود: {lessonId}",
+  "@lessonNotFound": {
+    "placeholders": {
+      "lessonId": {"type": "String"}
+    }
+  },
+  "errorWithMessage": "خطأ: {error}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
   }
 }

@@ -74,7 +74,7 @@ class QuranListScreen extends ConsumerWidget {
               child: CircularProgressIndicator(color: Color(0xFFF4EFE6)),
             ),
             error: (e, _) => Center(
-              child: Text('Error: $e',
+              child: Text(context.l10n.errorWithMessage(e.toString()),
                   style: const TextStyle(color: Color(0xFFF4EFE6))),
             ),
             data: (surahs) => _SurahListCard(surahs: surahs),

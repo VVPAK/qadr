@@ -385,4 +385,32 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get chatGreeting => 'السلام عليكم';
+
+  @override
+  String get chatSubtitle => 'اطرح سؤالاً أو اختر موضوعاً';
+
+  @override
+  String get qiblaLocationRequired => 'الموقع مطلوب لبوصلة القبلة';
+
+  @override
+  String get enableLocation => 'تفعيل الموقع';
+
+  @override
+  String get duaComingSoon => 'قائمة الأدعية — قريباً';
+
+  @override
+  String get invalidLesson => 'درس غير صالح';
+
+  @override
+  String lessonNotFound(String lessonId) {
+    return 'الدرس غير موجود: $lessonId';
+  }
+
+  @override
+  String errorWithMessage(String error) {
+    return 'خطأ: $error';
+  }
 }

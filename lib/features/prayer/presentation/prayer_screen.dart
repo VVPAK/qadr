@@ -60,7 +60,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         color: Color(0xFF2A2420),
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (e, _) => Center(child: Text('Error: $e')),
+      error: (e, _) => Center(child: Text(context.l10n.errorWithMessage(e.toString()))),
       data: (prefs) {
         final lat = prefs.latitude ?? 55.79; // Kazan default
         final lng = prefs.longitude ?? 49.12;

@@ -93,7 +93,7 @@ class _TasbihCounterWidgetState extends ConsumerState<TasbihCounterWidget>
             TextButton.icon(
               onPressed: _reset,
               icon: const Icon(Icons.refresh, size: 16),
-              label: const Text('Reset'),
+              label: Text(context.l10n.reset),
             ),
           ],
         ),

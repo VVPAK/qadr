@@ -390,4 +390,32 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get chatGreeting => 'Ассаламу алейкум';
+
+  @override
+  String get chatSubtitle => 'Задай вопрос или выбери тему';
+
+  @override
+  String get qiblaLocationRequired => 'Для компаса Киблы нужна геолокация';
+
+  @override
+  String get enableLocation => 'Включить геолокацию';
+
+  @override
+  String get duaComingSoon => 'Список дуа — скоро';
+
+  @override
+  String get invalidLesson => 'Некорректный урок';
+
+  @override
+  String lessonNotFound(String lessonId) {
+    return 'Урок не найден: $lessonId';
+  }
+
+  @override
+  String errorWithMessage(String error) {
+    return 'Ошибка: $error';
+  }
 }

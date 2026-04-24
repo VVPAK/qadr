@@ -37,7 +37,7 @@ class QuranReaderScreen extends ConsumerWidget {
           ),
         ),
         error: (error, _) => Center(
-          child: Text('Error: $error'),
+          child: Text(context.l10n.errorWithMessage(error.toString())),
         ),
         data: (surahs) => ListView.builder(
           itemCount: surahs.length,

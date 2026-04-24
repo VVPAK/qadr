@@ -34,7 +34,7 @@ class QiblaScreen extends ConsumerWidget {
           loading: () => const _Centered(
             child: CircularProgressIndicator(color: Color(0xFFF4EFE6)),
           ),
-          error: (e, _) => _Centered(child: Text('Error: $e')),
+          error: (e, _) => _Centered(child: Text(context.l10n.errorWithMessage(e.toString()))),
           data: (prefs) {
             final lat = prefs.latitude;
             final lng = prefs.longitude;
@@ -50,7 +50,7 @@ class QiblaScreen extends ConsumerWidget {
                 child:
                     CircularProgressIndicator(color: Color(0xFFF4EFE6)),
               ),
-              error: (e, _) => _Centered(child: Text('Error: $e')),
+              error: (e, _) => _Centered(child: Text(context.l10n.errorWithMessage(e.toString()))),
               data: (reading) {
                 if (reading == null) {
                   return _LocationRequestCard(

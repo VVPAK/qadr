@@ -55,7 +55,7 @@ class _QiblaCompassWidgetState extends ConsumerState<QiblaCompassWidget>
       error: (e, _) => Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text('Error: $e'),
+          child: Text(context.l10n.errorWithMessage(e.toString())),
         ),
       ),
       data: (reading) {
@@ -68,7 +68,7 @@ class _QiblaCompassWidgetState extends ConsumerState<QiblaCompassWidget>
                 children: [
                   const Icon(Icons.location_on_outlined, size: 36),
                   const SizedBox(height: QadrSpacing.sm),
-                  Text('Location required for Qibla compass',
+                  Text(context.l10n.qiblaLocationRequired,
                       style: context.textTheme.bodyMedium),
                   const SizedBox(height: 12),
                   FilledButton(
@@ -80,7 +80,7 @@ class _QiblaCompassWidgetState extends ConsumerState<QiblaCompassWidget>
                             child:
                                 CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Enable location'),
+                        : Text(context.l10n.enableLocation),
                   ),
                 ],
               ),
@@ -128,6 +128,12 @@ class _CompassCard extends ConsumerWidget {
                       size: const Size(200, 200),
                       painter: _CompassPainter(
                         color: context.colorScheme.outlineVariant,
+                        directions: [
+                          context.l10n.compassN,
+                          context.l10n.compassE,
+                          context.l10n.compassS,
+                          context.l10n.compassW,
+                        ],
                       ),
                     ),
                   ),
@@ -143,7 +149,7 @@ class _CompassCard extends ConsumerWidget {
                         ),
                         const SizedBox(height: QadrSpacing.xs),
                         Text(
-                          'Kaaba',
+                          context.l10n.kaaba,
                           style: context.textTheme.labelSmall?.copyWith(
                             color: context.colorScheme.primary,
                           ),
@@ -167,8 +173,9 @@ class _CompassCard extends ConsumerWidget {
 }
 
 class _CompassPainter extends CustomPainter {
-  _CompassPainter({required this.color});
+  _CompassPainter({required this.color, required this.directions});
   final Color color;
+  final List<String> directions;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -181,7 +188,6 @@ class _CompassPainter extends CustomPainter {
 
     canvas.drawCircle(center, radius, paint);
 
-    const directions = ['N', 'E', 'S', 'W'];
     for (var i = 0; i < 4; i++) {
       final angle = i * math.pi / 2 - math.pi / 2;
       final textPainter = TextPainter(
@@ -201,5 +207,6 @@ class _CompassPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(_CompassPainter old) =>
+      old.color != color || old.directions != directions;
 }

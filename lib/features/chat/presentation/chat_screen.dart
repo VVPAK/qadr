@@ -128,7 +128,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             ),
             const SizedBox(height: QadrSpacing.md),
             Text(
-              'Assalamu Alaikum!',
+              context.l10n.chatGreeting,
               style: context.textTheme.headlineSmall,
             ),
             const SizedBox(height: QadrSpacing.lg),

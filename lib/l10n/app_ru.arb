@@ -162,5 +162,23 @@
     "placeholders": {
       "count": {"type": "int"}
     }
+  },
+  "chatGreeting": "Ассаламу алейкум",
+  "chatSubtitle": "Задай вопрос или выбери тему",
+  "qiblaLocationRequired": "Для компаса Киблы нужна геолокация",
+  "enableLocation": "Включить геолокацию",
+  "duaComingSoon": "Список дуа — скоро",
+  "invalidLesson": "Некорректный урок",
+  "lessonNotFound": "Урок не найден: {lessonId}",
+  "@lessonNotFound": {
+    "placeholders": {
+      "lessonId": {"type": "String"}
+    }
+  },
+  "errorWithMessage": "Ошибка: {error}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
   }
 }

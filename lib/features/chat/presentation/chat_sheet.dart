@@ -100,7 +100,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
         children: [
           Expanded(
             child: Text(
-              'Qadr',
+              context.l10n.appTitle,
               style: QadrTheme.display(
                 fontSize: 22,
                 fontWeight: FontWeight.w400,
@@ -160,7 +160,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
             ),
             const SizedBox(height: QadrSpacing.md),
             Text(
-              'Assalamu Alaikum',
+              context.l10n.chatGreeting,
               style: QadrTheme.display(
                 fontSize: 24,
                 fontWeight: FontWeight.w400,
@@ -169,7 +169,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
             ),
             const SizedBox(height: QadrSpacing.sm),
             Text(
-              'Задай вопрос или выбери тему',
+              context.l10n.chatSubtitle,
               style: TextStyle(
                 fontSize: 13,
                 color: context.colorScheme.onSurface.withValues(alpha: 0.6),

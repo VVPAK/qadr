@@ -789,6 +789,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{{count} step} other{{count} steps}}'**
   String stepCount(int count);
+
+  /// No description provided for @chatGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Assalamu Alaikum'**
+  String get chatGreeting;
+
+  /// No description provided for @chatSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question or choose a topic'**
+  String get chatSubtitle;
+
+  /// No description provided for @qiblaLocationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Location required for Qibla compass'**
+  String get qiblaLocationRequired;
+
+  /// No description provided for @enableLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable location'**
+  String get enableLocation;
+
+  /// No description provided for @duaComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Dua List — coming soon'**
+  String get duaComingSoon;
+
+  /// No description provided for @invalidLesson.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid lesson'**
+  String get invalidLesson;
+
+  /// No description provided for @lessonNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson not found: {lessonId}'**
+  String lessonNotFound(String lessonId);
+
+  /// No description provided for @errorWithMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String errorWithMessage(String error);
 }
 
 class _AppLocalizationsDelegate
