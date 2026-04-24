@@ -120,6 +120,16 @@ Future<void> _advanceToEnd(WidgetTester tester) async {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  group('Scaffold configuration', () {
+    testWidgets(
+        'Scaffold has resizeToAvoidBottomInset=false so keyboard does not '
+        'push the CTA over the input card', (tester) async {
+      await _pump(tester);
+      final scaffold = tester.widget<Scaffold>(find.byType(Scaffold).first);
+      expect(scaffold.resizeToAvoidBottomInset, isFalse);
+    });
+  });
+
   group('Welcome step', () {
     testWidgets('shows the three language toggles and the Begin CTA',
         (tester) async {

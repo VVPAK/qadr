@@ -149,18 +149,20 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   }
 
   Widget _buildScenePicker() {
-    return GlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      borderRadius: 999,
-      blur: 10,
-      backgroundOpacity: 0.35,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(_scenes.length, (i) {
-          final isActive = i == _sceneIdx;
-          return GestureDetector(
-            onTap: () => setState(() => _sceneIdx = i),
-            child: AnimatedContainer(
+    return GestureDetector(
+      onTap: () => setState(
+        () => _sceneIdx = (_sceneIdx + 1) % _scenes.length,
+      ),
+      child: GlassContainer(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        borderRadius: 999,
+        blur: 10,
+        backgroundOpacity: 0.35,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(_scenes.length, (i) {
+            final isActive = i == _sceneIdx;
+            return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               width: isActive ? 18 : 6,
               height: 6,
@@ -171,9 +173,9 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                     ? const Color(0xFFF4EFE6)
                     : const Color(0x73F4EFE6),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }
