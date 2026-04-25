@@ -45,7 +45,7 @@ Install the pre-commit hook (runs `flutter analyze --fatal-infos --fatal-warning
 
 **Chat flow:** User message → `ChatMessagesNotifier` → `SystemPromptBuilder` (builds system prompt with user context) → `OpenAiLlmService` (calls OpenAI-compatible API) → `IntentParser` (extracts JSON from LLM response) → `LlmResponse` with intent + optional `ComponentPayload` → `ChatMessageRenderer` maps component type to widget.
 
-**Models:** Freezed + json_serializable for immutable data classes. Generated files: `*.freezed.dart`, `*.g.dart`. Run `build_runner` after modifying any `@freezed` or `@JsonSerializable` class.
+**Models:** Freezed + json_serializable for immutable data classes. Generated files: `*.freezed.dart`, `*.g.dart`. Run `build_runner` after modifying any `@freezed` or `@JsonSerializable` class. **Generated files must be committed** — CI (`generated.yml`) will fail PRs where `*.freezed.dart`, `*.g.dart`, or l10n outputs are stale.
 
 **Localization:** ARB-based (`lib/l10n/`), three locales: en, ar, ru. Access via `context.l10n.someKey`. Template file: `app_en.arb`.
 
