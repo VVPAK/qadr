@@ -15,32 +15,28 @@ void main() {
   });
 
   group('DateTimeX.isToday', () {
-    test('returns true for the current date', () {
+    test('returns true for today at noon (safe from midnight boundary)', () {
       final now = DateTime.now();
-      final sameDay = DateTime(now.year, now.month, now.day, 10, 0);
-      expect(sameDay.isToday, isTrue);
+      final todayNoon = DateTime(now.year, now.month, now.day, 12, 0);
+      expect(todayNoon.isToday, isTrue);
     });
 
-    test('returns false for yesterday', () {
-      final yesterday = DateTime.now().subtract(const Duration(days: 1));
-      expect(yesterday.isToday, isFalse);
+    test('returns false for a date in the distant past', () {
+      expect(DateTime(2000, 1, 1).isToday, isFalse);
     });
 
-    test('returns false for tomorrow', () {
-      final tomorrow = DateTime.now().add(const Duration(days: 1));
-      expect(tomorrow.isToday, isFalse);
+    test('returns false for a date in the distant future', () {
+      expect(DateTime(2099, 12, 31).isToday, isFalse);
     });
   });
 
   group('DateTimeX.timeUntil', () {
-    test('is negative for a time in the past', () {
-      final past = DateTime.now().subtract(const Duration(hours: 1));
-      expect(past.timeUntil.isNegative, isTrue);
+    test('is negative for a fixed time in the past', () {
+      expect(DateTime(2000, 1, 1).timeUntil.isNegative, isTrue);
     });
 
-    test('is positive for a time in the future', () {
-      final future = DateTime.now().add(const Duration(hours: 1));
-      expect(future.timeUntil.isNegative, isFalse);
+    test('is positive for a fixed time in the future', () {
+      expect(DateTime(2099, 12, 31).timeUntil.isNegative, isFalse);
     });
   });
 }

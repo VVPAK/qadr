@@ -47,16 +47,16 @@ void main() {
       expect(find.text(_lesson.steps.first.title), findsOneWidget);
     });
 
-    testWidgets('shows Next button on first step', (tester) async {
+    testWidgets('shows Next button (FilledButton) on first step', (tester) async {
       await tester.pumpWidget(await _wrap(LessonCardWidget(lesson: _lesson)));
       await tester.pump();
-      expect(find.text('Next'), findsWidgets);
+      expect(find.byType(FilledButton), findsOneWidget);
     });
 
     testWidgets('does not show Back button on first step', (tester) async {
       await tester.pumpWidget(await _wrap(LessonCardWidget(lesson: _lesson)));
       await tester.pump();
-      expect(find.text('Back'), findsNothing);
+      expect(find.byIcon(Icons.arrow_back), findsNothing);
     });
 
     testWidgets('toContextJson returns correct lessonId and stepsCount', (tester) async {
@@ -105,14 +105,14 @@ void main() {
       expect(find.text('2 / ${_lesson.steps.length}'), findsOneWidget);
     });
 
-    testWidgets('shows Back button after advancing to step 2', (tester) async {
+    testWidgets('shows Back button (arrow_back icon) after advancing to step 2', (tester) async {
       await tester.pumpWidget(await _wrap(LessonCardWidget(lesson: _lesson)));
       await tester.pump();
 
       await tester.tap(find.byType(FilledButton));
       await tester.pumpAndSettle();
 
-      expect(find.text('Back'), findsOneWidget);
+      expect(find.byIcon(Icons.arrow_back), findsOneWidget);
     });
   });
 }
