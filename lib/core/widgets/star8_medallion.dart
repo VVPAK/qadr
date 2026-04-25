@@ -59,8 +59,8 @@ class _Star8Painter extends CustomPainter {
 
     final fillPaint = fillColor != null
         ? (Paint()
-          ..color = fillColor!
-          ..style = PaintingStyle.fill)
+            ..color = fillColor!
+            ..style = PaintingStyle.fill)
         : null;
 
     // Square 1 (straight)

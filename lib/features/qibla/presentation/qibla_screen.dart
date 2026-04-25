@@ -34,7 +34,9 @@ class QiblaScreen extends ConsumerWidget {
           loading: () => const _Centered(
             child: CircularProgressIndicator(color: Color(0xFFF4EFE6)),
           ),
-          error: (e, _) => _Centered(child: Text(context.l10n.errorWithMessage(e.toString()))),
+          error: (e, _) => _Centered(
+            child: Text(context.l10n.errorWithMessage(e.toString())),
+          ),
           data: (prefs) {
             final lat = prefs.latitude;
             final lng = prefs.longitude;
@@ -47,10 +49,11 @@ class QiblaScreen extends ConsumerWidget {
             }
             return readingAsync.when(
               loading: () => const _Centered(
-                child:
-                    CircularProgressIndicator(color: Color(0xFFF4EFE6)),
+                child: CircularProgressIndicator(color: Color(0xFFF4EFE6)),
               ),
-              error: (e, _) => _Centered(child: Text(context.l10n.errorWithMessage(e.toString()))),
+              error: (e, _) => _Centered(
+                child: Text(context.l10n.errorWithMessage(e.toString())),
+              ),
               data: (reading) {
                 if (reading == null) {
                   return _LocationRequestCard(
@@ -92,8 +95,8 @@ class _QiblaBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locationLabel = cityName ??
-        '${lat.toStringAsFixed(2)}°, ${lng.toStringAsFixed(2)}°';
+    final locationLabel =
+        cityName ?? '${lat.toStringAsFixed(2)}°, ${lng.toStringAsFixed(2)}°';
 
     return Stack(
       children: [
@@ -162,16 +165,10 @@ class _QiblaCompassState extends ConsumerState<_QiblaCompass> {
     final compassAsync = ref.watch(compassEventsProvider);
 
     return compassAsync.when(
-      loading: () => _buildCompass(
-        heading: 0,
-        accuracy: null,
-        hasCompass: !_timedOut,
-      ),
-      error: (_, _) => _buildCompass(
-        heading: 0,
-        accuracy: null,
-        hasCompass: false,
-      ),
+      loading: () =>
+          _buildCompass(heading: 0, accuracy: null, hasCompass: !_timedOut),
+      error: (_, _) =>
+          _buildCompass(heading: 0, accuracy: null, hasCompass: false),
       data: (event) {
         if (event == null) {
           return _buildCompass(
@@ -366,7 +363,8 @@ class _ReadoutPill extends StatelessWidget {
       italic = true;
     } else {
       final d = diff!.abs().round();
-      primary = '$d° ${diff! > 0 ? context.l10n.turnRight : context.l10n.turnLeft}';
+      primary =
+          '$d° ${diff! > 0 ? context.l10n.turnRight : context.l10n.turnLeft}';
       secondary = _calibrationLabel(accuracy, context);
       italic = false;
     }
@@ -409,7 +407,6 @@ class _ReadoutPill extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _LocationRequestCard extends ConsumerStatefulWidget {
@@ -539,8 +536,16 @@ class _CompassTicksPainter extends CustomPainter {
     for (int i = 0; i < 72; i++) {
       final isMajor = i % 9 == 0;
       final isSub = i % 3 == 0;
-      final len = isMajor ? 16.0 : isSub ? 9.0 : 4.0;
-      final op = isMajor ? 0.95 : isSub ? 0.55 : 0.25;
+      final len = isMajor
+          ? 16.0
+          : isSub
+          ? 9.0
+          : 4.0;
+      final op = isMajor
+          ? 0.95
+          : isSub
+          ? 0.55
+          : 0.25;
 
       final angle = i * 5 * math.pi / 180;
       final outerR = cx - 14;
@@ -578,9 +583,7 @@ class _CompassTicksPainter extends CustomPainter {
           style: QadrTheme.display(
             fontSize: 14,
             fontStyle: isNorth ? FontStyle.italic : FontStyle.normal,
-            color: isNorth
-                ? const Color(0xFFF4EFE6)
-                : const Color(0x8CF4EFE6),
+            color: isNorth ? const Color(0xFFF4EFE6) : const Color(0x8CF4EFE6),
           ),
         ),
         textDirection: TextDirection.ltr,
@@ -632,8 +635,7 @@ class _NeedlePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
 
-    final rect = Rect.fromCenter(
-        center: Offset.zero, width: 16, height: 16);
+    final rect = Rect.fromCenter(center: Offset.zero, width: 16, height: 16);
     canvas.drawRect(rect, starPaint);
     canvas.drawRect(rect, starStroke);
     canvas.save();

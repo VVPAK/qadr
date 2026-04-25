@@ -94,7 +94,12 @@ class LearnListScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(QadrSpacing.screenH, QadrSpacing.md, QadrSpacing.screenH, 0),
+                  padding: const EdgeInsets.fromLTRB(
+                    QadrSpacing.screenH,
+                    QadrSpacing.md,
+                    QadrSpacing.screenH,
+                    0,
+                  ),
                   child: Text(
                     context.l10n.recommended.toUpperCase(),
                     style: const TextStyle(
@@ -106,7 +111,12 @@ class LearnListScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(QadrSpacing.screenH, 10, QadrSpacing.screenH, 14),
+                    padding: const EdgeInsets.fromLTRB(
+                      QadrSpacing.screenH,
+                      10,
+                      QadrSpacing.screenH,
+                      14,
+                    ),
                     itemCount: allLessons.length,
                     itemBuilder: (_, i) {
                       final (cat, lesson) = allLessons[i];
@@ -183,9 +193,7 @@ class _LessonRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: showBorder
           ? const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Color(0x14FFFFFF)),
-              ),
+              border: Border(bottom: BorderSide(color: Color(0x14FFFFFF))),
             )
           : null,
       child: Column(
@@ -205,16 +213,14 @@ class _LessonRow extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              const Text('·',
-                  style: TextStyle(
-                      fontSize: 11, color: Color(0x66F4EFE6))),
+              const Text(
+                '·',
+                style: TextStyle(fontSize: 11, color: Color(0x66F4EFE6)),
+              ),
               const SizedBox(width: 8),
               Text(
                 context.l10n.stepCount(lesson.steps.length),
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: Color(0x8CF4EFE6),
-                ),
+                style: const TextStyle(fontSize: 11, color: Color(0x8CF4EFE6)),
               ),
             ],
           ),

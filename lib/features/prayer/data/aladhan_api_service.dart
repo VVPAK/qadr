@@ -33,7 +33,8 @@ class AladhanApiService {
     }
 
     final timings =
-        (body['data'] as Map<String, dynamic>)['timings'] as Map<String, dynamic>;
+        (body['data'] as Map<String, dynamic>)['timings']
+            as Map<String, dynamic>;
     return AladhanTimings.fromJson(timings);
   }
 

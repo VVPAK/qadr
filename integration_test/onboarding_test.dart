@@ -28,8 +28,7 @@ class _FakeLocationService extends LocationService {
     double lat,
     double lng,
     UserPreferences prefs,
-  ) async =>
-      'Mecca';
+  ) async => 'Mecca';
 }
 
 /// Advances the clock in 8 × 100 ms slices — same budget as the widget tests.
@@ -71,8 +70,9 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Onboarding integration', () {
-    testWidgets('happy path: walks all steps and lands on main shell',
-        (tester) async {
+    testWidgets('happy path: walks all steps and lands on main shell', (
+      tester,
+    ) async {
       await _launchApp(tester);
 
       // ── Step 1: Welcome ──────────────────────────────────────────────────
@@ -110,8 +110,9 @@ void main() {
       expect(find.byType(FloatingNavBar), findsOneWidget);
     });
 
-    testWidgets('skipping name and location still completes onboarding',
-        (tester) async {
+    testWidgets('skipping name and location still completes onboarding', (
+      tester,
+    ) async {
       await _launchApp(tester);
 
       await tester.tap(find.text('Begin'));
@@ -135,12 +136,11 @@ void main() {
       expect(find.byType(FloatingNavBar), findsOneWidget);
     });
 
-    testWidgets('onboarding is skipped on relaunch after completion',
-        (tester) async {
+    testWidgets('onboarding is skipped on relaunch after completion', (
+      tester,
+    ) async {
       // Pre-seed SharedPreferences with onboarding already done.
-      SharedPreferences.setMockInitialValues({
-        'onboarding_complete': true,
-      });
+      SharedPreferences.setMockInitialValues({'onboarding_complete': true});
       final sharedPrefs = await SharedPreferences.getInstance();
       final userPrefs = UserPreferences(sharedPrefs);
       final learningStore = LearningProgressStore(sharedPrefs);
@@ -168,8 +168,9 @@ void main() {
       expect(find.byType(FloatingNavBar), findsOneWidget);
     });
 
-    testWidgets('language selection on welcome step persists to the app',
-        (tester) async {
+    testWidgets('language selection on welcome step persists to the app', (
+      tester,
+    ) async {
       await _launchApp(tester);
 
       await tester.tap(find.text('RU'));

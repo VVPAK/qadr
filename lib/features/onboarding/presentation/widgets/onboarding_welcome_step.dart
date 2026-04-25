@@ -14,11 +14,7 @@ class OnboardingWelcomeStep extends ConsumerWidget {
 
   const OnboardingWelcomeStep({super.key, required this.onNext});
 
-  static const _languages = [
-    ('ru', 'RU'),
-    ('en', 'EN'),
-    ('ar', 'AR'),
-  ];
+  static const _languages = [('ru', 'RU'), ('en', 'EN'), ('ar', 'AR')];
 
   Future<void> _setLanguage(WidgetRef ref, String code) async {
     ref.read(localProvider.notifier).state = Locale(code);
@@ -61,7 +57,9 @@ class OnboardingWelcomeStep extends ConsumerWidget {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 8),
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: QadrRadius.pillAll,
                         color: active
@@ -136,10 +134,7 @@ class OnboardingWelcomeStep extends ConsumerWidget {
         ),
 
         const OnbDots(current: 0),
-        OnbCTA(
-          label: l10n.onboardingWelcomeCta,
-          onTap: onNext,
-        ),
+        OnbCTA(label: l10n.onboardingWelcomeCta, onTap: onNext),
       ],
     );
   }

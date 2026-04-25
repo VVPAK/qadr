@@ -5,7 +5,18 @@ abstract final class Log {
     developer.log(message, name: tag);
   }
 
-  static void e(String message, {Object? error, StackTrace? stackTrace, String tag = 'Qadr'}) {
-    developer.log(message, name: tag, error: error, stackTrace: stackTrace, level: 1000);
+  static void e(
+    String message, {
+    Object? error,
+    StackTrace? stackTrace,
+    String tag = 'Qadr',
+  }) {
+    developer.log(
+      message,
+      name: tag,
+      error: error,
+      stackTrace: stackTrace,
+      level: 1000,
+    );
   }
 }

@@ -14,9 +14,9 @@ class QuranAyahCard extends StatelessWidget with ChatComponent {
 
   @override
   Map<String, dynamic> toContextJson() => {
-        'type': 'quranAyah',
-        ...data.toJson(),
-      };
+    'type': 'quranAyah',
+    ...data.toJson(),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +43,7 @@ class QuranAyahCard extends StatelessWidget with ChatComponent {
                   // Arabic text
                   Text(
                     data.ayahs[i].arabic,
-                    style: GoogleFonts.amiri(
-                      fontSize: 22,
-                      height: 1.8,
-                    ),
+                    style: GoogleFonts.amiri(fontSize: 22, height: 1.8),
                     textDirection: TextDirection.rtl,
                     textAlign: TextAlign.center,
                   ),

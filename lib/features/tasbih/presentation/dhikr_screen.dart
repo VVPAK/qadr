@@ -23,11 +23,15 @@ class _Formula {
 
 const _formulas = [
   _Formula('subhan', 'سُبْحَانَ ٱللَّٰه', 'СубханАллах', 'Пречист Аллах', 33),
-  _Formula(
-      'hamd', 'ٱلْحَمْدُ لِلَّٰه', 'АльхамдулиЛлях', 'Хвала Аллаху', 33),
+  _Formula('hamd', 'ٱلْحَمْدُ لِلَّٰه', 'АльхамдулиЛлях', 'Хвала Аллаху', 33),
   _Formula('akbar', 'ٱللَّٰهُ أَكْبَر', 'АллахуАкбар', 'Аллах Велик', 34),
-  _Formula('la', 'لَا إِلَٰهَ إِلَّا ٱللَّٰه', 'Ля иляха илля Ллах',
-      'Нет бога, кроме Аллаха', 100),
+  _Formula(
+    'la',
+    'لَا إِلَٰهَ إِلَّا ٱللَّٰه',
+    'Ля иляха илля Ллах',
+    'Нет бога, кроме Аллаха',
+    100,
+  ),
 ];
 
 class DhikrScreen extends ConsumerStatefulWidget {
@@ -60,13 +64,17 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
     );
     _scaleAnim = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween(begin: 1.0, end: 1.1)
-            .chain(CurveTween(curve: Curves.easeOut)),
+        tween: Tween(
+          begin: 1.0,
+          end: 1.1,
+        ).chain(CurveTween(curve: Curves.easeOut)),
         weight: 35,
       ),
       TweenSequenceItem(
-        tween: Tween(begin: 1.1, end: 1.0)
-            .chain(CurveTween(curve: Curves.elasticOut)),
+        tween: Tween(
+          begin: 1.1,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.elasticOut)),
         weight: 65,
       ),
     ]).animate(_bounceCtrl);
@@ -105,7 +113,8 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
             bottom: false,
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: QadrSpacing.screenH + 4),
+                horizontal: QadrSpacing.screenH + 4,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -166,7 +175,9 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 8),
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: QadrRadius.pillAll,
                       color: isActive
@@ -196,7 +207,9 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
   Widget _buildFormulaCard() {
     return GlassContainer(
       padding: const EdgeInsets.symmetric(
-          horizontal: QadrSpacing.screenH, vertical: 18),
+        horizontal: QadrSpacing.screenH,
+        vertical: 18,
+      ),
       borderRadius: 18,
       backgroundOpacity: 0.38,
       child: Column(
@@ -223,10 +236,7 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
           const SizedBox(height: 3),
           Text(
             _formula.ru,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Color(0x8CF4EFE6),
-            ),
+            style: const TextStyle(fontSize: 12, color: Color(0x8CF4EFE6)),
           ),
         ],
       ),
@@ -234,8 +244,9 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
   }
 
   Widget _buildCounterRing(double size) {
-    final counterColor =
-        _done ? const Color(0xFFFFD88A) : const Color(0xFFF4EFE6);
+    final counterColor = _done
+        ? const Color(0xFFFFD88A)
+        : const Color(0xFFF4EFE6);
     final subtleColor = _done
         ? const Color(0xFFFFD88A).withValues(alpha: 0.7)
         : const Color(0xB3F4EFE6);
@@ -259,21 +270,22 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
               children: [
                 AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 200),
-                  style: QadrTheme.numeral(
-                    fontSize: (size * 0.325).clamp(64.0, 96.0),
-                    fontWeight: FontWeight.w300,
-                    color: counterColor,
-                  ).copyWith(
-                    height: 1,
-                    letterSpacing: -3,
-                    shadows: const [
-                      Shadow(
-                        color: Color(0x40000000),
-                        blurRadius: 18,
-                        offset: Offset(0, 2),
+                  style:
+                      QadrTheme.numeral(
+                        fontSize: (size * 0.325).clamp(64.0, 96.0),
+                        fontWeight: FontWeight.w300,
+                        color: counterColor,
+                      ).copyWith(
+                        height: 1,
+                        letterSpacing: -3,
+                        shadows: const [
+                          Shadow(
+                            color: Color(0x40000000),
+                            blurRadius: 18,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
                   child: Text('$_count'),
                 ),
                 const SizedBox(height: 10),
@@ -320,10 +332,7 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen>
             ),
             child: Text(
               label,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Color(0xBFF4EFE6),
-              ),
+              style: const TextStyle(fontSize: 12, color: Color(0xBFF4EFE6)),
             ),
           ),
         ),

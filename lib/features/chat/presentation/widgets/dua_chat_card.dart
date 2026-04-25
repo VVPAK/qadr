@@ -12,10 +12,7 @@ class DuaChatCard extends StatelessWidget with ChatComponent {
   final DuaData data;
 
   @override
-  Map<String, dynamic> toContextJson() => {
-        'type': 'dua',
-        ...data.toJson(),
-      };
+  Map<String, dynamic> toContextJson() => {'type': 'dua', ...data.toJson()};
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +24,7 @@ class DuaChatCard extends StatelessWidget with ChatComponent {
           children: [
             Text(
               data.arabic,
-              style: GoogleFonts.amiri(
-                fontSize: 24,
-                height: 1.8,
-              ),
+              style: GoogleFonts.amiri(fontSize: 24, height: 1.8),
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.center,
             ),

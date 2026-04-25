@@ -45,21 +45,20 @@ class _FakeLlmService implements LlmService {
 
 Future<ProviderContainer> _makeContainer({
   required _FakeLlmService llm,
-  Map<String, Object> prefs = const {
-    'madhab': 0,
-    'language': 'en',
-  },
+  Map<String, Object> prefs = const {'madhab': 0, 'language': 'en'},
 }) async {
   SharedPreferences.setMockInitialValues(prefs);
   final sharedPrefs = await SharedPreferences.getInstance();
   final userPrefs = UserPreferences(sharedPrefs);
   final learningStore = LearningProgressStore(sharedPrefs);
 
-  return ProviderContainer(overrides: [
-    userPreferencesProvider.overrideWith((_) async => userPrefs),
-    learningProgressProvider.overrideWithValue(learningStore),
-    llmServiceProvider.overrideWithValue(llm),
-  ]);
+  return ProviderContainer(
+    overrides: [
+      userPreferencesProvider.overrideWith((_) async => userPrefs),
+      learningProgressProvider.overrideWithValue(learningStore),
+      llmServiceProvider.overrideWithValue(llm),
+    ],
+  );
 }
 
 void main() {
@@ -106,9 +105,7 @@ void main() {
       final container = await _makeContainer(llm: llm);
       addTearDown(container.dispose);
 
-      await container
-          .read(chatMessagesProvider.notifier)
-          .sendMessage('hi');
+      await container.read(chatMessagesProvider.notifier).sendMessage('hi');
 
       final state = container.read(chatMessagesProvider);
       expect(state.last.content, 'just a sentence.');
@@ -117,32 +114,32 @@ void main() {
       expect(state.last.llmResponse!.responseType, ResponseType.text);
     });
 
-    test('records the error on the assistant message when the LLM throws',
-        () async {
-      final llm = _FakeLlmService()..error = Exception('no api key');
-      final container = await _makeContainer(llm: llm);
-      addTearDown(container.dispose);
+    test(
+      'records the error on the assistant message when the LLM throws',
+      () async {
+        final llm = _FakeLlmService()..error = Exception('no api key');
+        final container = await _makeContainer(llm: llm);
+        addTearDown(container.dispose);
 
-      await container
-          .read(chatMessagesProvider.notifier)
-          .sendMessage('hi');
+        await container.read(chatMessagesProvider.notifier).sendMessage('hi');
 
-      final state = container.read(chatMessagesProvider);
-      expect(state, hasLength(2));
-      expect(state.last.role, MessageRole.assistant);
-      expect(state.last.isStreaming, isFalse);
-      expect(state.last.content, contains('no api key'));
-    });
+        final state = container.read(chatMessagesProvider);
+        expect(state, hasLength(2));
+        expect(state.last.role, MessageRole.assistant);
+        expect(state.last.isStreaming, isFalse);
+        expect(state.last.content, contains('no api key'));
+      },
+    );
 
     test('forwards the configured madhab and language through the system '
         'prompt and chat history to the LLM', () async {
       final llm = _FakeLlmService(
         response: '{"intent":"generalQuestion","responseType":"text"}',
       );
-      final container = await _makeContainer(llm: llm, prefs: {
-        'madhab': Madhab.hanbali.index,
-        'language': 'ar',
-      });
+      final container = await _makeContainer(
+        llm: llm,
+        prefs: {'madhab': Madhab.hanbali.index, 'language': 'ar'},
+      );
       addTearDown(container.dispose);
 
       await container
@@ -164,91 +161,121 @@ void main() {
     test('overrides prayerTime component with locally calculated times when '
         'lat/lng are known', () async {
       final llm = _FakeLlmService(
-        response: '{"intent":"prayerTime","responseType":"component",'
+        response:
+            '{"intent":"prayerTime","responseType":"component",'
             '"component":{"type":"prayerTimes","data":{'
             '"prayers":[{"name":"fajr","time":"99:99","isNext":false}],'
             '"date":"wrong"}}}',
       );
-      final container = await _makeContainer(llm: llm, prefs: {
-        'madhab': 0,
-        'language': 'en',
-        'latitude': 21.4225,
-        'longitude': 39.8262,
-      });
+      final container = await _makeContainer(
+        llm: llm,
+        prefs: {
+          'madhab': 0,
+          'language': 'en',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+        },
+      );
       addTearDown(container.dispose);
 
       await container
           .read(chatMessagesProvider.notifier)
           .sendMessage('prayer times?');
 
-      final component =
-          container.read(chatMessagesProvider).last.llmResponse!.component!;
+      final component = container
+          .read(chatMessagesProvider)
+          .last
+          .llmResponse!
+          .component!;
       expect(component.type, 'prayerTimes');
       final prayers = component.data['prayers'] as List;
       // Locally computed times — 6 canonical prayers in order.
-      expect(prayers.map((p) => p['name']).toList(),
-          ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha']);
+      expect(prayers.map((p) => p['name']).toList(), [
+        'fajr',
+        'sunrise',
+        'dhuhr',
+        'asr',
+        'maghrib',
+        'isha',
+      ]);
       expect(component.data['date'], isNot('wrong'));
       // Date is formatted as YYYY-MM-DD.
-      expect(component.data['date'],
-          matches(RegExp(r'^\d{4}-\d{2}-\d{2}$')));
+      expect(component.data['date'], matches(RegExp(r'^\d{4}-\d{2}-\d{2}$')));
     });
 
-    test('leaves prayerTime response untouched when lat/lng are missing',
-        () async {
-      final llm = _FakeLlmService(
-        response: '{"intent":"prayerTime","responseType":"component",'
-            '"component":{"type":"prayerTimes","data":{'
-            '"prayers":[{"name":"fajr","time":"05:03","isNext":true}],'
-            '"date":"2026-04-23"}}}',
-      );
-      final container = await _makeContainer(llm: llm);
-      addTearDown(container.dispose);
+    test(
+      'leaves prayerTime response untouched when lat/lng are missing',
+      () async {
+        final llm = _FakeLlmService(
+          response:
+              '{"intent":"prayerTime","responseType":"component",'
+              '"component":{"type":"prayerTimes","data":{'
+              '"prayers":[{"name":"fajr","time":"05:03","isNext":true}],'
+              '"date":"2026-04-23"}}}',
+        );
+        final container = await _makeContainer(llm: llm);
+        addTearDown(container.dispose);
 
-      await container
-          .read(chatMessagesProvider.notifier)
-          .sendMessage('prayer times?');
+        await container
+            .read(chatMessagesProvider.notifier)
+            .sendMessage('prayer times?');
 
-      final component =
-          container.read(chatMessagesProvider).last.llmResponse!.component!;
-      expect(component.data['date'], '2026-04-23');
-      expect((component.data['prayers'] as List).length, 1);
-    });
+        final component = container
+            .read(chatMessagesProvider)
+            .last
+            .llmResponse!
+            .component!;
+        expect(component.data['date'], '2026-04-23');
+        expect((component.data['prayers'] as List).length, 1);
+      },
+    );
 
-    test('does not override non-prayerTime intents even when lat/lng are set',
-        () async {
-      final llm = _FakeLlmService(
-        response: '{"intent":"qibla","responseType":"component",'
-            '"component":{"type":"qibla","data":{}}}',
-      );
-      final container = await _makeContainer(llm: llm, prefs: {
-        'madhab': 0,
-        'language': 'en',
-        'latitude': 21.4225,
-        'longitude': 39.8262,
-      });
-      addTearDown(container.dispose);
+    test(
+      'does not override non-prayerTime intents even when lat/lng are set',
+      () async {
+        final llm = _FakeLlmService(
+          response:
+              '{"intent":"qibla","responseType":"component",'
+              '"component":{"type":"qibla","data":{}}}',
+        );
+        final container = await _makeContainer(
+          llm: llm,
+          prefs: {
+            'madhab': 0,
+            'language': 'en',
+            'latitude': 21.4225,
+            'longitude': 39.8262,
+          },
+        );
+        addTearDown(container.dispose);
 
-      await container
-          .read(chatMessagesProvider.notifier)
-          .sendMessage('where is qibla?');
+        await container
+            .read(chatMessagesProvider.notifier)
+            .sendMessage('where is qibla?');
 
-      final component =
-          container.read(chatMessagesProvider).last.llmResponse!.component!;
-      expect(component.type, 'qibla');
-    });
+        final component = container
+            .read(chatMessagesProvider)
+            .last
+            .llmResponse!
+            .component!;
+        expect(component.type, 'qibla');
+      },
+    );
   });
 
   group('ChatMessagesNotifier.showPrayerTimes', () {
     test('appends user+assistant messages with a prayerTimes component '
         'without calling the LLM when location is known', () async {
       final llm = _FakeLlmService();
-      final container = await _makeContainer(llm: llm, prefs: {
-        'madhab': 0,
-        'language': 'en',
-        'latitude': 21.4225,
-        'longitude': 39.8262,
-      });
+      final container = await _makeContainer(
+        llm: llm,
+        prefs: {
+          'madhab': 0,
+          'language': 'en',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+        },
+      );
       addTearDown(container.dispose);
 
       await container.read(chatMessagesProvider.notifier).showPrayerTimes();
@@ -282,55 +309,63 @@ void main() {
   });
 
   group('ChatMessagesNotifier.discussAyah', () {
-    test('inserts a quranAyah card, then asks the LLM in the user language',
-        () async {
-      final llm = _FakeLlmService(
-        response: '{"intent":"quranSearch","responseType":"text","text":"ok"}',
-      );
-      final container = await _makeContainer(llm: llm, prefs: {
-        'madhab': 0,
-        'language': 'ru',
-      });
-      addTearDown(container.dispose);
+    test(
+      'inserts a quranAyah card, then asks the LLM in the user language',
+      () async {
+        final llm = _FakeLlmService(
+          response:
+              '{"intent":"quranSearch","responseType":"text","text":"ok"}',
+        );
+        final container = await _makeContainer(
+          llm: llm,
+          prefs: {'madhab': 0, 'language': 'ru'},
+        );
+        addTearDown(container.dispose);
 
-      await container.read(chatMessagesProvider.notifier).discussAyah(
-            surahNumber: 1,
-            ayahNumber: 1,
-            textArabic: 'بسم الله',
-            translation: 'In the name of Allah',
-            surahName: 'Al-Fatihah',
-          );
+        await container
+            .read(chatMessagesProvider.notifier)
+            .discussAyah(
+              surahNumber: 1,
+              ayahNumber: 1,
+              textArabic: 'بسم الله',
+              translation: 'In the name of Allah',
+              surahName: 'Al-Fatihah',
+            );
 
-      final state = container.read(chatMessagesProvider);
-      // First message: ayah card
-      expect(state.first.role, MessageRole.assistant);
-      expect(state.first.llmResponse!.component!.type, 'quranAyah');
-      final ayah =
-          (state.first.llmResponse!.component!.data['ayahs'] as List).first
-              as Map;
-      expect(ayah['surah'], 1);
-      expect(ayah['ayah'], 1);
+        final state = container.read(chatMessagesProvider);
+        // First message: ayah card
+        expect(state.first.role, MessageRole.assistant);
+        expect(state.first.llmResponse!.component!.type, 'quranAyah');
+        final ayah =
+            (state.first.llmResponse!.component!.data['ayahs'] as List).first
+                as Map;
+        expect(ayah['surah'], 1);
+        expect(ayah['ayah'], 1);
 
-      // Then: user question in Russian
-      final userMessages =
-          state.where((m) => m.role == MessageRole.user).toList();
-      expect(userMessages, hasLength(1));
-      expect(userMessages.single.content, contains('1:1'));
-      expect(userMessages.single.content, contains('Al-Fatihah'));
-      expect(userMessages.single.content, contains('аяте'));
-    });
+        // Then: user question in Russian
+        final userMessages = state
+            .where((m) => m.role == MessageRole.user)
+            .toList();
+        expect(userMessages, hasLength(1));
+        expect(userMessages.single.content, contains('1:1'));
+        expect(userMessages.single.content, contains('Al-Fatihah'));
+        expect(userMessages.single.content, contains('аяте'));
+      },
+    );
 
     test('picks Arabic question template for ar locale', () async {
       final llm = _FakeLlmService(
         response: '{"intent":"quranSearch","responseType":"text"}',
       );
-      final container = await _makeContainer(llm: llm, prefs: {
-        'madhab': 0,
-        'language': 'ar',
-      });
+      final container = await _makeContainer(
+        llm: llm,
+        prefs: {'madhab': 0, 'language': 'ar'},
+      );
       addTearDown(container.dispose);
 
-      await container.read(chatMessagesProvider.notifier).discussAyah(
+      await container
+          .read(chatMessagesProvider.notifier)
+          .discussAyah(
             surahNumber: 2,
             ayahNumber: 255,
             textArabic: 'الله',
@@ -352,7 +387,9 @@ void main() {
       final container = await _makeContainer(llm: llm);
       addTearDown(container.dispose);
 
-      await container.read(chatMessagesProvider.notifier).discussAyah(
+      await container
+          .read(chatMessagesProvider.notifier)
+          .discussAyah(
             surahNumber: 2,
             ayahNumber: 255,
             textArabic: 'الله',

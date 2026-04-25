@@ -13,22 +13,19 @@ const _secureStorageChannel = MethodChannel(
   'plugins.it_nomads.com/flutter_secure_storage',
 );
 
-void _stubSecureStorage({
-  String? apiKey = 'sk-test',
-  String? baseUrl,
-}) {
+void _stubSecureStorage({String? apiKey = 'sk-test', String? baseUrl}) {
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(_secureStorageChannel, (call) async {
-    if (call.method != 'read') return null;
-    final args = (call.arguments as Map).cast<String, dynamic>();
-    switch (args['key']) {
-      case 'llm_api_key':
-        return apiKey;
-      case 'llm_api_base_url':
-        return baseUrl;
-    }
-    return null;
-  });
+        if (call.method != 'read') return null;
+        final args = (call.arguments as Map).cast<String, dynamic>();
+        switch (args['key']) {
+          case 'llm_api_key':
+            return apiKey;
+          case 'llm_api_base_url':
+            return baseUrl;
+        }
+        return null;
+      });
 }
 
 void _clearSecureStorage() {
@@ -90,21 +87,23 @@ ResponseBody _sseBody(List<String> chunks) {
 }
 
 ChatMessage _userMsg(String content, {String id = 'u1'}) => ChatMessage(
-      id: id,
-      role: MessageRole.user,
-      content: content,
-      timestamp: DateTime(2026, 1, 1),
-    );
+  id: id,
+  role: MessageRole.user,
+  content: content,
+  timestamp: DateTime(2026, 1, 1),
+);
 
-ChatMessage _assistantMsg(String content,
-        {String id = 'a1', LlmResponse? llmResponse}) =>
-    ChatMessage(
-      id: id,
-      role: MessageRole.assistant,
-      content: content,
-      timestamp: DateTime(2026, 1, 1),
-      llmResponse: llmResponse,
-    );
+ChatMessage _assistantMsg(
+  String content, {
+  String id = 'a1',
+  LlmResponse? llmResponse,
+}) => ChatMessage(
+  id: id,
+  role: MessageRole.assistant,
+  content: content,
+  timestamp: DateTime(2026, 1, 1),
+  llmResponse: llmResponse,
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -130,19 +129,23 @@ void main() {
       );
     });
 
-    test('uses default openai.com base URL when none is configured',
-        () async {
+    test('uses default openai.com base URL when none is configured', () async {
       _stubSecureStorage();
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _jsonBody({
-            'choices': [
-              {'message': {'content': 'ok'}}
-            ],
-          }));
+      final adapter = _FakeAdapter(
+        (_) async => _jsonBody({
+          'choices': [
+            {
+              'message': {'content': 'ok'},
+            },
+          ],
+        }),
+      );
       dio.httpClientAdapter = adapter;
 
-      await OpenAiLlmService(dio: dio)
-          .sendMessage(messages: const [], systemPrompt: 'sys');
+      await OpenAiLlmService(
+        dio: dio,
+      ).sendMessage(messages: const [], systemPrompt: 'sys');
 
       expect(adapter.requests, hasLength(1));
       expect(
@@ -154,15 +157,20 @@ void main() {
     test('uses configured base URL override', () async {
       _stubSecureStorage(baseUrl: 'https://proxy.example.com/v1');
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _jsonBody({
-            'choices': [
-              {'message': {'content': 'ok'}}
-            ],
-          }));
+      final adapter = _FakeAdapter(
+        (_) async => _jsonBody({
+          'choices': [
+            {
+              'message': {'content': 'ok'},
+            },
+          ],
+        }),
+      );
       dio.httpClientAdapter = adapter;
 
-      await OpenAiLlmService(dio: dio)
-          .sendMessage(messages: const [], systemPrompt: 'sys');
+      await OpenAiLlmService(
+        dio: dio,
+      ).sendMessage(messages: const [], systemPrompt: 'sys');
 
       expect(
         adapter.requests.single.uri.toString(),
@@ -173,15 +181,20 @@ void main() {
     test('sends Bearer auth header with the stored API key', () async {
       _stubSecureStorage(apiKey: 'sk-super-secret');
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _jsonBody({
-            'choices': [
-              {'message': {'content': 'ok'}}
-            ],
-          }));
+      final adapter = _FakeAdapter(
+        (_) async => _jsonBody({
+          'choices': [
+            {
+              'message': {'content': 'ok'},
+            },
+          ],
+        }),
+      );
       dio.httpClientAdapter = adapter;
 
-      await OpenAiLlmService(dio: dio)
-          .sendMessage(messages: const [], systemPrompt: 'sys');
+      await OpenAiLlmService(
+        dio: dio,
+      ).sendMessage(messages: const [], systemPrompt: 'sys');
 
       final req = adapter.requests.single;
       final headers = <String, Object?>{};
@@ -197,11 +210,15 @@ void main() {
         'prompt, and user message', () async {
       _stubSecureStorage();
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _jsonBody({
-            'choices': [
-              {'message': {'content': 'ok'}}
-            ],
-          }));
+      final adapter = _FakeAdapter(
+        (_) async => _jsonBody({
+          'choices': [
+            {
+              'message': {'content': 'ok'},
+            },
+          ],
+        }),
+      );
       dio.httpClientAdapter = adapter;
 
       await OpenAiLlmService(dio: dio).sendMessage(
@@ -209,8 +226,8 @@ void main() {
         systemPrompt: 'you are qadr',
       );
 
-      final body = jsonDecode(adapter.requestBodies.single)
-          as Map<String, dynamic>;
+      final body =
+          jsonDecode(adapter.requestBodies.single) as Map<String, dynamic>;
       expect(body['model'], 'gpt-4o-mini');
       expect(body['temperature'], 0.7);
       expect(body['response_format'], {'type': 'json_object'});
@@ -221,100 +238,110 @@ void main() {
       expect(messages[1], {'role': 'user', 'content': 'hello there'});
     });
 
-    test('serializes assistant messages with llmResponse as JSON content',
-        () async {
-      _stubSecureStorage();
-      final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _jsonBody({
+    test(
+      'serializes assistant messages with llmResponse as JSON content',
+      () async {
+        _stubSecureStorage();
+        final dio = Dio();
+        final adapter = _FakeAdapter(
+          (_) async => _jsonBody({
             'choices': [
-              {'message': {'content': 'ok'}}
+              {
+                'message': {'content': 'ok'},
+              },
             ],
-          }));
-      dio.httpClientAdapter = adapter;
+          }),
+        );
+        dio.httpClientAdapter = adapter;
 
-      final response = LlmResponse(
-        intent: ChatIntent.tasbih,
-        responseType: ResponseType.component,
-        text: 'tap the circle',
-        component: ComponentPayload(
-          type: 'tasbih',
-          data: {'dhikrText': 'SubhanAllah', 'targetCount': 33},
-        ),
-      );
-
-      await OpenAiLlmService(dio: dio).sendMessage(
-        messages: [
-          _userMsg('start dhikr', id: '1'),
-          _assistantMsg(
-            'tap the circle',
-            id: '2',
-            llmResponse: response,
+        final response = LlmResponse(
+          intent: ChatIntent.tasbih,
+          responseType: ResponseType.component,
+          text: 'tap the circle',
+          component: ComponentPayload(
+            type: 'tasbih',
+            data: {'dhikrText': 'SubhanAllah', 'targetCount': 33},
           ),
-          _userMsg('thanks', id: '3'),
-        ],
-        systemPrompt: 'sys',
-      );
+        );
 
-      final body = jsonDecode(adapter.requestBodies.single)
-          as Map<String, dynamic>;
-      final messages = (body['messages'] as List).cast<Map<String, dynamic>>();
+        await OpenAiLlmService(dio: dio).sendMessage(
+          messages: [
+            _userMsg('start dhikr', id: '1'),
+            _assistantMsg('tap the circle', id: '2', llmResponse: response),
+            _userMsg('thanks', id: '3'),
+          ],
+          systemPrompt: 'sys',
+        );
 
-      expect(messages[0]['role'], 'system');
-      expect(messages[1], {'role': 'user', 'content': 'start dhikr'});
-      expect(messages[2]['role'], 'assistant');
+        final body =
+            jsonDecode(adapter.requestBodies.single) as Map<String, dynamic>;
+        final messages = (body['messages'] as List)
+            .cast<Map<String, dynamic>>();
 
-      final assistantJson =
-          jsonDecode(messages[2]['content'] as String) as Map<String, dynamic>;
-      expect(assistantJson['intent'], 'tasbih');
-      expect(assistantJson['responseType'], 'component');
-      expect(assistantJson['text'], 'tap the circle');
-      expect(assistantJson['component'], isA<Map>());
-      expect(assistantJson['component']['type'], 'tasbih');
-      expect(assistantJson['component']['targetCount'], 33);
+        expect(messages[0]['role'], 'system');
+        expect(messages[1], {'role': 'user', 'content': 'start dhikr'});
+        expect(messages[2]['role'], 'assistant');
 
-      expect(messages[3], {'role': 'user', 'content': 'thanks'});
-    });
+        final assistantJson =
+            jsonDecode(messages[2]['content'] as String)
+                as Map<String, dynamic>;
+        expect(assistantJson['intent'], 'tasbih');
+        expect(assistantJson['responseType'], 'component');
+        expect(assistantJson['text'], 'tap the circle');
+        expect(assistantJson['component'], isA<Map>());
+        expect(assistantJson['component']['type'], 'tasbih');
+        expect(assistantJson['component']['targetCount'], 33);
 
-    test('sends assistant messages without llmResponse as plain text content',
-        () async {
-      _stubSecureStorage();
-      final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _jsonBody({
+        expect(messages[3], {'role': 'user', 'content': 'thanks'});
+      },
+    );
+
+    test(
+      'sends assistant messages without llmResponse as plain text content',
+      () async {
+        _stubSecureStorage();
+        final dio = Dio();
+        final adapter = _FakeAdapter(
+          (_) async => _jsonBody({
             'choices': [
-              {'message': {'content': 'ok'}}
+              {
+                'message': {'content': 'ok'},
+              },
             ],
-          }));
-      dio.httpClientAdapter = adapter;
+          }),
+        );
+        dio.httpClientAdapter = adapter;
 
-      await OpenAiLlmService(dio: dio).sendMessage(
-        messages: [
-          _assistantMsg('raw text'),
-        ],
-        systemPrompt: 'sys',
-      );
+        await OpenAiLlmService(dio: dio).sendMessage(
+          messages: [_assistantMsg('raw text')],
+          systemPrompt: 'sys',
+        );
 
-      final body = jsonDecode(adapter.requestBodies.single)
-          as Map<String, dynamic>;
-      final messages = (body['messages'] as List).cast<Map<String, dynamic>>();
-      expect(messages.last, {'role': 'assistant', 'content': 'raw text'});
-    });
+        final body =
+            jsonDecode(adapter.requestBodies.single) as Map<String, dynamic>;
+        final messages = (body['messages'] as List)
+            .cast<Map<String, dynamic>>();
+        expect(messages.last, {'role': 'assistant', 'content': 'raw text'});
+      },
+    );
 
     test('returns trimmed content from choices[0].message.content', () async {
       _stubSecureStorage();
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _jsonBody({
-            'choices': [
-              {
-                'message': {
-                  'content': '   {"intent":"qibla"}\n  ',
-                }
-              }
-            ],
-          }));
+      final adapter = _FakeAdapter(
+        (_) async => _jsonBody({
+          'choices': [
+            {
+              'message': {'content': '   {"intent":"qibla"}\n  '},
+            },
+          ],
+        }),
+      );
       dio.httpClientAdapter = adapter;
 
-      final result = await OpenAiLlmService(dio: dio)
-          .sendMessage(messages: [_userMsg('qibla?')], systemPrompt: 'sys');
+      final result = await OpenAiLlmService(
+        dio: dio,
+      ).sendMessage(messages: [_userMsg('qibla?')], systemPrompt: 'sys');
       expect(result, '{"intent":"qibla"}');
     });
 
@@ -327,8 +354,9 @@ void main() {
       dio.httpClientAdapter = adapter;
 
       expect(
-        () => OpenAiLlmService(dio: dio)
-            .sendMessage(messages: [_userMsg('hi')], systemPrompt: 'sys'),
+        () => OpenAiLlmService(
+          dio: dio,
+        ).sendMessage(messages: [_userMsg('hi')], systemPrompt: 'sys'),
         throwsA(isA<DioException>()),
       );
     });
@@ -338,17 +366,15 @@ void main() {
     test('sets stream=true in the request payload', () async {
       _stubSecureStorage();
       final dio = Dio();
-      final adapter = _FakeAdapter(
-        (_) async => _sseBody(['data: [DONE]\n']),
-      );
+      final adapter = _FakeAdapter((_) async => _sseBody(['data: [DONE]\n']));
       dio.httpClientAdapter = adapter;
 
       await OpenAiLlmService(dio: dio)
           .streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys')
           .drain<void>();
 
-      final body = jsonDecode(adapter.requestBodies.single)
-          as Map<String, dynamic>;
+      final body =
+          jsonDecode(adapter.requestBodies.single) as Map<String, dynamic>;
       expect(body['stream'], true);
       expect(body['response_format'], isNull);
     });
@@ -356,24 +382,30 @@ void main() {
     test('yields delta.content values in order', () async {
       _stubSecureStorage();
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _sseBody([
-            'data: ${jsonEncode({
-                  'choices': [
-                    {'delta': {'content': 'Hello '}}
-                  ]
-                })}\n',
-            'data: ${jsonEncode({
-                  'choices': [
-                    {'delta': {'content': 'world'}}
-                  ]
-                })}\n',
-            'data: [DONE]\n',
-          ]));
+      final adapter = _FakeAdapter(
+        (_) async => _sseBody([
+          'data: ${jsonEncode({
+            'choices': [
+              {
+                'delta': {'content': 'Hello '},
+              },
+            ],
+          })}\n',
+          'data: ${jsonEncode({
+            'choices': [
+              {
+                'delta': {'content': 'world'},
+              },
+            ],
+          })}\n',
+          'data: [DONE]\n',
+        ]),
+      );
       dio.httpClientAdapter = adapter;
 
-      final chunks = await OpenAiLlmService(dio: dio)
-          .streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys')
-          .toList();
+      final chunks = await OpenAiLlmService(
+        dio: dio,
+      ).streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys').toList();
       expect(chunks, ['Hello ', 'world']);
     });
 
@@ -382,88 +414,104 @@ void main() {
       final dio = Dio();
       final payload = jsonEncode({
         'choices': [
-          {'delta': {'content': 'Assalam'}}
-        ]
+          {
+            'delta': {'content': 'Assalam'},
+          },
+        ],
       });
       // Split payload across two adapter chunks with no trailing newline
       // on the first chunk — the service must hold it in its buffer.
       final full = 'data: $payload\n';
       final cut = full.length ~/ 2;
-      final adapter = _FakeAdapter((_) async => _sseBody([
-            full.substring(0, cut),
-            full.substring(cut),
-            'data: [DONE]\n',
-          ]));
+      final adapter = _FakeAdapter(
+        (_) async => _sseBody([
+          full.substring(0, cut),
+          full.substring(cut),
+          'data: [DONE]\n',
+        ]),
+      );
       dio.httpClientAdapter = adapter;
 
-      final chunks = await OpenAiLlmService(dio: dio)
-          .streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys')
-          .toList();
+      final chunks = await OpenAiLlmService(
+        dio: dio,
+      ).streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys').toList();
       expect(chunks, ['Assalam']);
     });
 
     test('terminates on [DONE] and ignores anything after it', () async {
       _stubSecureStorage();
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _sseBody([
-            'data: [DONE]\n',
-            'data: ${jsonEncode({
-                  'choices': [
-                    {'delta': {'content': 'late'}}
-                  ]
-                })}\n',
-          ]));
+      final adapter = _FakeAdapter(
+        (_) async => _sseBody([
+          'data: [DONE]\n',
+          'data: ${jsonEncode({
+            'choices': [
+              {
+                'delta': {'content': 'late'},
+              },
+            ],
+          })}\n',
+        ]),
+      );
       dio.httpClientAdapter = adapter;
 
-      final chunks = await OpenAiLlmService(dio: dio)
-          .streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys')
-          .toList();
+      final chunks = await OpenAiLlmService(
+        dio: dio,
+      ).streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys').toList();
       expect(chunks, isEmpty);
     });
 
     test('skips non-data: lines and lines with no delta.content', () async {
       _stubSecureStorage();
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _sseBody([
-            ': keep-alive comment\n',
-            'event: ping\n',
-            'data: ${jsonEncode({
-                  'choices': [
-                    {'delta': {}}
-                  ]
-                })}\n',
-            'data: ${jsonEncode({
-                  'choices': [
-                    {'delta': {'content': 'real'}}
-                  ]
-                })}\n',
-            'data: [DONE]\n',
-          ]));
+      final adapter = _FakeAdapter(
+        (_) async => _sseBody([
+          ': keep-alive comment\n',
+          'event: ping\n',
+          'data: ${jsonEncode({
+            'choices': [
+              {'delta': {}},
+            ],
+          })}\n',
+          'data: ${jsonEncode({
+            'choices': [
+              {
+                'delta': {'content': 'real'},
+              },
+            ],
+          })}\n',
+          'data: [DONE]\n',
+        ]),
+      );
       dio.httpClientAdapter = adapter;
 
-      final chunks = await OpenAiLlmService(dio: dio)
-          .streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys')
-          .toList();
+      final chunks = await OpenAiLlmService(
+        dio: dio,
+      ).streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys').toList();
       expect(chunks, ['real']);
     });
 
     test('continues after an unparseable data: line', () async {
       _stubSecureStorage();
       final dio = Dio();
-      final adapter = _FakeAdapter((_) async => _sseBody([
-            'data: {not json}\n',
-            'data: ${jsonEncode({
-                  'choices': [
-                    {'delta': {'content': 'recovered'}}
-                  ]
-                })}\n',
-            'data: [DONE]\n',
-          ]));
+      final adapter = _FakeAdapter(
+        (_) async => _sseBody([
+          'data: {not json}\n',
+          'data: ${jsonEncode({
+            'choices': [
+              {
+                'delta': {'content': 'recovered'},
+              },
+            ],
+          })}\n',
+          'data: [DONE]\n',
+        ]),
+      );
       dio.httpClientAdapter = adapter;
 
-      final chunks = await OpenAiLlmService(dio: dio)
-          .streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys')
-          .toList();
+      final chunks = await OpenAiLlmService(
+        dio: dio,
+      ).streamMessage(messages: [_userMsg('hi')], systemPrompt: 'sys').toList();
       expect(chunks, ['recovered']);
     });
   });

@@ -19,8 +19,9 @@ class _NavTestWidget extends StatefulWidget {
 
 class _NavTestWidgetState extends State<_NavTestWidget> {
   NavSection _active = NavSection.prayer;
-  late final PageController _pageController =
-      PageController(initialPage: _active.index);
+  late final PageController _pageController = PageController(
+    initialPage: _active.index,
+  );
 
   final List<NavSection> activatedSections = [];
 
@@ -84,8 +85,9 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('nav_learn')));
         await tester.pumpAndSettle();
 
-        final state =
-            tester.state<_NavTestWidgetState>(find.byType(_NavTestWidget));
+        final state = tester.state<_NavTestWidgetState>(
+          find.byType(_NavTestWidget),
+        );
 
         // With animateToPage the PageView scrolls through intermediate pages,
         // triggering _onPageChanged for qibla / quran / dhikr before learn.
@@ -95,8 +97,11 @@ void main() {
 
         // This expectation FAILS with animateToPage (bug is present).
         // Remove the skip and flip to `isNotEmpty` to observe the failure.
-        expect(intermediates, isEmpty,
-            skip: 'Demonstrates the bug — animateToPage activates intermediates');
+        expect(
+          intermediates,
+          isEmpty,
+          skip: 'Demonstrates the bug — animateToPage activates intermediates',
+        );
       },
     );
 
@@ -109,30 +114,36 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('nav_learn')));
         await tester.pumpAndSettle();
 
-        final state =
-            tester.state<_NavTestWidgetState>(find.byType(_NavTestWidget));
+        final state = tester.state<_NavTestWidgetState>(
+          find.byType(_NavTestWidget),
+        );
 
         final intermediates = state.activatedSections
             .where((s) => s != NavSection.learn)
             .toList();
 
-        expect(intermediates, isEmpty,
-            reason:
-                'Only the destination tab should become active on a direct tap');
+        expect(
+          intermediates,
+          isEmpty,
+          reason:
+              'Only the destination tab should become active on a direct tap',
+        );
         expect(state.activatedSections.last, NavSection.learn);
       },
     );
 
-    testWidgets('active section matches destination immediately after tap',
-        (tester) async {
+    testWidgets('active section matches destination immediately after tap', (
+      tester,
+    ) async {
       final widget = _NavTestWidget(useAnimateTo: false);
       await tester.pumpWidget(MaterialApp(home: widget));
 
       await tester.tap(find.byKey(const ValueKey('nav_learn')));
       await tester.pump();
 
-      final state =
-          tester.state<_NavTestWidgetState>(find.byType(_NavTestWidget));
+      final state = tester.state<_NavTestWidgetState>(
+        find.byType(_NavTestWidget),
+      );
       expect(state._active, NavSection.learn);
     });
   });

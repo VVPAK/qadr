@@ -12,13 +12,10 @@ void main() {
     setUp(() {
       log = [];
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(
-        SystemChannels.platform,
-        (call) async {
-          if (call.method.startsWith('HapticFeedback')) log.add(call);
-          return null;
-        },
-      );
+          .setMockMethodCallHandler(SystemChannels.platform, (call) async {
+            if (call.method.startsWith('HapticFeedback')) log.add(call);
+            return null;
+          });
     });
 
     tearDown(() {

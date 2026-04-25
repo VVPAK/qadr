@@ -12,9 +12,9 @@ class PrayerTimesCard extends StatelessWidget with ChatComponent {
 
   @override
   Map<String, dynamic> toContextJson() => {
-        'type': 'prayerTimes',
-        ...data.toJson(),
-      };
+    'type': 'prayerTimes',
+    ...data.toJson(),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +30,17 @@ class PrayerTimesCard extends StatelessWidget with ChatComponent {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.screenH, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: QadrSpacing.screenH,
+                  vertical: 14,
+                ),
                 child: PrayerRowsWidget(prayers: data.prayers),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.screenH, vertical: 13),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: QadrSpacing.screenH,
+                  vertical: 13,
+                ),
                 decoration: const BoxDecoration(
                   color: Color(0x8C8A6E4F),
                   border: Border(top: BorderSide(color: Color(0x14FFFFFF))),

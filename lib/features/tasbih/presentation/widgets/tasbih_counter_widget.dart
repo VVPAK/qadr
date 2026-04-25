@@ -14,10 +14,7 @@ class TasbihCounterWidget extends ConsumerStatefulWidget with ChatComponent {
   final TasbihData data;
 
   @override
-  Map<String, dynamic> toContextJson() => {
-        'type': 'tasbih',
-        ...data.toJson(),
-      };
+  Map<String, dynamic> toContextJson() => {'type': 'tasbih', ...data.toJson()};
 
   @override
   ConsumerState<TasbihCounterWidget> createState() =>

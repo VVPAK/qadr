@@ -16,7 +16,9 @@ Future<void> _insertSurah(
   String revelationType = 'Meccan',
   int ayahCount = 7,
 }) {
-  return db.into(db.surahs).insert(
+  return db
+      .into(db.surahs)
+      .insert(
         SurahsCompanion.insert(
           number: Value(number),
           nameArabic: nameArabic,
@@ -36,7 +38,9 @@ Future<void> _insertAyah(
   String textEnglish = 'english',
   String textRussian = 'русский',
 }) {
-  return db.into(db.ayahs).insert(
+  return db
+      .into(db.ayahs)
+      .insert(
         AyahsCompanion.insert(
           surahNumber: surahNumber,
           ayahNumber: ayahNumber,
@@ -47,8 +51,9 @@ Future<void> _insertAyah(
       );
 }
 
-AppDatabase _makeDb() =>
-    AppDatabase.withExecutor(NativeDatabase.memory(setup: AppDatabase.setupDatabase));
+AppDatabase _makeDb() => AppDatabase.withExecutor(
+  NativeDatabase.memory(setup: AppDatabase.setupDatabase),
+);
 
 ProviderContainer _makeContainer(AppDatabase db) {
   return ProviderContainer(
@@ -125,9 +130,17 @@ void main() {
     test('ayah matches delegate to DAO', () async {
       await _insertSurah(db, number: 1);
       await _insertAyah(
-          db, surahNumber: 1, ayahNumber: 1, textEnglish: 'Praise be to Allah');
+        db,
+        surahNumber: 1,
+        ayahNumber: 1,
+        textEnglish: 'Praise be to Allah',
+      );
       await _insertAyah(
-          db, surahNumber: 1, ayahNumber: 2, textEnglish: 'In the name of Allah');
+        db,
+        surahNumber: 1,
+        ayahNumber: 2,
+        textEnglish: 'In the name of Allah',
+      );
       container.read(quranSearchQueryProvider.notifier).state = 'Allah';
       final results = await getResults('en');
       expect(results.ayahs, hasLength(2));
@@ -136,7 +149,11 @@ void main() {
     test('combined: surah and ayah results together', () async {
       await _insertSurah(db, number: 1, nameEnglish: 'Al-Fatiha');
       await _insertAyah(
-          db, surahNumber: 1, ayahNumber: 1, textEnglish: 'Guide us');
+        db,
+        surahNumber: 1,
+        ayahNumber: 1,
+        textEnglish: 'Guide us',
+      );
       container.read(quranSearchQueryProvider.notifier).state = 'al';
       final results = await getResults('en');
       // "al-fatiha" contains "al" → surah match
@@ -145,7 +162,12 @@ void main() {
 
     test('no match returns empty results with non-empty query', () async {
       await _insertSurah(db, number: 1, nameEnglish: 'Al-Fatiha');
-      await _insertAyah(db, surahNumber: 1, ayahNumber: 1, textEnglish: 'Praise');
+      await _insertAyah(
+        db,
+        surahNumber: 1,
+        ayahNumber: 1,
+        textEnglish: 'Praise',
+      );
       container.read(quranSearchQueryProvider.notifier).state = 'xyz_no_match';
       final results = await getResults('en');
       expect(results.isEmpty, isTrue);

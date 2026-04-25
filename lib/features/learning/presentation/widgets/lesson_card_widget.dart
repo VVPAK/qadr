@@ -21,13 +21,13 @@ class LessonCardWidget extends ConsumerStatefulWidget with ChatComponent {
 
   @override
   Map<String, dynamic> toContextJson() => {
-        'type': 'lessonCard',
-        'lessonId': lesson.id,
-        'title': lesson.title,
-        'titleAr': lesson.titleAr,
-        'description': lesson.description,
-        'stepsCount': lesson.steps.length,
-      };
+    'type': 'lessonCard',
+    'lessonId': lesson.id,
+    'title': lesson.title,
+    'titleAr': lesson.titleAr,
+    'description': lesson.description,
+    'stepsCount': lesson.steps.length,
+  };
 
   @override
   ConsumerState<LessonCardWidget> createState() => _LessonCardWidgetState();
@@ -63,10 +63,9 @@ class _LessonCardWidgetState extends ConsumerState<LessonCardWidget>
   }
 
   void _onStepViewed(int stepIndex) {
-    ref.read(learningStateProvider.notifier).completeStep(
-          widget.lesson.id,
-          stepIndex,
-        );
+    ref
+        .read(learningStateProvider.notifier)
+        .completeStep(widget.lesson.id, stepIndex);
   }
 
   @override
@@ -138,7 +137,10 @@ class _LessonCardWidgetState extends ConsumerState<LessonCardWidget>
           ),
           // Navigation
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.sm, vertical: QadrSpacing.xs),
+            padding: const EdgeInsets.symmetric(
+              horizontal: QadrSpacing.sm,
+              vertical: QadrSpacing.xs,
+            ),
             child: Row(
               children: [
                 if (_currentStep > 0)
@@ -180,9 +182,9 @@ class _StepContent extends StatelessWidget {
         children: [
           Text(
             step.localizedTitle(lang),
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           if (lang != 'ar' && step.titleAr.isNotEmpty) ...[
             const SizedBox(height: 2),
@@ -199,24 +201,25 @@ class _StepContent extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             step.localizedContent(lang),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.6),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(height: 1.6),
           ),
           if (step.arabicText != null) ...[
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.all(QadrSpacing.md),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
+                color: Theme.of(
+                  context,
+                ).colorScheme.primaryContainer.withValues(alpha: 0.3),
                 borderRadius: QadrRadius.mdAll,
               ),
               child: Column(
                 children: [
                   Text(
                     step.arabicText!,
-                    style: GoogleFonts.amiri(
-                      fontSize: 22,
-                      height: 1.8,
-                    ),
+                    style: GoogleFonts.amiri(fontSize: 22, height: 1.8),
                     textDirection: TextDirection.rtl,
                     textAlign: TextAlign.center,
                   ),
@@ -225,9 +228,9 @@ class _StepContent extends StatelessWidget {
                     Text(
                       step.transliteration!,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontStyle: FontStyle.italic,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        fontStyle: FontStyle.italic,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -240,10 +243,14 @@ class _StepContent extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.tertiaryContainer.withValues(alpha: 0.4),
+                color: Theme.of(
+                  context,
+                ).colorScheme.tertiaryContainer.withValues(alpha: 0.4),
                 borderRadius: QadrRadius.smAll,
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.3),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.tertiary.withValues(alpha: 0.3),
                 ),
               ),
               child: Row(
@@ -259,8 +266,10 @@ class _StepContent extends StatelessWidget {
                     child: Text(
                       step.localizedTip(lang)!,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onTertiaryContainer,
-                          ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onTertiaryContainer,
+                      ),
                     ),
                   ),
                 ],

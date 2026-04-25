@@ -32,9 +32,7 @@ class ScenePage extends StatelessWidget {
       child: Stack(
         children: [
           // Scene background
-          Positioned.fill(
-            child: SceneBackground(scene: scene),
-          ),
+          Positioned.fill(child: SceneBackground(scene: scene)),
 
           // Top gradient vignette (readability for status bar)
           Positioned(
@@ -61,10 +59,7 @@ class ScenePage extends StatelessWidget {
 
           // Floating nav (hidden on onboarding / single-screen flows)
           if (showNav)
-            FloatingNavBar(
-              active: activeNav!,
-              onChanged: onNavChanged!,
-            ),
+            FloatingNavBar(active: activeNav!, onChanged: onNavChanged!),
         ],
       ),
     );
@@ -98,19 +93,14 @@ class ParchmentPage extends StatelessWidget {
       child: Stack(
         children: [
           // Background
-          Positioned.fill(
-            child: ColoredBox(color: bg),
-          ),
+          Positioned.fill(child: ColoredBox(color: bg)),
 
           // Children
           ...children,
 
           // Floating nav (hidden on pushed/single-screen flows)
           if (showNav)
-            FloatingNavBar(
-              active: activeNav!,
-              onChanged: onNavChanged!,
-            ),
+            FloatingNavBar(active: activeNav!, onChanged: onNavChanged!),
         ],
       ),
     );

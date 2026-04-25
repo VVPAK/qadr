@@ -12,10 +12,7 @@ class SceneBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _ScenePainter(scene),
-      size: Size.infinite,
-    );
+    return CustomPaint(painter: _ScenePainter(scene), size: Size.infinite);
   }
 }
 
@@ -59,7 +56,8 @@ class _ScenePainter extends CustomPainter {
 
     // Sun glow
     final glowPaint = Paint()
-      ..color = const Color(0x73FFDCB4) // rgba(255,220,180,0.45)
+      ..color =
+          const Color(0x73FFDCB4) // rgba(255,220,180,0.45)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
     canvas.drawCircle(Offset(w * 0.68, h * 0.57), 48, glowPaint);
 
@@ -77,8 +75,7 @@ class _ScenePainter extends CustomPainter {
       ..lineTo(w, h)
       ..lineTo(0, h)
       ..close();
-    canvas.drawPath(
-        hill1, Paint()..color = const Color(0x993F3530));
+    canvas.drawPath(hill1, Paint()..color = const Color(0x993F3530));
 
     final hill2 = Path()
       ..moveTo(0, h * 0.83)
@@ -89,8 +86,7 @@ class _ScenePainter extends CustomPainter {
       ..lineTo(w, h)
       ..lineTo(0, h)
       ..close();
-    canvas.drawPath(
-        hill2, Paint()..color = const Color(0xCC2A221F));
+    canvas.drawPath(hill2, Paint()..color = const Color(0xCC2A221F));
   }
 
   void _paintDune(Canvas canvas, Size size) {
@@ -101,11 +97,7 @@ class _ScenePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: const [
-          Color(0xFFD8B88A),
-          Color(0xFFC69870),
-          Color(0xFF8C5A3A),
-        ],
+        colors: const [Color(0xFFD8B88A), Color(0xFFC69870), Color(0xFF8C5A3A)],
         stops: const [0, 0.5, 1],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
     canvas.drawRect(Rect.fromLTWH(0, 0, w, h), skyPaint);
@@ -123,7 +115,10 @@ class _ScenePainter extends CustomPainter {
         end: Alignment.bottomCenter,
         colors: const [Color(0xFFA67048), Color(0xFF6B3E22)],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
-    canvas.drawPath(dune1, dune1Paint..color = dune1Paint.color.withAlpha(0xD9));
+    canvas.drawPath(
+      dune1,
+      dune1Paint..color = dune1Paint.color.withAlpha(0xD9),
+    );
 
     final dune2 = Path()
       ..moveTo(0, h * 0.88)
@@ -132,8 +127,7 @@ class _ScenePainter extends CustomPainter {
       ..lineTo(w, h)
       ..lineTo(0, h)
       ..close();
-    canvas.drawPath(
-        dune2, Paint()..color = const Color(0xBF4E2E1A));
+    canvas.drawPath(dune2, Paint()..color = const Color(0xBF4E2E1A));
   }
 
   void _paintNight(Canvas canvas, Size size) {
@@ -144,11 +138,7 @@ class _ScenePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: const [
-          Color(0xFF1A1F2A),
-          Color(0xFF2A2E3A),
-          Color(0xFF3A3530),
-        ],
+        colors: const [Color(0xFF1A1F2A), Color(0xFF2A2E3A), Color(0xFF3A3530)],
         stops: const [0, 0.55, 1],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
     canvas.drawRect(Rect.fromLTWH(0, 0, w, h), skyPaint);
@@ -175,8 +165,7 @@ class _ScenePainter extends CustomPainter {
       ..lineTo(w, h)
       ..lineTo(0, h)
       ..close();
-    canvas.drawPath(
-        ground, Paint()..color = const Color(0xE61A1512));
+    canvas.drawPath(ground, Paint()..color = const Color(0xE61A1512));
   }
 
   void _paintDawn(Canvas canvas, Size size) {
@@ -214,8 +203,7 @@ class _ScenePainter extends CustomPainter {
       ..lineTo(w, h)
       ..lineTo(0, h)
       ..close();
-    canvas.drawPath(
-        ground, Paint()..color = const Color(0x995A3E2E));
+    canvas.drawPath(ground, Paint()..color = const Color(0x995A3E2E));
   }
 
   @override

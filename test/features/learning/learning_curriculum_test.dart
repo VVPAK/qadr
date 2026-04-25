@@ -17,26 +17,30 @@ void main() {
       expect(step.localizedTitle('ar'), 'الوضوء');
       expect(step.localizedTitle('ru'), 'Вуду');
       expect(step.localizedTitle('en'), 'Wudu');
-      expect(step.localizedTitle('xx'), 'Wudu',
-          reason: 'unknown locales fall through to English');
+      expect(
+        step.localizedTitle('xx'),
+        'Wudu',
+        reason: 'unknown locales fall through to English',
+      );
     });
 
     test('localizedContent picks Russian or defaults to English', () {
       expect(step.localizedContent('ru'), 'Омовение перед молитвой.');
       expect(step.localizedContent('en'), 'Ablution before prayer.');
-      expect(step.localizedContent('ar'), 'Ablution before prayer.',
-          reason: 'no Arabic content field — falls through to English');
+      expect(
+        step.localizedContent('ar'),
+        'Ablution before prayer.',
+        reason: 'no Arabic content field — falls through to English',
+      );
     });
 
-    test('localizedTip returns Russian when set, falls through to English',
-        () {
+    test('localizedTip returns Russian when set, falls through to English', () {
       expect(step.localizedTip('ru'), 'Начни с правой руки.');
       expect(step.localizedTip('en'), 'Start with the right hand.');
       expect(step.localizedTip('ar'), 'Start with the right hand.');
     });
 
-    test('localizedTip falls back to English tip when Russian tip is null',
-        () {
+    test('localizedTip falls back to English tip when Russian tip is null', () {
       const s = LearningStep(
         title: 't',
         titleAr: 't',
@@ -114,8 +118,11 @@ void main() {
       final ids = <String>{};
       for (final module in learningCurriculum) {
         for (final lesson in module.lessons) {
-          expect(ids.add(lesson.id), isTrue,
-              reason: 'duplicate lesson id: ${lesson.id}');
+          expect(
+            ids.add(lesson.id),
+            isTrue,
+            reason: 'duplicate lesson id: ${lesson.id}',
+          );
         }
       }
     });
@@ -123,14 +130,16 @@ void main() {
     test('every lesson has at least one step', () {
       for (final module in learningCurriculum) {
         for (final lesson in module.lessons) {
-          expect(lesson.steps, isNotEmpty,
-              reason: 'empty lesson: ${lesson.id}');
+          expect(
+            lesson.steps,
+            isNotEmpty,
+            reason: 'empty lesson: ${lesson.id}',
+          );
         }
       }
     });
 
-    test('every lesson fills out all three locales (title + description)',
-        () {
+    test('every lesson fills out all three locales (title + description)', () {
       for (final module in learningCurriculum) {
         for (final lesson in module.lessons) {
           expect(lesson.title, isNotEmpty, reason: lesson.id);

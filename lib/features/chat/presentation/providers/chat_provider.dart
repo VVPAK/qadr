@@ -19,8 +19,8 @@ final llmServiceProvider = Provider<LlmService>((ref) => OpenAiLlmService());
 
 final chatMessagesProvider =
     StateNotifierProvider<ChatMessagesNotifier, List<ChatMessage>>((ref) {
-  return ChatMessagesNotifier(ref);
-});
+      return ChatMessagesNotifier(ref);
+    });
 
 class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
   ChatMessagesNotifier(this._ref) : super([]);
@@ -38,8 +38,7 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
     state = [...state, userMessage];
 
     // Add placeholder assistant message
-    final assistantId =
-        (DateTime.now().millisecondsSinceEpoch + 1).toString();
+    final assistantId = (DateTime.now().millisecondsSinceEpoch + 1).toString();
     final placeholder = ChatMessage(
       id: assistantId,
       role: MessageRole.assistant,
@@ -127,7 +126,7 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
                 'ayah': ayahNumber,
                 'arabic': textArabic,
                 'translation': translation,
-              }
+              },
             ],
           },
         ),
@@ -168,8 +167,7 @@ class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
       timestamp: DateTime.now(),
     );
 
-    final assistantId =
-        (DateTime.now().millisecondsSinceEpoch + 1).toString();
+    final assistantId = (DateTime.now().millisecondsSinceEpoch + 1).toString();
     final assistantMessage = ChatMessage(
       id: assistantId,
       role: MessageRole.assistant,

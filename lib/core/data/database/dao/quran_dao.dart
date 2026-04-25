@@ -15,15 +15,19 @@ class QuranDao extends DatabaseAccessor<AppDatabase> with _$QuranDaoMixin {
   Future<Surah> getSurah(int number) =>
       (select(surahs)..where((s) => s.number.equals(number))).getSingle();
 
-  Future<List<Ayah>> getAyahsForSurah(int surahNumber) => (select(ayahs)
-        ..where((a) => a.surahNumber.equals(surahNumber))
-        ..orderBy([(a) => OrderingTerm.asc(a.ayahNumber)]))
-      .get();
+  Future<List<Ayah>> getAyahsForSurah(int surahNumber) =>
+      (select(ayahs)
+            ..where((a) => a.surahNumber.equals(surahNumber))
+            ..orderBy([(a) => OrderingTerm.asc(a.ayahNumber)]))
+          .get();
 
-  Future<Ayah> getAyah(int surahNumber, int ayahNumber) => (select(ayahs)
-        ..where(
-            (a) => a.surahNumber.equals(surahNumber) & a.ayahNumber.equals(ayahNumber)))
-      .getSingle();
+  Future<Ayah> getAyah(int surahNumber, int ayahNumber) =>
+      (select(ayahs)..where(
+            (a) =>
+                a.surahNumber.equals(surahNumber) &
+                a.ayahNumber.equals(ayahNumber),
+          ))
+          .getSingle();
 
   Future<List<Ayah>> searchAyahs(String query, String language) {
     final pattern = '%${query.toLowerCase()}%';

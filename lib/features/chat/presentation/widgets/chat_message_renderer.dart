@@ -21,7 +21,8 @@ class ChatMessageRenderer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (response.responseType == ResponseType.text || response.component == null) {
+    if (response.responseType == ResponseType.text ||
+        response.component == null) {
       return MarkdownBody(
         data: response.text ?? '',
         styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
@@ -41,24 +42,22 @@ class ChatMessageRenderer extends StatelessWidget {
 
     final componentWidget = switch (component.type) {
       'prayerTimes' => PrayerTimesCard(
-          data: PrayerTimesData.fromJson(component.data),
-        ),
+        data: PrayerTimesData.fromJson(component.data),
+      ),
       'quranAyah' => QuranAyahCard(
-          data: QuranAyahData.fromJson(component.data),
-        ),
-      'dua' => DuaChatCard(
-          data: DuaData.fromJson(component.data),
-        ),
+        data: QuranAyahData.fromJson(component.data),
+      ),
+      'dua' => DuaChatCard(data: DuaData.fromJson(component.data)),
       'tasbih' => TasbihCounterWidget(
-          data: TasbihData.fromJson(component.data),
-        ),
+        data: TasbihData.fromJson(component.data),
+      ),
       'qibla' => const QiblaCompassWidget(),
       'learningStart' => _buildLearningStart(context),
       'learningProgress' => const LearningProgressCard(),
       'lessonCard' => _buildLessonCard(context, component.data),
       _ => MarkdownBody(
-          data: response.text ?? 'Unknown component: ${component.type}',
-        ),
+        data: response.text ?? 'Unknown component: ${component.type}',
+      ),
     };
 
     if (textWidget != null) {
@@ -80,8 +79,8 @@ class ChatMessageRenderer extends StatelessWidget {
   }
 
   Widget _buildLessonCard(BuildContext context, Map<String, dynamic> data) {
-    final lessonId = data['lessonId'] as String?
-        ?? data['lesson_id'] as String?;
+    final lessonId =
+        data['lessonId'] as String? ?? data['lesson_id'] as String?;
     if (lessonId == null) {
       return Text(context.l10n.invalidLesson);
     }

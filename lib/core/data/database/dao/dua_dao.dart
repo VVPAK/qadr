@@ -15,8 +15,7 @@ class DuaDao extends DatabaseAccessor<AppDatabase> with _$DuaDaoMixin {
       (select(duas)..where((d) => d.category.equals(category))).get();
 
   Future<List<String>> getCategories() async {
-    final query = selectOnly(duas, distinct: true)
-      ..addColumns([duas.category]);
+    final query = selectOnly(duas, distinct: true)..addColumns([duas.category]);
     final rows = await query.get();
     return rows.map((row) => row.read(duas.category)!).toList();
   }
@@ -24,10 +23,12 @@ class DuaDao extends DatabaseAccessor<AppDatabase> with _$DuaDaoMixin {
   Future<List<Dua>> searchDuas(String query) {
     final pattern = '%$query%';
     return (select(duas)
-          ..where((d) =>
-              d.arabic.like(pattern) |
-              d.translationEn.like(pattern) |
-              d.translationRu.like(pattern))
+          ..where(
+            (d) =>
+                d.arabic.like(pattern) |
+                d.translationEn.like(pattern) |
+                d.translationRu.like(pattern),
+          )
           ..limit(20))
         .get();
   }

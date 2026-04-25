@@ -22,31 +22,36 @@ void main() {
       expect(model.maghrib.isBefore(model.isha), isTrue);
     });
 
-    test('all prayer times share the same calendar date as the requested day',
-        () {
-      final target = DateTime.utc(2026, 4, 23);
-      final model = service.calculate(
-        latitude: 21.4225,
-        longitude: 39.8262,
-        date: target,
-      );
+    test(
+      'all prayer times share the same calendar date as the requested day',
+      () {
+        final target = DateTime.utc(2026, 4, 23);
+        final model = service.calculate(
+          latitude: 21.4225,
+          longitude: 39.8262,
+          date: target,
+        );
 
-      // All prayer instants must fall within a 24h window of the requested day
-      // regardless of local timezone conversion.
-      for (final time in [
-        model.fajr,
-        model.sunrise,
-        model.dhuhr,
-        model.asr,
-        model.maghrib,
-        model.isha,
-      ]) {
-        final diff = time.difference(target).inHours.abs();
-        expect(diff, lessThan(36),
-            reason: 'prayer time $time too far from target $target');
-      }
-      expect(model.date, target);
-    });
+        // All prayer instants must fall within a 24h window of the requested day
+        // regardless of local timezone conversion.
+        for (final time in [
+          model.fajr,
+          model.sunrise,
+          model.dhuhr,
+          model.asr,
+          model.maghrib,
+          model.isha,
+        ]) {
+          final diff = time.difference(target).inHours.abs();
+          expect(
+            diff,
+            lessThan(36),
+            reason: 'prayer time $time too far from target $target',
+          );
+        }
+        expect(model.date, target);
+      },
+    );
 
     test('defaults to today when no date is passed', () {
       final before = DateTime.now();
@@ -58,24 +63,26 @@ void main() {
       );
     });
 
-    test('returns different prayer times for different locations on the same day',
-        () {
-      final date = DateTime.utc(2026, 4, 23);
-      final mecca = service.calculate(
-        latitude: 21.4225,
-        longitude: 39.8262,
-        date: date,
-      );
-      final london = service.calculate(
-        latitude: 51.5074,
-        longitude: -0.1278,
-        date: date,
-      );
-      expect(
-        mecca.fajr.toUtc().millisecondsSinceEpoch,
-        isNot(london.fajr.toUtc().millisecondsSinceEpoch),
-      );
-    });
+    test(
+      'returns different prayer times for different locations on the same day',
+      () {
+        final date = DateTime.utc(2026, 4, 23);
+        final mecca = service.calculate(
+          latitude: 21.4225,
+          longitude: 39.8262,
+          date: date,
+        );
+        final london = service.calculate(
+          latitude: 51.5074,
+          longitude: -0.1278,
+          date: date,
+        );
+        expect(
+          mecca.fajr.toUtc().millisecondsSinceEpoch,
+          isNot(london.fajr.toUtc().millisecondsSinceEpoch),
+        );
+      },
+    );
   });
 
   group('PrayerTimesService.madhabForLocation', () {
@@ -109,20 +116,23 @@ void main() {
 
     test('Mecca (Arabian Peninsula) → Hanbali', () {
       expect(
-          PrayerTimesService.madhabForLocation(21.42, 39.83), Madhab.hanbali);
+        PrayerTimesService.madhabForLocation(21.42, 39.83),
+        Madhab.hanbali,
+      );
     });
 
     test('Jakarta (SE Asia) → Shafii', () {
-      expect(PrayerTimesService.madhabForLocation(-6.21, 106.85), Madhab.shafii);
+      expect(
+        PrayerTimesService.madhabForLocation(-6.21, 106.85),
+        Madhab.shafii,
+      );
     });
 
     test('Unmapped region falls back to Shafii', () {
       // Mid-Pacific, clearly in no region.
-      expect(
-          PrayerTimesService.madhabForLocation(0.0, -150.0), Madhab.shafii);
+      expect(PrayerTimesService.madhabForLocation(0.0, -150.0), Madhab.shafii);
       // Antarctic ocean.
-      expect(
-          PrayerTimesService.madhabForLocation(-60.0, 0.0), Madhab.shafii);
+      expect(PrayerTimesService.madhabForLocation(-60.0, 0.0), Madhab.shafii);
     });
   });
 
@@ -162,10 +172,22 @@ void main() {
       );
 
       final data = service.toComponentData(model);
-      expect(data.prayers.map((p) => p.name).toList(),
-          ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha']);
-      expect(data.prayers.map((p) => p.time).toList(),
-          ['05:03', '06:12', '12:30', '15:45', '18:09', '19:55']);
+      expect(data.prayers.map((p) => p.name).toList(), [
+        'fajr',
+        'sunrise',
+        'dhuhr',
+        'asr',
+        'maghrib',
+        'isha',
+      ]);
+      expect(data.prayers.map((p) => p.time).toList(), [
+        '05:03',
+        '06:12',
+        '12:30',
+        '15:45',
+        '18:09',
+        '19:55',
+      ]);
     });
 
     test('formats date as yyyy-MM-dd with zero-padding', () {
@@ -199,24 +221,28 @@ void main() {
       expect(data.prayers.first.name, 'fajr');
     });
 
-    test('marks only the first future prayer when earlier ones have passed',
-        () {
-      // fajr + sunrise in the past, dhuhr+ in the future → dhuhr isNext.
-      final past = DateTime.now().subtract(const Duration(hours: 2));
-      final future = DateTime.now().add(const Duration(hours: 2));
-      final model = buildModel(
-        fajr: past.subtract(const Duration(hours: 2)),
-        sunrise: past,
-        dhuhr: future,
-        asr: future.add(const Duration(hours: 1)),
-        maghrib: future.add(const Duration(hours: 2)),
-        isha: future.add(const Duration(hours: 3)),
-      );
+    test(
+      'marks only the first future prayer when earlier ones have passed',
+      () {
+        // fajr + sunrise in the past, dhuhr+ in the future → dhuhr isNext.
+        final past = DateTime.now().subtract(const Duration(hours: 2));
+        final future = DateTime.now().add(const Duration(hours: 2));
+        final model = buildModel(
+          fajr: past.subtract(const Duration(hours: 2)),
+          sunrise: past,
+          dhuhr: future,
+          asr: future.add(const Duration(hours: 1)),
+          maghrib: future.add(const Duration(hours: 2)),
+          isha: future.add(const Duration(hours: 3)),
+        );
 
-      final data = service.toComponentData(model);
-      expect(data.prayers.where((p) => p.isNext).map((p) => p.name).toList(),
-          ['dhuhr']);
-    });
+        final data = service.toComponentData(model);
+        expect(
+          data.prayers.where((p) => p.isNext).map((p) => p.name).toList(),
+          ['dhuhr'],
+        );
+      },
+    );
 
     test('marks no prayer as next when every time is in the past', () {
       final past = DateTime.now().subtract(const Duration(days: 1));
@@ -261,10 +287,14 @@ void main() {
 
       final data = service.toComponentData(model);
       expect(data.prayers.length, 6);
-      expect(
-        data.prayers.map((p) => p.name).toList(),
-        ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'],
-      );
+      expect(data.prayers.map((p) => p.name).toList(), [
+        'fajr',
+        'sunrise',
+        'dhuhr',
+        'asr',
+        'maghrib',
+        'isha',
+      ]);
     });
 
     test('times in output use HH:mm zero-padded format', () {
@@ -285,10 +315,16 @@ void main() {
         // Must be exactly HH:mm — length 5, colon at index 2
         expect(t.length, 5, reason: '$t is not HH:mm');
         expect(t[2], ':', reason: '$t missing colon at index 2');
-        expect(int.tryParse(t.substring(0, 2)), isNotNull,
-            reason: '$t hour part is not numeric');
-        expect(int.tryParse(t.substring(3)), isNotNull,
-            reason: '$t minute part is not numeric');
+        expect(
+          int.tryParse(t.substring(0, 2)),
+          isNotNull,
+          reason: '$t hour part is not numeric',
+        );
+        expect(
+          int.tryParse(t.substring(3)),
+          isNotNull,
+          reason: '$t minute part is not numeric',
+        );
       }
       // Spot-check single-digit hours/minutes get zero-padded
       expect(times[0], '04:05'); // Fajr
@@ -297,26 +333,29 @@ void main() {
       expect(times[3], '15:03'); // Asr
     });
 
-    test('sunrise can be marked isNext when fajr has passed but sunrise has not', () {
-      // toComponentData iterates all 6 prayers including sunrise. When fajr
-      // has passed and sunrise is the first future time, sunrise gets isNext.
-      // This documents current behaviour (the PrayerScreen excludes sunrise
-      // from the next-prayer search using the "passive" flag, but
-      // toComponentData does not apply that exclusion).
-      final now = DateTime.now();
-      final model = buildModel(
-        fajr: now.subtract(const Duration(minutes: 30)),
-        sunrise: now.add(const Duration(minutes: 15)),
-        dhuhr: now.add(const Duration(hours: 4)),
-        asr: now.add(const Duration(hours: 7)),
-        maghrib: now.add(const Duration(hours: 10)),
-        isha: now.add(const Duration(hours: 12)),
-      );
+    test(
+      'sunrise can be marked isNext when fajr has passed but sunrise has not',
+      () {
+        // toComponentData iterates all 6 prayers including sunrise. When fajr
+        // has passed and sunrise is the first future time, sunrise gets isNext.
+        // This documents current behaviour (the PrayerScreen excludes sunrise
+        // from the next-prayer search using the "passive" flag, but
+        // toComponentData does not apply that exclusion).
+        final now = DateTime.now();
+        final model = buildModel(
+          fajr: now.subtract(const Duration(minutes: 30)),
+          sunrise: now.add(const Duration(minutes: 15)),
+          dhuhr: now.add(const Duration(hours: 4)),
+          asr: now.add(const Duration(hours: 7)),
+          maghrib: now.add(const Duration(hours: 10)),
+          isha: now.add(const Duration(hours: 12)),
+        );
 
-      final data = service.toComponentData(model);
-      final next = data.prayers.where((p) => p.isNext).toList();
-      expect(next.length, 1);
-      expect(next.first.name, 'sunrise');
-    });
+        final data = service.toComponentData(model);
+        final next = data.prayers.where((p) => p.isNext).toList();
+        expect(next.length, 1);
+        expect(next.first.name, 'sunrise');
+      },
+    );
   });
 }

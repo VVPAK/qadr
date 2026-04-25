@@ -54,8 +54,7 @@ void main() {
       expect(store.getCompletedStep('shahada'), 2);
     });
 
-    test('persists across new store instances backed by same prefs',
-        () async {
+    test('persists across new store instances backed by same prefs', () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
       LearningProgressStore(prefs).completeStep('shahada', 1);
@@ -70,29 +69,33 @@ void main() {
       expect(store.isLessonComplete('not_a_real_lesson'), isFalse);
     });
 
-    test('a lesson becomes complete when its last step is marked done',
-        () async {
-      final lesson = learningCurriculum.first.lessons.first;
-      final store = await _buildStore();
-      expect(store.isLessonComplete(lesson.id), isFalse);
-      store.completeStep(lesson.id, lesson.steps.length - 1);
-      expect(store.isLessonComplete(lesson.id), isTrue);
-    });
-
-    test('a module is complete only when every lesson in it is complete',
-        () async {
-      final module = learningCurriculum.first;
-      final store = await _buildStore();
-      // Complete every lesson except the last.
-      for (final lesson in module.lessons.take(module.lessons.length - 1)) {
+    test(
+      'a lesson becomes complete when its last step is marked done',
+      () async {
+        final lesson = learningCurriculum.first.lessons.first;
+        final store = await _buildStore();
+        expect(store.isLessonComplete(lesson.id), isFalse);
         store.completeStep(lesson.id, lesson.steps.length - 1);
-      }
-      expect(store.isModuleComplete(module.id), isFalse);
+        expect(store.isLessonComplete(lesson.id), isTrue);
+      },
+    );
 
-      final last = module.lessons.last;
-      store.completeStep(last.id, last.steps.length - 1);
-      expect(store.isModuleComplete(module.id), isTrue);
-    });
+    test(
+      'a module is complete only when every lesson in it is complete',
+      () async {
+        final module = learningCurriculum.first;
+        final store = await _buildStore();
+        // Complete every lesson except the last.
+        for (final lesson in module.lessons.take(module.lessons.length - 1)) {
+          store.completeStep(lesson.id, lesson.steps.length - 1);
+        }
+        expect(store.isModuleComplete(module.id), isFalse);
+
+        final last = module.lessons.last;
+        store.completeStep(last.id, last.steps.length - 1);
+        expect(store.isModuleComplete(module.id), isTrue);
+      },
+    );
 
     test('an unknown module id is never complete', () async {
       final store = await _buildStore();

@@ -8,5 +8,7 @@ final databaseProvider = Provider<AppDatabase>((ref) {
   return db;
 });
 
-final quranDaoProvider = Provider((ref) => ref.watch(databaseProvider).quranDao);
+final quranDaoProvider = Provider(
+  (ref) => ref.watch(databaseProvider).quranDao,
+);
 final duaDaoProvider = Provider((ref) => ref.watch(databaseProvider).duaDao);

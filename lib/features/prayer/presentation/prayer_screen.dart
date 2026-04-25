@@ -67,20 +67,15 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
       data: (prefs) {
         final lat = prefs.latitude ?? 55.79;
         final lng = prefs.longitude ?? 49.12;
-        final model = ref.read(prayerTimesServiceProvider).calculate(
-              latitude: lat,
-              longitude: lng,
-              date: _now,
-            );
+        final model = ref
+            .read(prayerTimesServiceProvider)
+            .calculate(latitude: lat, longitude: lng, date: _now);
         return _buildContent(model, cityName: prefs.cityName ?? 'Казань');
       },
     );
   }
 
-  Widget _buildContent(
-    PrayerTimeModel model, {
-    required String cityName,
-  }) {
+  Widget _buildContent(PrayerTimeModel model, {required String cityName}) {
     final rawPrayers = [
       (key: 'fajr', time: model.fajr, isPassive: false),
       (key: 'sunrise', time: model.sunrise, isPassive: true),
@@ -109,7 +104,8 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
 
     final prayers = rawPrayers.map((p) {
-      final isPassed = !p.isPassive && p.time.isBefore(_now) && p.key != next!.key;
+      final isPassed =
+          !p.isPassive && p.time.isBefore(_now) && p.key != next!.key;
       return PrayerTimeEntry(
         name: p.key,
         time: p.time.timeString,
@@ -166,9 +162,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
 
   Widget _buildScenePicker() {
     return GestureDetector(
-      onTap: () => setState(
-        () => _sceneIdx = (_sceneIdx + 1) % _scenes.length,
-      ),
+      onTap: () => setState(() => _sceneIdx = (_sceneIdx + 1) % _scenes.length),
       child: GlassContainer(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         borderRadius: 999,
@@ -204,8 +198,11 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.location_on_outlined,
-                size: 13, color: Color(0xFFF4EFE6)),
+            const Icon(
+              Icons.location_on_outlined,
+              size: 13,
+              color: Color(0xFFF4EFE6),
+            ),
             const SizedBox(width: QadrSpacing.xs),
             Text(
               cityName,
@@ -232,7 +229,10 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   }
 
   Widget _buildPrayerCard(
-      List<PrayerTimeEntry> prayers, String nextName, String countdown) {
+    List<PrayerTimeEntry> prayers,
+    String nextName,
+    String countdown,
+  ) {
     return GlassContainer(
       borderRadius: 24,
       blur: 22,
@@ -243,12 +243,16 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: QadrSpacing.screenH, vertical: 14),
+              horizontal: QadrSpacing.screenH,
+              vertical: 14,
+            ),
             child: PrayerRowsWidget(prayers: prayers),
           ),
           Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: QadrSpacing.screenH, vertical: 13),
+              horizontal: QadrSpacing.screenH,
+              vertical: 13,
+            ),
             decoration: const BoxDecoration(
               color: Color(0x8C8A6E4F),
               border: Border(top: BorderSide(color: Color(0x14FFFFFF))),

@@ -35,12 +35,13 @@ class _FakeLocationService extends LocationService {
     double lat,
     double lng,
     UserPreferences prefs,
-  ) async =>
-      null;
+  ) async => null;
 }
 
-Future<({UserPreferences prefs, _FakeLocationService location,
-    GoRouter router})> _pump(
+Future<
+  ({UserPreferences prefs, _FakeLocationService location, GoRouter router})
+>
+_pump(
   WidgetTester tester, {
   _FakeLocationService? location,
   Locale locale = const Locale('en'),
@@ -54,15 +55,11 @@ Future<({UserPreferences prefs, _FakeLocationService location,
   final router = GoRouter(
     initialLocation: '/onboarding',
     routes: [
-      GoRoute(
-        path: '/onboarding',
-        builder: (_, _) => const OnboardingScreen(),
-      ),
+      GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
       GoRoute(
         path: '/',
-        builder: (_, _) => const Scaffold(
-          body: Center(child: Text('__HOME__')),
-        ),
+        builder: (_, _) =>
+            const Scaffold(body: Center(child: Text('__HOME__'))),
       ),
     ],
   );
@@ -123,17 +120,20 @@ void main() {
 
   group('Scaffold configuration', () {
     testWidgets(
-        'Scaffold has resizeToAvoidBottomInset=false so keyboard does not '
-        'push the CTA over the input card', (tester) async {
-      await _pump(tester);
-      final scaffold = tester.widget<Scaffold>(find.byType(Scaffold).first);
-      expect(scaffold.resizeToAvoidBottomInset, isFalse);
-    });
+      'Scaffold has resizeToAvoidBottomInset=false so keyboard does not '
+      'push the CTA over the input card',
+      (tester) async {
+        await _pump(tester);
+        final scaffold = tester.widget<Scaffold>(find.byType(Scaffold).first);
+        expect(scaffold.resizeToAvoidBottomInset, isFalse);
+      },
+    );
   });
 
   group('Welcome step', () {
-    testWidgets('shows the three language toggles and the Begin CTA',
-        (tester) async {
+    testWidgets('shows the three language toggles and the Begin CTA', (
+      tester,
+    ) async {
       await _pump(tester);
       expect(find.text('RU'), findsOneWidget);
       expect(find.text('EN'), findsOneWidget);
@@ -141,8 +141,9 @@ void main() {
       expect(find.text('Begin'), findsOneWidget);
     });
 
-    testWidgets('tapping RU writes "ru" to prefs and updates localProvider',
-        (tester) async {
+    testWidgets('tapping RU writes "ru" to prefs and updates localProvider', (
+      tester,
+    ) async {
       final ctx = await _pump(tester);
       await tester.tap(find.text('RU'));
       await _settle(tester);
@@ -158,8 +159,9 @@ void main() {
   });
 
   group('Name step', () {
-    testWidgets('entering a name and tapping Next persists it + advances',
-        (tester) async {
+    testWidgets('entering a name and tapping Next persists it + advances', (
+      tester,
+    ) async {
       final ctx = await _pump(tester);
       await tester.tap(find.text('Begin'));
       await _settle(tester);
@@ -173,8 +175,9 @@ void main() {
       expect(find.text('Allow access'), findsOneWidget);
     });
 
-    testWidgets('trimming: whitespace-only name is stored as null',
-        (tester) async {
+    testWidgets('trimming: whitespace-only name is stored as null', (
+      tester,
+    ) async {
       final ctx = await _pump(tester);
       await tester.tap(find.text('Begin'));
       await _settle(tester);
@@ -186,8 +189,9 @@ void main() {
       expect(ctx.prefs.name, isNull);
     });
 
-    testWidgets('skipping the name (empty field) stores null and advances',
-        (tester) async {
+    testWidgets('skipping the name (empty field) stores null and advances', (
+      tester,
+    ) async {
       final ctx = await _pump(tester);
       await tester.tap(find.text('Begin'));
       await _settle(tester);
@@ -213,8 +217,9 @@ void main() {
       expect(tester.testTextInput.isVisible, isFalse);
     });
 
-    testWidgets('tapping outside the input dismisses the keyboard',
-        (tester) async {
+    testWidgets('tapping outside the input dismisses the keyboard', (
+      tester,
+    ) async {
       await _pump(tester);
       await tester.tap(find.text('Begin'));
       await _settle(tester);
@@ -232,8 +237,9 @@ void main() {
   });
 
   group('Location step', () {
-    testWidgets('Allow access asks the LocationService and writes coords',
-        (tester) async {
+    testWidgets('Allow access asks the LocationService and writes coords', (
+      tester,
+    ) async {
       final ctx = await _pump(tester);
       await tester.tap(find.text('Begin'));
       await _settle(tester);
@@ -253,28 +259,30 @@ void main() {
     });
 
     testWidgets(
-        'denied permission still advances but leaves coords untouched',
-        (tester) async {
-      final ctx = await _pump(
-        tester,
-        location: _FakeLocationService(grantAccess: false),
-      );
-      await tester.tap(find.text('Begin'));
-      await _settle(tester);
-      await tester.tap(find.text('Next'));
-      await _settle(tester);
+      'denied permission still advances but leaves coords untouched',
+      (tester) async {
+        final ctx = await _pump(
+          tester,
+          location: _FakeLocationService(grantAccess: false),
+        );
+        await tester.tap(find.text('Begin'));
+        await _settle(tester);
+        await tester.tap(find.text('Next'));
+        await _settle(tester);
 
-      await tester.tap(find.text('Allow access'));
-      await _settle(tester);
+        await tester.tap(find.text('Allow access'));
+        await _settle(tester);
 
-      expect(ctx.location.requestCount, 1);
-      expect(ctx.prefs.latitude, isNull);
-      expect(ctx.prefs.longitude, isNull);
-      expect(find.text('Enable reminders'), findsOneWidget);
-    });
+        expect(ctx.location.requestCount, 1);
+        expect(ctx.prefs.latitude, isNull);
+        expect(ctx.prefs.longitude, isNull);
+        expect(find.text('Enable reminders'), findsOneWidget);
+      },
+    );
 
-    testWidgets('Choose city manually skips without calling the service',
-        (tester) async {
+    testWidgets('Choose city manually skips without calling the service', (
+      tester,
+    ) async {
       final ctx = await _pump(tester);
       await tester.tap(find.text('Begin'));
       await _settle(tester);
@@ -291,25 +299,28 @@ void main() {
   });
 
   group('Notifications step', () {
-    testWidgets('Enable reminders sets notificationsEnabled=true and advances',
-        (tester) async {
-      final ctx = await _pump(tester);
-      await tester.tap(find.text('Begin'));
-      await _settle(tester);
-      await tester.tap(find.text('Next'));
-      await _settle(tester);
-      await tester.tap(find.text('Choose city manually'));
-      await _settle(tester);
+    testWidgets(
+      'Enable reminders sets notificationsEnabled=true and advances',
+      (tester) async {
+        final ctx = await _pump(tester);
+        await tester.tap(find.text('Begin'));
+        await _settle(tester);
+        await tester.tap(find.text('Next'));
+        await _settle(tester);
+        await tester.tap(find.text('Choose city manually'));
+        await _settle(tester);
 
-      await tester.tap(find.text('Enable reminders'));
-      await _settle(tester);
+        await tester.tap(find.text('Enable reminders'));
+        await _settle(tester);
 
-      expect(ctx.prefs.notificationsEnabled, isTrue);
-      expect(find.text('Enter Qadr'), findsOneWidget);
-    });
+        expect(ctx.prefs.notificationsEnabled, isTrue);
+        expect(find.text('Enter Qadr'), findsOneWidget);
+      },
+    );
 
-    testWidgets('Not now sets notificationsEnabled=false and advances',
-        (tester) async {
+    testWidgets('Not now sets notificationsEnabled=false and advances', (
+      tester,
+    ) async {
       final ctx = await _pump(tester);
       await tester.tap(find.text('Begin'));
       await _settle(tester);
@@ -344,8 +355,7 @@ void main() {
       expect(find.text('Enter Qadr'), findsOneWidget);
     });
 
-    testWidgets('personalised eyebrow when a name was entered',
-        (tester) async {
+    testWidgets('personalised eyebrow when a name was entered', (tester) async {
       await _pump(tester);
       await tester.tap(find.text('Begin'));
       await _settle(tester);
@@ -363,98 +373,103 @@ void main() {
 
   group('End-to-end flow', () {
     testWidgets(
-        'full happy path sets onboardingComplete=true and navigates to /',
-        (tester) async {
-      final ctx = await _pump(tester);
+      'full happy path sets onboardingComplete=true and navigates to /',
+      (tester) async {
+        final ctx = await _pump(tester);
 
-      await tester.tap(find.text('Begin'));
-      await _settle(tester);
-      await tester.enterText(find.byType(TextField), 'Aisha');
-      await _advanceToEnd(tester);
+        await tester.tap(find.text('Begin'));
+        await _settle(tester);
+        await tester.enterText(find.byType(TextField), 'Aisha');
+        await _advanceToEnd(tester);
 
-      expect(ctx.prefs.onboardingComplete, isTrue);
-      expect(ctx.prefs.name, 'Aisha');
-      expect(ctx.prefs.latitude, 21.4225);
-      expect(ctx.prefs.notificationsEnabled, isTrue);
-      // Router should now be on '/'.
-      expect(find.text('__HOME__'), findsOneWidget);
-    });
+        expect(ctx.prefs.onboardingComplete, isTrue);
+        expect(ctx.prefs.name, 'Aisha');
+        expect(ctx.prefs.latitude, 21.4225);
+        expect(ctx.prefs.notificationsEnabled, isTrue);
+        // Router should now be on '/'.
+        expect(find.text('__HOME__'), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'regression: Enter Qadr navigates to / when router uses RouterListenable',
-        (tester) async {
-      SharedPreferences.setMockInitialValues({});
-      final sharedPrefs = await SharedPreferences.getInstance();
-      final userPrefs = UserPreferences(sharedPrefs);
-      final fakeLocation = _FakeLocationService();
+      'regression: Enter Qadr navigates to / when router uses RouterListenable',
+      (tester) async {
+        SharedPreferences.setMockInitialValues({});
+        final sharedPrefs = await SharedPreferences.getInstance();
+        final userPrefs = UserPreferences(sharedPrefs);
+        final fakeLocation = _FakeLocationService();
 
-      final container = ProviderContainer(overrides: [
-        userPreferencesProvider.overrideWith((_) async => userPrefs),
-        locationServiceProvider.overrideWithValue(fakeLocation),
-        widgetServiceProvider.overrideWithValue(null),
-        localProvider.overrideWith((_) => const Locale('en')),
-      ]);
-      addTearDown(container.dispose);
+        final container = ProviderContainer(
+          overrides: [
+            userPreferencesProvider.overrideWith((_) async => userPrefs),
+            locationServiceProvider.overrideWithValue(fakeLocation),
+            widgetServiceProvider.overrideWithValue(null),
+            localProvider.overrideWith((_) => const Locale('en')),
+          ],
+        );
+        addTearDown(container.dispose);
 
-      final listenable = RouterListenable.fromContainer(container);
-      addTearDown(listenable.dispose);
+        final listenable = RouterListenable.fromContainer(container);
+        addTearDown(listenable.dispose);
 
-      final router = GoRouter(
-        initialLocation: '/onboarding',
-        refreshListenable: listenable,
-        redirect: (context, state) => onboardingRedirect(
-          onboardingComplete: listenable.onboardingComplete,
-          matchedLocation: state.matchedLocation,
-        ),
-        routes: [
-          GoRoute(
-            path: '/onboarding',
-            builder: (_, _) => const OnboardingScreen(),
+        final router = GoRouter(
+          initialLocation: '/onboarding',
+          refreshListenable: listenable,
+          redirect: (context, state) => onboardingRedirect(
+            onboardingComplete: listenable.onboardingComplete,
+            matchedLocation: state.matchedLocation,
           ),
-          GoRoute(
-            path: '/',
-            builder: (_, _) => const Scaffold(
-              body: Center(child: Text('__HOME__')),
+          routes: [
+            GoRoute(
+              path: '/onboarding',
+              builder: (_, _) => const OnboardingScreen(),
+            ),
+            GoRoute(
+              path: '/',
+              builder: (_, _) =>
+                  const Scaffold(body: Center(child: Text('__HOME__'))),
+            ),
+          ],
+        );
+
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: MaterialApp.router(
+              routerConfig: router,
+              locale: const Locale('en'),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
             ),
           ),
-        ],
-      );
+        );
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 50));
 
-      await tester.pumpWidget(
-        UncontrolledProviderScope(
-          container: container,
-          child: MaterialApp.router(
-            routerConfig: router,
-            locale: const Locale('en'),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-          ),
-        ),
-      );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 50));
+        await tester.tap(find.text('Begin'));
+        await _settle(tester);
+        await tester.tap(find.text('Next'));
+        await _settle(tester);
+        await tester.tap(find.text('Allow access'));
+        await _settle(tester);
+        await tester.tap(find.text('Enable reminders'));
+        await _settle(tester);
+        await tester.tap(find.text('Enter Qadr'));
+        await _settle(tester);
 
-      await tester.tap(find.text('Begin'));
-      await _settle(tester);
-      await tester.tap(find.text('Next'));
-      await _settle(tester);
-      await tester.tap(find.text('Allow access'));
-      await _settle(tester);
-      await tester.tap(find.text('Enable reminders'));
-      await _settle(tester);
-      await tester.tap(find.text('Enter Qadr'));
-      await _settle(tester);
+        expect(find.text('__HOME__'), findsOneWidget);
+      },
+    );
 
-      expect(find.text('__HOME__'), findsOneWidget);
-    });
-
-    testWidgets('language picked at the welcome step persists through the flow',
-        (tester) async {
-      final ctx = await _pump(tester);
-      await tester.tap(find.text('RU'));
-      await _settle(tester);
-      expect(ctx.prefs.language, 'ru');
-    });
+    testWidgets(
+      'language picked at the welcome step persists through the flow',
+      (tester) async {
+        final ctx = await _pump(tester);
+        await tester.tap(find.text('RU'));
+        await _settle(tester);
+        expect(ctx.prefs.language, 'ru');
+      },
+    );
   });
 
   group('Name prefill', () {

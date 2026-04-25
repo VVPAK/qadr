@@ -6,7 +6,13 @@ import 'package:qadr/features/learning/domain/learning_curriculum.dart';
 void main() {
   group('ComponentContextBuilder.buildContextJson', () {
     test('pass-through types include the original type and data', () {
-      for (final type in const ['prayerTimes', 'quranAyah', 'dua', 'tasbih', 'qibla']) {
+      for (final type in const [
+        'prayerTimes',
+        'quranAyah',
+        'dua',
+        'tasbih',
+        'qibla',
+      ]) {
         final result = ComponentContextBuilder.buildContextJson(
           ComponentPayload(type: type, data: const {'k': 'v'}),
         );

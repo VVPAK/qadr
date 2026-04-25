@@ -8,12 +8,8 @@ class DuaListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.dua),
-      ),
-      body: Center(
-        child: Text(context.l10n.duaComingSoon),
-      ),
+      appBar: AppBar(title: Text(context.l10n.dua)),
+      body: Center(child: Text(context.l10n.duaComingSoon)),
     );
   }
 }

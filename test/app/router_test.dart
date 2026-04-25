@@ -5,10 +5,7 @@ void main() {
   group('onboardingRedirect', () {
     test('sends a fresh user on "/" to /onboarding', () {
       expect(
-        onboardingRedirect(
-          onboardingComplete: false,
-          matchedLocation: '/',
-        ),
+        onboardingRedirect(onboardingComplete: false, matchedLocation: '/'),
         '/onboarding',
       );
     });
@@ -46,10 +43,7 @@ void main() {
     test('does not interfere with completed users on regular routes', () {
       for (final loc in ['/', '/quran/1', '/settings']) {
         expect(
-          onboardingRedirect(
-            onboardingComplete: true,
-            matchedLocation: loc,
-          ),
+          onboardingRedirect(onboardingComplete: true, matchedLocation: loc),
           isNull,
           reason: 'loc=$loc',
         );

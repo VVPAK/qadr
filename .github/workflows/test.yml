@@ -68,7 +68,7 @@ jobs:
           echo "Line coverage: ${COVERAGE}%"
           python3 -c "
           cov = float('${COVERAGE}')
-          threshold = 60
+          threshold = 80
           if cov < threshold:
               print(f'FAIL: coverage {cov:.1f}% is below threshold {threshold}%')
               exit(1)

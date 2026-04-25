@@ -108,30 +108,34 @@ class _QuranListScreenState extends ConsumerState<QuranListScreen> {
           right: 22,
           bottom: 145,
           child: isSearching
-              ? ref.watch(quranSearchProvider(language)).when(
-                    loading: () => const Center(
-                      child: CircularProgressIndicator(
-                          color: Color(0xFFF4EFE6)),
-                    ),
-                    error: (e, _) => Center(
-                      child: Text(
+              ? ref
+                    .watch(quranSearchProvider(language))
+                    .when(
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFFF4EFE6),
+                        ),
+                      ),
+                      error: (e, _) => Center(
+                        child: Text(
                           context.l10n.errorWithMessage(e.toString()),
-                          style: const TextStyle(color: Color(0xFFF4EFE6))),
-                    ),
-                    data: (results) => _SearchResultsCard(
-                      results: results,
-                      language: language,
-                    ),
-                  )
+                          style: const TextStyle(color: Color(0xFFF4EFE6)),
+                        ),
+                      ),
+                      data: (results) => _SearchResultsCard(
+                        results: results,
+                        language: language,
+                      ),
+                    )
               : surahsAsync.when(
                   loading: () => const Center(
-                    child: CircularProgressIndicator(
-                        color: Color(0xFFF4EFE6)),
+                    child: CircularProgressIndicator(color: Color(0xFFF4EFE6)),
                   ),
                   error: (e, _) => Center(
                     child: Text(
-                        context.l10n.errorWithMessage(e.toString()),
-                        style: const TextStyle(color: Color(0xFFF4EFE6))),
+                      context.l10n.errorWithMessage(e.toString()),
+                      style: const TextStyle(color: Color(0xFFF4EFE6)),
+                    ),
                   ),
                   data: (surahs) => _SurahListCard(surahs: surahs),
                 ),
@@ -160,20 +164,24 @@ class _QuranListScreenState extends ConsumerState<QuranListScreen> {
                 child: Material(
                   type: MaterialType.transparency,
                   child: TextField(
-                  controller: _searchController,
-                  style: const TextStyle(
-                      fontSize: 13, color: Color(0xFFF4EFE6)),
-                  cursorColor: const Color(0xBFF4EFE6),
-                  decoration: InputDecoration(
-                    hintText: context.l10n.searchSurahOrAyah,
-                    hintStyle: const TextStyle(
-                        fontSize: 13, color: Color(0xBFF4EFE6)),
-                    isDense: true,
-                    contentPadding: EdgeInsets.zero,
-                    border: InputBorder.none,
-                    filled: false,
+                    controller: _searchController,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFFF4EFE6),
+                    ),
+                    cursorColor: const Color(0xBFF4EFE6),
+                    decoration: InputDecoration(
+                      hintText: context.l10n.searchSurahOrAyah,
+                      hintStyle: const TextStyle(
+                        fontSize: 13,
+                        color: Color(0xBFF4EFE6),
+                      ),
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                      border: InputBorder.none,
+                      filled: false,
+                    ),
                   ),
-                ),
                 ),
               ),
               AnimatedSwitcher(
@@ -182,8 +190,11 @@ class _QuranListScreenState extends ConsumerState<QuranListScreen> {
                     ? GestureDetector(
                         key: const ValueKey('clear'),
                         onTap: _clearSearch,
-                        child: const Icon(Icons.close,
-                            size: 15, color: Color(0xBFF4EFE6)),
+                        child: const Icon(
+                          Icons.close,
+                          size: 15,
+                          color: Color(0xBFF4EFE6),
+                        ),
                       )
                     : const SizedBox.shrink(key: ValueKey('empty')),
               ),
@@ -204,7 +215,10 @@ class _SurahListCard extends StatelessWidget {
     return GlassContainer(
       borderRadius: 20,
       child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.md, vertical: 6),
+        padding: const EdgeInsets.symmetric(
+          horizontal: QadrSpacing.md,
+          vertical: 6,
+        ),
         itemCount: surahs.length,
         itemBuilder: (context, index) {
           final surah = surahs[index];
@@ -253,11 +267,14 @@ class _SearchResultsCard extends StatelessWidget {
       items.add(_SectionHeader(label: context.l10n.surahs));
       for (var i = 0; i < results.surahs.length; i++) {
         final surah = results.surahs[i];
-        items.add(_SurahRow(
-          surah: surah,
-          showBorder: i < results.surahs.length - 1 || results.ayahs.isNotEmpty,
-          onTap: () => context.push('/quran/${surah.number}'),
-        ));
+        items.add(
+          _SurahRow(
+            surah: surah,
+            showBorder:
+                i < results.surahs.length - 1 || results.ayahs.isNotEmpty,
+            onTap: () => context.push('/quran/${surah.number}'),
+          ),
+        );
       }
     }
 
@@ -265,11 +282,13 @@ class _SearchResultsCard extends StatelessWidget {
       items.add(_SectionHeader(label: context.l10n.searchResultsAyahs));
       for (var i = 0; i < results.ayahs.length; i++) {
         final ayah = results.ayahs[i];
-        items.add(_AyahResultRow(
-          ayah: ayah,
-          text: _ayahText(ayah),
-          showBorder: i < results.ayahs.length - 1,
-        ));
+        items.add(
+          _AyahResultRow(
+            ayah: ayah,
+            text: _ayahText(ayah),
+            showBorder: i < results.ayahs.length - 1,
+          ),
+        );
       }
     }
 
@@ -277,7 +296,9 @@ class _SearchResultsCard extends StatelessWidget {
       borderRadius: 20,
       child: ListView(
         padding: const EdgeInsets.symmetric(
-            horizontal: QadrSpacing.md, vertical: 6),
+          horizontal: QadrSpacing.md,
+          vertical: 6,
+        ),
         children: items,
       ),
     );
@@ -325,9 +346,7 @@ class _AyahResultRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 2),
         decoration: showBorder
             ? const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Color(0x12FFFFFF)),
-                ),
+                border: Border(bottom: BorderSide(color: Color(0x12FFFFFF))),
               )
             : null,
         child: Row(
@@ -338,10 +357,7 @@ class _AyahResultRow extends StatelessWidget {
               child: Text(
                 '${ayah.surahNumber}:${ayah.ayahNumber}',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: Color(0x8CF4EFE6),
-                ),
+                style: const TextStyle(fontSize: 13, color: Color(0x8CF4EFE6)),
               ),
             ),
             const SizedBox(width: 8),
@@ -350,10 +366,7 @@ class _AyahResultRow extends StatelessWidget {
                 text,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFFF4EFE6),
-                ),
+                style: const TextStyle(fontSize: 14, color: Color(0xFFF4EFE6)),
               ),
             ),
           ],
@@ -387,9 +400,7 @@ class _SurahRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 2),
         decoration: showBorder
             ? const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Color(0x12FFFFFF)),
-                ),
+                border: Border(bottom: BorderSide(color: Color(0x12FFFFFF))),
               )
             : null,
         child: Row(

@@ -177,8 +177,7 @@ class _PrayerRowView extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: active
-                  ? const Icon(Icons.check,
-                      size: 10, color: QadrColors.text)
+                  ? const Icon(Icons.check, size: 10, color: QadrColors.text)
                   : null,
             ),
             const SizedBox(width: 12),

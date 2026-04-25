@@ -8,10 +8,11 @@ final learningProgressProvider = Provider<LearningProgressStore>((ref) {
 });
 
 /// Notifier that triggers UI rebuilds when progress changes.
-final learningStateProvider =
-    StateNotifierProvider<LearningStateNotifier, int>((ref) {
-  return LearningStateNotifier(ref.watch(learningProgressProvider));
-});
+final learningStateProvider = StateNotifierProvider<LearningStateNotifier, int>(
+  (ref) {
+    return LearningStateNotifier(ref.watch(learningProgressProvider));
+  },
+);
 
 class LearningStateNotifier extends StateNotifier<int> {
   LearningStateNotifier(this._store) : super(0);

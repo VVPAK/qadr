@@ -81,17 +81,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
       ),
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const MainShell(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const MainShell()),
       GoRoute(
         path: '/quran/:surahNumber',
         builder: (context, state) {
-          final surahNumber =
-              int.parse(state.pathParameters['surahNumber']!);
-          final initialAyah =
-              int.tryParse(state.uri.queryParameters['ayah'] ?? '');
+          final surahNumber = int.parse(state.pathParameters['surahNumber']!);
+          final initialAyah = int.tryParse(
+            state.uri.queryParameters['ayah'] ?? '',
+          );
           return SurahReaderScreen(
             surahNumber: surahNumber,
             initialAyah: initialAyah,

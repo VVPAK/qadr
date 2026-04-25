@@ -17,9 +17,7 @@ class QuranReaderScreen extends ConsumerWidget {
     final surahsAsync = ref.watch(surahListProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.quran),
-      ),
+      appBar: AppBar(title: Text(context.l10n.quran)),
       body: surahsAsync.when(
         loading: () => Center(
           child: Column(
@@ -41,8 +39,7 @@ class QuranReaderScreen extends ConsumerWidget {
         ),
         data: (surahs) => ListView.builder(
           itemCount: surahs.length,
-          itemBuilder: (context, index) =>
-              _SurahListTile(surah: surahs[index]),
+          itemBuilder: (context, index) => _SurahListTile(surah: surahs[index]),
         ),
       ),
     );
@@ -108,9 +105,7 @@ class _SurahNumber extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(
-            color: context.colorScheme.outlineVariant,
-          ),
+          border: Border.all(color: context.colorScheme.outlineVariant),
         ),
         child: Center(
           child: Text(

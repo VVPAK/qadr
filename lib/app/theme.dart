@@ -52,6 +52,7 @@ abstract final class QadrSpacing {
 
   /// Standard horizontal screen inset.
   static const double screenH = 20;
+
   /// Standard vertical screen inset.
   static const double screenV = 24;
 }
@@ -79,30 +80,30 @@ abstract final class QadrRadius {
 abstract final class QadrShadow {
   /// Subtle card lift.
   static List<BoxShadow> get card => [
-        BoxShadow(
-          color: QadrColors.text.withValues(alpha: 0.06),
-          blurRadius: 12,
-          offset: const Offset(0, 2),
-        ),
-      ];
+    BoxShadow(
+      color: QadrColors.text.withValues(alpha: 0.06),
+      blurRadius: 12,
+      offset: const Offset(0, 2),
+    ),
+  ];
 
   /// Floating elements — nav bar, FAB.
   static List<BoxShadow> get float => [
-        BoxShadow(
-          color: QadrColors.text.withValues(alpha: 0.12),
-          blurRadius: 24,
-          offset: const Offset(0, 6),
-        ),
-      ];
+    BoxShadow(
+      color: QadrColors.text.withValues(alpha: 0.12),
+      blurRadius: 24,
+      offset: const Offset(0, 6),
+    ),
+  ];
 
   /// Bottom sheet / modal overlay.
   static List<BoxShadow> get overlay => [
-        BoxShadow(
-          color: QadrColors.text.withValues(alpha: 0.18),
-          blurRadius: 40,
-          offset: const Offset(0, -4),
-        ),
-      ];
+    BoxShadow(
+      color: QadrColors.text.withValues(alpha: 0.18),
+      blurRadius: 40,
+      offset: const Offset(0, -4),
+    ),
+  ];
 }
 
 abstract final class QadrTheme {

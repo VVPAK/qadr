@@ -75,8 +75,11 @@ Some chatter after.
       test('maps each known intent string to its enum value', () {
         for (final intent in ChatIntent.values) {
           final raw = '{"intent":"${intent.name}","responseType":"text"}';
-          expect(IntentParser.parse(raw)!.intent, intent,
-              reason: 'intent=${intent.name}');
+          expect(
+            IntentParser.parse(raw)!.intent,
+            intent,
+            reason: 'intent=${intent.name}',
+          );
         }
       });
 
@@ -93,13 +96,15 @@ Some chatter after.
 
     group('responseType parsing', () {
       test('accepts camelCase responseType key', () {
-        const raw = '{"intent":"qibla","responseType":"component",'
+        const raw =
+            '{"intent":"qibla","responseType":"component",'
             '"component":{"type":"qibla","data":{}}}';
         expect(IntentParser.parse(raw)!.responseType, ResponseType.component);
       });
 
       test('accepts snake_case response_type key', () {
-        const raw = '{"intent":"qibla","response_type":"component",'
+        const raw =
+            '{"intent":"qibla","response_type":"component",'
             '"component":{"type":"qibla","data":{}}}';
         expect(IntentParser.parse(raw)!.responseType, ResponseType.component);
       });
@@ -117,7 +122,8 @@ Some chatter after.
 
     group('component parsing', () {
       test('parses a well-formed component with a data map', () {
-        const raw = '{"intent":"prayerTime","responseType":"component",'
+        const raw =
+            '{"intent":"prayerTime","responseType":"component",'
             '"component":{"type":"prayerTimes",'
             '"data":{"prayers":[],"date":"2026-04-23"}}}';
         final result = IntentParser.parse(raw)!;
@@ -127,7 +133,8 @@ Some chatter after.
       });
 
       test('flattens fields into data when LLM omits the "data" key', () {
-        const raw = '{"intent":"tasbih","responseType":"component",'
+        const raw =
+            '{"intent":"tasbih","responseType":"component",'
             '"component":{"type":"tasbih",'
             '"dhikrText":"SubhanAllah","targetCount":33}}';
         final result = IntentParser.parse(raw)!;
@@ -139,13 +146,15 @@ Some chatter after.
       });
 
       test('returns null component when component.type is missing', () {
-        const raw = '{"intent":"qibla","responseType":"component",'
+        const raw =
+            '{"intent":"qibla","responseType":"component",'
             '"component":{"data":{}}}';
         expect(IntentParser.parse(raw)!.component, isNull);
       });
 
       test('returns null component when component.type is empty', () {
-        const raw = '{"intent":"qibla","responseType":"component",'
+        const raw =
+            '{"intent":"qibla","responseType":"component",'
             '"component":{"type":"","data":{}}}';
         expect(IntentParser.parse(raw)!.component, isNull);
       });

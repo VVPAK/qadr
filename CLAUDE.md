@@ -11,6 +11,11 @@ Qadr is a Flutter-based Muslim companion app with a conversational UI. The main 
 **Always use FVM** (Flutter Version Manager) instead of system Flutter:
 
 ```bash
+# First-time setup (once per clone)
+fvm install                              # Install the pinned Flutter version
+fvm flutter pub get                      # Install dependencies
+fvm dart run build_runner build --delete-conflicting-outputs  # Generate code
+
 fvm flutter run                          # Run the app
 fvm flutter build apk                    # Build Android APK
 fvm flutter build ios                    # Build iOS

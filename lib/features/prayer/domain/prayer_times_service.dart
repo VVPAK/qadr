@@ -60,7 +60,8 @@ class PrayerTimesService {
       );
     }).toList();
 
-    final dateStr = '${model.date.year}-'
+    final dateStr =
+        '${model.date.year}-'
         '${model.date.month.toString().padLeft(2, '0')}-'
         '${model.date.day.toString().padLeft(2, '0')}';
 
@@ -70,21 +71,39 @@ class PrayerTimesService {
   /// Returns the predominant madhab for the given coordinates.
   static Madhab madhabForLocation(double lat, double lng) {
     // Hanafi regions: Turkey, Central Asia, South Asia, Russia
-    if (lat >= 36 && lat <= 42 && lng >= 26 && lng <= 45) return Madhab.hanafi; // Turkey
-    if (lat >= 23 && lat <= 38 && lng >= 60 && lng <= 78) return Madhab.hanafi; // Pakistan/Afghanistan
-    if (lat >= 5 && lat <= 35 && lng >= 68 && lng <= 93) return Madhab.hanafi; // India/Bangladesh
-    if (lat >= 35 && lat <= 55 && lng >= 50 && lng <= 88) return Madhab.hanafi; // Central Asia
-    if (lat >= 42 && lat <= 70 && lng >= 26 && lng <= 60) return Madhab.hanafi; // Russia
+    if (lat >= 36 && lat <= 42 && lng >= 26 && lng <= 45) {
+      return Madhab.hanafi; // Turkey
+    }
+    if (lat >= 23 && lat <= 38 && lng >= 60 && lng <= 78) {
+      return Madhab.hanafi; // Pakistan/Afghanistan
+    }
+    if (lat >= 5 && lat <= 35 && lng >= 68 && lng <= 93) {
+      return Madhab.hanafi; // India/Bangladesh
+    }
+    if (lat >= 35 && lat <= 55 && lng >= 50 && lng <= 88) {
+      return Madhab.hanafi; // Central Asia
+    }
+    if (lat >= 42 && lat <= 70 && lng >= 26 && lng <= 60) {
+      return Madhab.hanafi; // Russia
+    }
 
     // Maliki regions: North/West Africa
-    if (lat >= 27 && lat <= 36 && lng >= -13 && lng <= -1) return Madhab.maliki; // Morocco
-    if (lat >= 18 && lat <= 38 && lng >= -1 && lng <= 25) return Madhab.maliki; // Algeria/Tunisia/Libya
+    if (lat >= 27 && lat <= 36 && lng >= -13 && lng <= -1) {
+      return Madhab.maliki; // Morocco
+    }
+    if (lat >= 18 && lat <= 38 && lng >= -1 && lng <= 25) {
+      return Madhab.maliki; // Algeria/Tunisia/Libya
+    }
 
     // Hanbali regions: Saudi Arabia
-    if (lat >= 12 && lat <= 33 && lng >= 35 && lng <= 56) return Madhab.hanbali; // Arabian Peninsula
+    if (lat >= 12 && lat <= 33 && lng >= 35 && lng <= 56) {
+      return Madhab.hanbali; // Arabian Peninsula
+    }
 
     // Shafi'i regions: Southeast Asia, East Africa
-    if (lat >= -11 && lat <= 20 && lng >= 93 && lng <= 141) return Madhab.shafii; // SE Asia
+    if (lat >= -11 && lat <= 20 && lng >= 93 && lng <= 141) {
+      return Madhab.shafii; // SE Asia
+    }
 
     // Default
     return Madhab.shafii;

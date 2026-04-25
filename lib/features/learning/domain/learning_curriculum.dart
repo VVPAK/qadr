@@ -25,20 +25,20 @@ class LearningStep {
   final String? tipRu;
 
   String localizedTitle(String lang) => switch (lang) {
-        'ar' => titleAr,
-        'ru' => titleRu,
-        _ => title,
-      };
+    'ar' => titleAr,
+    'ru' => titleRu,
+    _ => title,
+  };
 
   String localizedContent(String lang) => switch (lang) {
-        'ru' => contentRu,
-        _ => content,
-      };
+    'ru' => contentRu,
+    _ => content,
+  };
 
   String? localizedTip(String lang) => switch (lang) {
-        'ru' => tipRu ?? tip,
-        _ => tip,
-      };
+    'ru' => tipRu ?? tip,
+    _ => tip,
+  };
 }
 
 class Lesson {
@@ -63,15 +63,15 @@ class Lesson {
   final String icon;
 
   String localizedTitle(String lang) => switch (lang) {
-        'ar' => titleAr,
-        'ru' => titleRu,
-        _ => title,
-      };
+    'ar' => titleAr,
+    'ru' => titleRu,
+    _ => title,
+  };
 
   String localizedDescription(String lang) => switch (lang) {
-        'ru' => descriptionRu,
-        _ => description,
-      };
+    'ru' => descriptionRu,
+    _ => description,
+  };
 }
 
 class LearningModule {
@@ -96,15 +96,15 @@ class LearningModule {
   final String icon;
 
   String localizedTitle(String lang) => switch (lang) {
-        'ar' => titleAr,
-        'ru' => titleRu,
-        _ => title,
-      };
+    'ar' => titleAr,
+    'ru' => titleRu,
+    _ => title,
+  };
 
   String localizedDescription(String lang) => switch (lang) {
-        'ru' => descriptionRu,
-        _ => description,
-      };
+    'ru' => descriptionRu,
+    _ => description,
+  };
 }
 
 /// The full curriculum
@@ -145,13 +145,16 @@ const learningCurriculum = [
             title: 'The Words',
             titleAr: 'الكلمات',
             titleRu: 'Слова шахады',
-            content: 'The Shahada consists of two parts: '
+            content:
+                'The Shahada consists of two parts: '
                 'testifying that there is no god but Allah, '
                 'and that Muhammad ﷺ is His messenger.',
-            contentRu: 'Шахада состоит из двух частей: '
+            contentRu:
+                'Шахада состоит из двух частей: '
                 'свидетельство о том, что нет бога, кроме Аллаха, '
                 'и что Мухаммад ﷺ — Его посланник.',
-            arabicText: 'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا ٱللّٰهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ ٱللّٰهِ',
+            arabicText:
+                'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا ٱللّٰهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ ٱللّٰهِ',
             transliteration:
                 'Ash-hadu an la ilaha illa Allah, wa ash-hadu anna Muhammadan rasulu Allah',
           ),
@@ -167,8 +170,10 @@ const learningCurriculum = [
                 '«Я свидетельствую, что нет божества, достойного поклонения, кроме Аллаха, '
                 'и свидетельствую, что Мухаммад — посланник Аллаха».\n\n'
                 'Это свидетельство утверждает единобожие (таухид) и пророческую миссию Мухаммада ﷺ.',
-            tip: 'The Shahada is not just words — it is a commitment to live by the principles of Islam.',
-            tipRu: 'Шахада — это не просто слова, а обязательство жить по принципам ислама.',
+            tip:
+                'The Shahada is not just words — it is a commitment to live by the principles of Islam.',
+            tipRu:
+                'Шахада — это не просто слова, а обязательство жить по принципам ислама.',
           ),
         ],
       ),
@@ -185,13 +190,15 @@ const learningCurriculum = [
             title: 'The Five Pillars',
             titleAr: 'أركان الإسلام',
             titleRu: 'Пять столпов',
-            content: 'Islam is built upon five pillars:\n\n'
+            content:
+                'Islam is built upon five pillars:\n\n'
                 '1. **Shahada** — Declaration of faith\n'
                 '2. **Salah** — Five daily prayers\n'
                 '3. **Zakat** — Obligatory charity (2.5% of wealth)\n'
                 '4. **Sawm** — Fasting during Ramadan\n'
                 '5. **Hajj** — Pilgrimage to Makkah (once in a lifetime if able)',
-            contentRu: 'Ислам основан на пяти столпах:\n\n'
+            contentRu:
+                'Ислам основан на пяти столпах:\n\n'
                 '1. **Шахада** — свидетельство веры\n'
                 '2. **Салят (намаз)** — пять ежедневных молитв\n'
                 '3. **Закят** — обязательная милостыня (2,5% от имущества)\n'
@@ -214,8 +221,7 @@ const learningCurriculum = [
                 'поклонения, кроме Аллаха, и что Мухаммад — посланник Аллаха, '
                 'совершении молитвы, выплате закята, паломничестве к Дому '
                 'и посте в Рамадан».',
-            arabicText:
-                'بُنِيَ الإسْلامُ عَلَى خَمْسٍ',
+            arabicText: 'بُنِيَ الإسْلامُ عَلَى خَمْسٍ',
             transliteration: 'Buniya al-Islamu ʿala khams',
             tip: 'Source: Sahih al-Bukhari 8, Sahih Muslim 16',
             tipRu: 'Источник: Сахих аль-Бухари 8, Сахих Муслим 16',
@@ -235,7 +241,8 @@ const learningCurriculum = [
             title: 'What is Iman?',
             titleAr: 'ما هو الإيمان؟',
             titleRu: 'Что такое иман?',
-            content: 'Iman (faith) goes deeper than practice — it is what you believe in your heart.\n\n'
+            content:
+                'Iman (faith) goes deeper than practice — it is what you believe in your heart.\n\n'
                 'The six pillars of Iman are:\n\n'
                 '1. **Belief in Allah** — The one God\n'
                 '2. **Belief in Angels** — Created from light\n'
@@ -243,7 +250,8 @@ const learningCurriculum = [
                 '4. **Belief in Prophets** — From Adam to Muhammad ﷺ\n'
                 '5. **Belief in the Day of Judgment** — Accountability\n'
                 '6. **Belief in Qadr** — Divine decree, both good and bad',
-            contentRu: 'Иман (вера) глубже, чем обрядовая практика — это то, во что вы верите в своём сердце.\n\n'
+            contentRu:
+                'Иман (вера) глубже, чем обрядовая практика — это то, во что вы верите в своём сердце.\n\n'
                 'Шесть столпов имана:\n\n'
                 '1. **Вера в Аллаха** — единого Бога\n'
                 '2. **Вера в ангелов** — созданных из света\n'
@@ -318,9 +326,11 @@ const learningCurriculum = [
             title: 'Step 1: Intention & Bismillah',
             titleAr: 'النية والبسملة',
             titleRu: 'Шаг 1: Намерение и «Бисмиллях»',
-            content: 'Begin with the intention (niyyah) in your heart to perform wudu for prayer.\n\n'
+            content:
+                'Begin with the intention (niyyah) in your heart to perform wudu for prayer.\n\n'
                 'Say "Bismillah" (In the name of Allah) before starting.',
-            contentRu: 'Начните с намерения (ният) в сердце совершить омовение для молитвы.\n\n'
+            contentRu:
+                'Начните с намерения (ният) в сердце совершить омовение для молитвы.\n\n'
                 'Скажите «Бисмиллях» (Во имя Аллаха) перед началом.',
             arabicText: 'بِسْمِ ٱللّٰهِ',
             transliteration: 'Bismillah',
@@ -329,10 +339,12 @@ const learningCurriculum = [
             title: 'Step 2: Wash Hands',
             titleAr: 'غسل اليدين',
             titleRu: 'Шаг 2: Мытьё рук',
-            content: 'Wash both hands up to the wrists three times.\n\n'
+            content:
+                'Wash both hands up to the wrists three times.\n\n'
                 'Start with the right hand, then the left. '
                 'Make sure water reaches between the fingers.',
-            contentRu: 'Вымойте обе руки до запястий три раза.\n\n'
+            contentRu:
+                'Вымойте обе руки до запястий три раза.\n\n'
                 'Начните с правой руки, затем левую. '
                 'Убедитесь, что вода проходит между пальцами.',
           ),
@@ -351,28 +363,34 @@ const learningCurriculum = [
             title: 'Step 4: Wash Face',
             titleAr: 'غسل الوجه',
             titleRu: 'Шаг 4: Мытьё лица',
-            content: 'Wash your entire face three times.\n\n'
+            content:
+                'Wash your entire face three times.\n\n'
                 'The face is from the hairline to the chin, and from ear to ear.',
-            contentRu: 'Вымойте всё лицо три раза.\n\n'
+            contentRu:
+                'Вымойте всё лицо три раза.\n\n'
                 'Лицо — это область от линии роста волос до подбородка и от уха до уха.',
           ),
           LearningStep(
             title: 'Step 5: Wash Arms',
             titleAr: 'غسل اليدين إلى المرفقين',
             titleRu: 'Шаг 5: Мытьё рук до локтей',
-            content: 'Wash the right arm from fingertips to elbow three times.\n\n'
+            content:
+                'Wash the right arm from fingertips to elbow three times.\n\n'
                 'Then wash the left arm the same way. Include the elbows.',
-            contentRu: 'Вымойте правую руку от кончиков пальцев до локтя три раза.\n\n'
+            contentRu:
+                'Вымойте правую руку от кончиков пальцев до локтя три раза.\n\n'
                 'Затем таким же образом вымойте левую руку. Локти тоже омываются.',
           ),
           LearningStep(
             title: 'Step 6: Wipe Head & Ears',
             titleAr: 'مسح الرأس والأذنين',
             titleRu: 'Шаг 6: Обтирание головы и ушей',
-            content: 'With wet hands, wipe over your head from front to back and back to front once.\n\n'
+            content:
+                'With wet hands, wipe over your head from front to back and back to front once.\n\n'
                 'Then wipe the inside of the ears with the index fingers '
                 'and the outside with the thumbs.',
-            contentRu: 'Влажными руками проведите по голове от лба к затылку и обратно один раз.\n\n'
+            contentRu:
+                'Влажными руками проведите по голове от лба к затылку и обратно один раз.\n\n'
                 'Затем протрите внутреннюю сторону ушей указательными пальцами, '
                 'а внешнюю — большими.',
           ),
@@ -380,10 +398,12 @@ const learningCurriculum = [
             title: 'Step 7: Wash Feet',
             titleAr: 'غسل القدمين',
             titleRu: 'Шаг 7: Мытьё ног',
-            content: 'Wash the right foot up to the ankle three times, '
+            content:
+                'Wash the right foot up to the ankle three times, '
                 'including between the toes.\n\n'
                 'Then wash the left foot the same way.',
-            contentRu: 'Вымойте правую ногу до щиколотки три раза, '
+            contentRu:
+                'Вымойте правую ногу до щиколотки три раза, '
                 'включая промежутки между пальцами.\n\n'
                 'Затем таким же образом вымойте левую ногу.',
           ),
@@ -416,13 +436,15 @@ const learningCurriculum = [
             title: 'Before You Begin',
             titleAr: 'قبل أن تبدأ',
             titleRu: 'Перед началом',
-            content: 'Before praying, make sure:\n\n'
+            content:
+                'Before praying, make sure:\n\n'
                 '• You have wudu (ablution)\n'
                 '• You are facing the Qibla (direction of Kaaba)\n'
                 '• Your body and place of prayer are clean\n'
                 '• You are dressed modestly\n'
                 '• It is the correct prayer time',
-            contentRu: 'Перед молитвой убедитесь:\n\n'
+            contentRu:
+                'Перед молитвой убедитесь:\n\n'
                 '• У вас есть омовение (вуду)\n'
                 '• Вы стоите лицом к Кибле (направление Каабы)\n'
                 '• Ваше тело и место молитвы чисты\n'
@@ -499,9 +521,9 @@ const learningCurriculum = [
             titleRu: 'Шаг 5: Выпрямление после руку',
             content: 'Rise from bowing and say:',
             contentRu: 'Выпрямитесь после поясного поклона и скажите:',
-            arabicText: 'سَمِعَ ٱللّٰهُ لِمَنْ حَمِدَهُ\nرَبَّنَا وَلَكَ ٱلْحَمْدُ',
-            transliteration:
-                "Sami'Allahu liman hamidah\nRabbana wa lakal hamd",
+            arabicText:
+                'سَمِعَ ٱللّٰهُ لِمَنْ حَمِدَهُ\nرَبَّنَا وَلَكَ ٱلْحَمْدُ',
+            transliteration: "Sami'Allahu liman hamidah\nRabbana wa lakal hamd",
           ),
           LearningStep(
             title: 'Step 6: Sujud (Prostration)',
@@ -518,7 +540,8 @@ const learningCurriculum = [
             arabicText: 'سُبْحَانَ رَبِّيَ ٱلْأَعْلَى',
             transliteration: 'Subhana Rabbiyal A\'la',
             tip: 'Sujud is the closest a servant is to Allah. Make dua here.',
-            tipRu: 'Суджуд — момент наибольшей близости раба к Аллаху. Обращайтесь с дуа в этом положении.',
+            tipRu:
+                'Суджуд — момент наибольшей близости раба к Аллаху. Обращайтесь с дуа в этом положении.',
           ),
           LearningStep(
             title: 'Step 7: Sitting & Second Sujud',
@@ -543,11 +566,12 @@ const learningCurriculum = [
             contentRu:
                 'В последнем сидении прочитайте ташаххуд, отправьте благословения Пророку ﷺ, '
                 'затем завершите молитву, повернув голову направо и налево со словами:',
-            arabicText:
-                'ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللّٰهِ',
+            arabicText: 'ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللّٰهِ',
             transliteration: "As-salamu alaykum wa rahmatullah",
-            tip: 'The number of rakahs: Fajr=2, Dhuhr=4, Asr=4, Maghrib=3, Isha=4',
-            tipRu: 'Количество ракаатов: Фаджр=2, Зухр=4, Аср=4, Магриб=3, Иша=4',
+            tip:
+                'The number of rakahs: Fajr=2, Dhuhr=4, Asr=4, Maghrib=3, Isha=4',
+            tipRu:
+                'Количество ракаатов: Фаджр=2, Зухр=4, Аср=4, Магриб=3, Иша=4',
           ),
         ],
       ),
@@ -578,9 +602,9 @@ const learningCurriculum = [
             titleAr: 'قبل الأكل',
             titleRu: 'Перед едой',
             content: 'Say Bismillah before eating. If you forget, say:',
-            contentRu: 'Скажите «Бисмиллях» перед едой. Если вы забыли, скажите:',
-            arabicText:
-                'بِسْمِ ٱللّٰهِ أَوَّلَهُ وَآخِرَهُ',
+            contentRu:
+                'Скажите «Бисмиллях» перед едой. Если вы забыли, скажите:',
+            arabicText: 'بِسْمِ ٱللّٰهِ أَوَّلَهُ وَآخِرَهُ',
             transliteration: "Bismillahi awwalahu wa akhirah",
             tip: 'Source: Abu Dawud 3767',
             tipRu: 'Источник: Абу Дауд 3767',
@@ -671,7 +695,8 @@ const learningCurriculum = [
             title: 'Sunnah of Friday',
             titleAr: 'سنن يوم الجمعة',
             titleRu: 'Сунна пятничного дня',
-            content: 'Recommended acts on Friday:\n\n'
+            content:
+                'Recommended acts on Friday:\n\n'
                 '• Take a bath (ghusl)\n'
                 '• Wear clean/best clothes\n'
                 '• Use perfume\n'
@@ -679,7 +704,8 @@ const learningCurriculum = [
                 '• Read Surah Al-Kahf (18)\n'
                 '• Send abundant blessings on the Prophet ﷺ\n'
                 '• Make dua (there is an hour of acceptance)',
-            contentRu: 'Желательные действия в пятницу:\n\n'
+            contentRu:
+                'Желательные действия в пятницу:\n\n'
                 '• Совершить полное омовение (гусль)\n'
                 '• Надеть чистую и лучшую одежду\n'
                 '• Воспользоваться благовониями\n'
