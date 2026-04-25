@@ -82,6 +82,8 @@ _$PrayerTimeEntryImpl _$$PrayerTimeEntryImplFromJson(
   name: json['name'] as String,
   time: json['time'] as String,
   isNext: json['isNext'] as bool? ?? false,
+  isPassed: json['isPassed'] as bool? ?? false,
+  isPassive: json['isPassive'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$$PrayerTimeEntryImplToJson(
@@ -90,6 +92,8 @@ Map<String, dynamic> _$$PrayerTimeEntryImplToJson(
   'name': instance.name,
   'time': instance.time,
   'isNext': instance.isNext,
+  'isPassed': instance.isPassed,
+  'isPassive': instance.isPassive,
 };
 
 _$AyahEntryImpl _$$AyahEntryImplFromJson(Map<String, dynamic> json) =>

@@ -75,20 +75,21 @@ class ScenePage extends StatelessWidget {
 /// watermark) — used for Quran reader and Learn article screens
 /// where readability of text matters more than visual impact.
 class ParchmentPage extends StatelessWidget {
-  final NavSection activeNav;
-  final ValueChanged<NavSection> onNavChanged;
+  final NavSection? activeNav;
+  final ValueChanged<NavSection>? onNavChanged;
   final List<Widget> children;
 
   const ParchmentPage({
     super.key,
-    required this.activeNav,
-    required this.onNavChanged,
+    this.activeNav,
+    this.onNavChanged,
     required this.children,
   });
 
   @override
   Widget build(BuildContext context) {
     final bg = Theme.of(context).scaffoldBackgroundColor;
+    final showNav = activeNav != null && onNavChanged != null;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: Theme.of(context).brightness == Brightness.light
@@ -104,11 +105,12 @@ class ParchmentPage extends StatelessWidget {
           // Children
           ...children,
 
-          // Floating nav
-          FloatingNavBar(
-            active: activeNav,
-            onChanged: onNavChanged,
-          ),
+          // Floating nav (hidden on pushed/single-screen flows)
+          if (showNav)
+            FloatingNavBar(
+              active: activeNav!,
+              onChanged: onNavChanged!,
+            ),
         ],
       ),
     );

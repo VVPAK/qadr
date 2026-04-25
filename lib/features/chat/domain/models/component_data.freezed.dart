@@ -1185,6 +1185,8 @@ mixin _$PrayerTimeEntry {
   String get name => throw _privateConstructorUsedError;
   String get time => throw _privateConstructorUsedError;
   bool get isNext => throw _privateConstructorUsedError;
+  bool get isPassed => throw _privateConstructorUsedError;
+  bool get isPassive => throw _privateConstructorUsedError;
 
   /// Serializes this PrayerTimeEntry to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1203,7 +1205,13 @@ abstract class $PrayerTimeEntryCopyWith<$Res> {
     $Res Function(PrayerTimeEntry) then,
   ) = _$PrayerTimeEntryCopyWithImpl<$Res, PrayerTimeEntry>;
   @useResult
-  $Res call({String name, String time, bool isNext});
+  $Res call({
+    String name,
+    String time,
+    bool isNext,
+    bool isPassed,
+    bool isPassive,
+  });
 }
 
 /// @nodoc
@@ -1220,7 +1228,13 @@ class _$PrayerTimeEntryCopyWithImpl<$Res, $Val extends PrayerTimeEntry>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? name = null, Object? time = null, Object? isNext = null}) {
+  $Res call({
+    Object? name = null,
+    Object? time = null,
+    Object? isNext = null,
+    Object? isPassed = null,
+    Object? isPassive = null,
+  }) {
     return _then(
       _value.copyWith(
             name: null == name
@@ -1234,6 +1248,14 @@ class _$PrayerTimeEntryCopyWithImpl<$Res, $Val extends PrayerTimeEntry>
             isNext: null == isNext
                 ? _value.isNext
                 : isNext // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isPassed: null == isPassed
+                ? _value.isPassed
+                : isPassed // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isPassive: null == isPassive
+                ? _value.isPassive
+                : isPassive // ignore: cast_nullable_to_non_nullable
                       as bool,
           )
           as $Val,
@@ -1250,7 +1272,13 @@ abstract class _$$PrayerTimeEntryImplCopyWith<$Res>
   ) = __$$PrayerTimeEntryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String time, bool isNext});
+  $Res call({
+    String name,
+    String time,
+    bool isNext,
+    bool isPassed,
+    bool isPassive,
+  });
 }
 
 /// @nodoc
@@ -1266,7 +1294,13 @@ class __$$PrayerTimeEntryImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? name = null, Object? time = null, Object? isNext = null}) {
+  $Res call({
+    Object? name = null,
+    Object? time = null,
+    Object? isNext = null,
+    Object? isPassed = null,
+    Object? isPassive = null,
+  }) {
     return _then(
       _$PrayerTimeEntryImpl(
         name: null == name
@@ -1281,6 +1315,14 @@ class __$$PrayerTimeEntryImplCopyWithImpl<$Res>
             ? _value.isNext
             : isNext // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isPassed: null == isPassed
+            ? _value.isPassed
+            : isPassed // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isPassive: null == isPassive
+            ? _value.isPassive
+            : isPassive // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -1293,6 +1335,8 @@ class _$PrayerTimeEntryImpl implements _PrayerTimeEntry {
     required this.name,
     required this.time,
     this.isNext = false,
+    this.isPassed = false,
+    this.isPassive = false,
   });
 
   factory _$PrayerTimeEntryImpl.fromJson(Map<String, dynamic> json) =>
@@ -1305,10 +1349,16 @@ class _$PrayerTimeEntryImpl implements _PrayerTimeEntry {
   @override
   @JsonKey()
   final bool isNext;
+  @override
+  @JsonKey()
+  final bool isPassed;
+  @override
+  @JsonKey()
+  final bool isPassive;
 
   @override
   String toString() {
-    return 'PrayerTimeEntry(name: $name, time: $time, isNext: $isNext)';
+    return 'PrayerTimeEntry(name: $name, time: $time, isNext: $isNext, isPassed: $isPassed, isPassive: $isPassive)';
   }
 
   @override
@@ -1318,12 +1368,17 @@ class _$PrayerTimeEntryImpl implements _PrayerTimeEntry {
             other is _$PrayerTimeEntryImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.time, time) || other.time == time) &&
-            (identical(other.isNext, isNext) || other.isNext == isNext));
+            (identical(other.isNext, isNext) || other.isNext == isNext) &&
+            (identical(other.isPassed, isPassed) ||
+                other.isPassed == isPassed) &&
+            (identical(other.isPassive, isPassive) ||
+                other.isPassive == isPassive));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, time, isNext);
+  int get hashCode =>
+      Object.hash(runtimeType, name, time, isNext, isPassed, isPassive);
 
   /// Create a copy of PrayerTimeEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -1347,6 +1402,8 @@ abstract class _PrayerTimeEntry implements PrayerTimeEntry {
     required final String name,
     required final String time,
     final bool isNext,
+    final bool isPassed,
+    final bool isPassive,
   }) = _$PrayerTimeEntryImpl;
 
   factory _PrayerTimeEntry.fromJson(Map<String, dynamic> json) =
@@ -1358,6 +1415,10 @@ abstract class _PrayerTimeEntry implements PrayerTimeEntry {
   String get time;
   @override
   bool get isNext;
+  @override
+  bool get isPassed;
+  @override
+  bool get isPassive;
 
   /// Create a copy of PrayerTimeEntry
   /// with the given fields replaced by the non-null parameter values.

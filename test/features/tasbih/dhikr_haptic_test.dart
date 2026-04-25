@@ -5,6 +5,7 @@ import 'package:qadr/core/services/haptic_service.dart';
 import 'package:qadr/features/chat/domain/models/component_data.dart';
 import 'package:qadr/features/tasbih/presentation/widgets/tasbih_counter_widget.dart';
 import 'package:qadr/features/tasbih/presentation/dhikr_screen.dart';
+import 'package:qadr/l10n/app_localizations.dart';
 
 class _FakeHapticService extends HapticService {
   final calls = <String>[];
@@ -19,7 +20,11 @@ class _FakeHapticService extends HapticService {
 Widget _wrap(Widget child, HapticService haptic) {
   return ProviderScope(
     overrides: [hapticServiceProvider.overrideWithValue(haptic)],
-    child: MaterialApp(home: Scaffold(body: child)),
+    child: MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Scaffold(body: child),
+    ),
   );
 }
 
@@ -56,6 +61,45 @@ void main() {
 
       expect(fake.calls.where((c) => c == 'light'), hasLength(32));
       expect(fake.calls.last, 'success');
+    });
+  });
+
+  group('DhikrScreen done state', () {
+    testWidgets('counter continues incrementing past target', (tester) async {
+      final fake = _FakeHapticService();
+      await tester.pumpWidget(_wrap(
+        DhikrScreen(onNavChanged: (_) {}),
+        fake,
+      ));
+      await tester.pump();
+
+      for (var i = 0; i < 34; i++) {
+        await tester.tap(find.text('$i'));
+        await tester.pump();
+      }
+
+      expect(find.text('34'), findsOneWidget);
+    });
+
+    testWidgets('tap past target fires lightImpact not success', (tester) async {
+      final fake = _FakeHapticService();
+      await tester.pumpWidget(_wrap(
+        DhikrScreen(onNavChanged: (_) {}),
+        fake,
+      ));
+      await tester.pump();
+
+      for (var i = 0; i < 33; i++) {
+        await tester.tap(find.text('$i'));
+        await tester.pump();
+      }
+      fake.calls.clear();
+
+      // One tap past the target
+      await tester.tap(find.text('33'));
+      await tester.pump();
+
+      expect(fake.calls, equals(['light']));
     });
   });
 

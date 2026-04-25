@@ -117,5 +117,70 @@
   "onboardingBismillahTranslation": "С именем Аллаха — начнём.",
   "onboardingBismillahHeadline1": "Пусть каждый",
   "onboardingBismillahHeadline2": "намаз будет принят.",
-  "onboardingBismillahCta": "Войти в Qadr"
+  "onboardingBismillahCta": "Войти в Qadr",
+  "kaaba": "Кааба",
+  "degreesFromNorth": "{degrees}° от севера",
+  "@degreesFromNorth": {
+    "placeholders": {
+      "degrees": {"type": "int"}
+    }
+  },
+  "facingKaaba": "Точно на Каабу",
+  "turnRight": "вправо",
+  "turnLeft": "влево",
+  "compassUnavailable": "Компас недоступен на этом устройстве",
+  "calibrateCompass": "Покачайте телефон восьмёркой для калибровки",
+  "calibrationHigh": "Точность калибровки: высокая",
+  "calibrationMedium": "Точность калибровки: средняя",
+  "calibrationLow": "Точность калибровки: низкая — калибруйте",
+  "qiblaLocationTitle": "Разрешите доступ к геолокации",
+  "qiblaLocationDesc": "Нужно определить ваше местоположение, чтобы направить стрелку на Каабу.",
+  "detectLocation": "Определить местоположение",
+  "aiChat": "AI-чат",
+  "apiBaseUrl": "API Base URL",
+  "apiKey": "API-ключ",
+  "saveApiSettings": "Сохранить настройки API",
+  "apiSettingsSaved": "Настройки API сохранены",
+  "ofTarget": "из {target}",
+  "@ofTarget": {
+    "placeholders": {
+      "target": {"type": "int"}
+    }
+  },
+  "compassN": "С",
+  "compassE": "В",
+  "compassS": "Ю",
+  "compassW": "З",
+  "lessonCount": "{count, plural, one{{count} урок} few{{count} урока} other{{count} уроков}}",
+  "@lessonCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "stepCount": "{count, plural, one{{count} шаг} few{{count} шага} other{{count} шагов}}",
+  "@stepCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "chatGreeting": "Ассаламу алейкум",
+  "chatSubtitle": "Задай вопрос или выбери тему",
+  "qiblaLocationRequired": "Для компаса Киблы нужна геолокация",
+  "enableLocation": "Включить геолокацию",
+  "duaComingSoon": "Список дуа — скоро",
+  "invalidLesson": "Некорректный урок",
+  "lessonNotFound": "Урок не найден: {lessonId}",
+  "@lessonNotFound": {
+    "placeholders": {
+      "lessonId": {"type": "String"}
+    }
+  },
+  "errorWithMessage": "Ошибка: {error}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "searchResultsAyahs": "Аяты",
+  "searchNoResults": "Ничего не найдено"
 }

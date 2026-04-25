@@ -30,3 +30,41 @@ final ayahsProvider =
   final dao = ref.watch(quranDaoProvider);
   return dao.getAyahsForSurah(surahNumber);
 });
+
+const _kMinSearchLength = 2;
+
+class QuranSearchResults {
+  const QuranSearchResults({required this.surahs, required this.ayahs});
+
+  final List<Surah> surahs;
+  final List<Ayah> ayahs;
+
+  bool get isEmpty => surahs.isEmpty && ayahs.isEmpty;
+}
+
+final quranSearchQueryProvider = StateProvider<String>((_) => '');
+
+/// Keyed by language code ('en', 'ar', 'ru').
+final quranSearchProvider =
+    FutureProvider.family<QuranSearchResults, String>((ref, language) async {
+  final query = ref.watch(quranSearchQueryProvider);
+  if (query.trim().length < _kMinSearchLength) {
+    return const QuranSearchResults(surahs: [], ayahs: []);
+  }
+
+  final allSurahs = await ref.watch(surahListProvider.future);
+  final dao = ref.watch(quranDaoProvider);
+  final q = query.trim().toLowerCase();
+
+  final matchingSurahs = allSurahs.where((s) {
+    return switch (language) {
+      'ar' => s.nameArabic.contains(q),
+      'ru' => s.nameRussian.toLowerCase().contains(q),
+      _ => s.nameEnglish.toLowerCase().contains(q),
+    };
+  }).toList();
+
+  final matchingAyahs = await dao.searchAyahs(query.trim(), language);
+
+  return QuranSearchResults(surahs: matchingSurahs, ayahs: matchingAyahs);
+});

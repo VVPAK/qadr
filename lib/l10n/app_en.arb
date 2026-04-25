@@ -117,5 +117,70 @@
   "onboardingBismillahTranslation": "In the name of Allah — let us begin.",
   "onboardingBismillahHeadline1": "May every",
   "onboardingBismillahHeadline2": "prayer be accepted.",
-  "onboardingBismillahCta": "Enter Qadr"
+  "onboardingBismillahCta": "Enter Qadr",
+  "kaaba": "Kaaba",
+  "degreesFromNorth": "{degrees}° from north",
+  "@degreesFromNorth": {
+    "placeholders": {
+      "degrees": {"type": "int"}
+    }
+  },
+  "facingKaaba": "Facing the Kaaba",
+  "turnRight": "right",
+  "turnLeft": "left",
+  "compassUnavailable": "Compass unavailable on this device",
+  "calibrateCompass": "Move your phone in a figure-8 to calibrate",
+  "calibrationHigh": "Calibration accuracy: high",
+  "calibrationMedium": "Calibration accuracy: medium",
+  "calibrationLow": "Calibration accuracy: low — calibrate",
+  "qiblaLocationTitle": "Allow location access",
+  "qiblaLocationDesc": "Your location is needed to point the arrow towards the Kaaba.",
+  "detectLocation": "Detect location",
+  "aiChat": "AI Chat",
+  "apiBaseUrl": "API Base URL",
+  "apiKey": "API Key",
+  "saveApiSettings": "Save API Settings",
+  "apiSettingsSaved": "API settings saved",
+  "ofTarget": "of {target}",
+  "@ofTarget": {
+    "placeholders": {
+      "target": {"type": "int"}
+    }
+  },
+  "compassN": "N",
+  "compassE": "E",
+  "compassS": "S",
+  "compassW": "W",
+  "lessonCount": "{count, plural, =1{{count} lesson} other{{count} lessons}}",
+  "@lessonCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "stepCount": "{count, plural, =1{{count} step} other{{count} steps}}",
+  "@stepCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "chatGreeting": "Assalamu Alaikum",
+  "chatSubtitle": "Ask a question or choose a topic",
+  "qiblaLocationRequired": "Location required for Qibla compass",
+  "enableLocation": "Enable location",
+  "duaComingSoon": "Dua List — coming soon",
+  "invalidLesson": "Invalid lesson",
+  "lessonNotFound": "Lesson not found: {lessonId}",
+  "@lessonNotFound": {
+    "placeholders": {
+      "lessonId": {"type": "String"}
+    }
+  },
+  "errorWithMessage": "Error: {error}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "searchResultsAyahs": "Verses",
+  "searchNoResults": "No results found"
 }

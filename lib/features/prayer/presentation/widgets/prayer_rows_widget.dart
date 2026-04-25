@@ -12,8 +12,6 @@ class PrayerRowsWidget extends StatelessWidget {
 
   final List<PrayerTimeEntry> prayers;
 
-  static bool _isPassive(String name) => name == 'sunrise';
-
   static String _localizeName(String name, AppLocalizations l10n) {
     return switch (name) {
       'fajr' => l10n.fajr,
@@ -41,8 +39,22 @@ class PrayerRowsWidget extends StatelessWidget {
   Widget _buildRow(BuildContext context, PrayerTimeEntry prayer, bool showBorder) {
     const cream = Color(0xFFF4EFE6);
     const muted = Color(0x6BF4EFE6);
-    final passive = _isPassive(prayer.name);
-    final textColor = (passive || !prayer.isNext) ? (passive ? muted : cream) : const Color(0xFFF8EEDC);
+
+    final double opacity;
+    final Color textColor;
+    if (prayer.isPassive) {
+      opacity = 0.6;
+      textColor = muted;
+    } else if (prayer.isPassed) {
+      opacity = 0.5;
+      textColor = muted;
+    } else if (prayer.isNext) {
+      opacity = 1.0;
+      textColor = const Color(0xFFF8EEDC);
+    } else {
+      opacity = 1.0;
+      textColor = cream;
+    }
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 2),
@@ -52,19 +64,22 @@ class PrayerRowsWidget extends StatelessWidget {
             )
           : null,
       child: Opacity(
-        opacity: passive ? 0.6 : 1.0,
+        opacity: opacity,
         child: Row(
           children: [
-            Text(
-              _localizeName(prayer.name, context.l10n),
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: prayer.isNext ? FontWeight.w500 : FontWeight.w400,
-                color: textColor,
-                letterSpacing: -0.1,
+            Expanded(
+              child: Text(
+                _localizeName(prayer.name, context.l10n),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: prayer.isNext ? FontWeight.w500 : FontWeight.w400,
+                  color: textColor,
+                  letterSpacing: -0.1,
+                ),
               ),
             ),
-            if (passive)
+            if (prayer.isPassive)
               Padding(
                 padding: const EdgeInsets.only(left: QadrSpacing.sm),
                 child: Text(
@@ -72,11 +87,10 @@ class PrayerRowsWidget extends StatelessWidget {
                   style: const TextStyle(fontSize: 11, color: muted),
                 ),
               ),
-            const Spacer(),
             const SizedBox(width: QadrSpacing.md),
             Container(
               padding: prayer.isNext
-                  ? const EdgeInsets.symmetric(horizontal: 9, vertical: 3)
+                  ? const EdgeInsets.symmetric(horizontal: 9)
                   : EdgeInsets.zero,
               decoration: prayer.isNext
                   ? BoxDecoration(

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qadr/app/providers.dart';
+import 'package:qadr/app/router.dart';
 import 'package:qadr/core/constants/islamic_constants.dart';
 import 'package:qadr/core/data/preferences/user_preferences.dart';
 import 'package:qadr/core/providers/preferences_provider.dart';
@@ -120,6 +121,16 @@ Future<void> _advanceToEnd(WidgetTester tester) async {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  group('Scaffold configuration', () {
+    testWidgets(
+        'Scaffold has resizeToAvoidBottomInset=false so keyboard does not '
+        'push the CTA over the input card', (tester) async {
+      await _pump(tester);
+      final scaffold = tester.widget<Scaffold>(find.byType(Scaffold).first);
+      expect(scaffold.resizeToAvoidBottomInset, isFalse);
+    });
+  });
+
   group('Welcome step', () {
     testWidgets('shows the three language toggles and the Begin CTA',
         (tester) async {
@@ -186,6 +197,37 @@ void main() {
 
       expect(ctx.prefs.name, isNull);
       expect(find.text('Allow access'), findsOneWidget);
+    });
+
+    testWidgets('tapping Next dismisses the keyboard', (tester) async {
+      await _pump(tester);
+      await tester.tap(find.text('Begin'));
+      await _settle(tester);
+
+      await tester.tap(find.byType(TextField));
+      await tester.pump();
+      expect(tester.testTextInput.isVisible, isTrue);
+
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(tester.testTextInput.isVisible, isFalse);
+    });
+
+    testWidgets('tapping outside the input dismisses the keyboard',
+        (tester) async {
+      await _pump(tester);
+      await tester.tap(find.text('Begin'));
+      await _settle(tester);
+
+      await tester.tap(find.byType(TextField));
+      await tester.pump();
+      expect(tester.testTextInput.isVisible, isTrue);
+
+      // Tap above the glass card (which starts around y=296), outside any
+      // focusable widget — should unfocus via the screen-level GestureDetector.
+      await tester.tapAt(const Offset(200, 200));
+      await tester.pump();
+      expect(tester.testTextInput.isVisible, isFalse);
     });
   });
 
@@ -335,6 +377,74 @@ void main() {
       expect(ctx.prefs.latitude, 21.4225);
       expect(ctx.prefs.notificationsEnabled, isTrue);
       // Router should now be on '/'.
+      expect(find.text('__HOME__'), findsOneWidget);
+    });
+
+    testWidgets(
+        'regression: Enter Qadr navigates to / when router uses RouterListenable',
+        (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      final sharedPrefs = await SharedPreferences.getInstance();
+      final userPrefs = UserPreferences(sharedPrefs);
+      final fakeLocation = _FakeLocationService();
+
+      final container = ProviderContainer(overrides: [
+        userPreferencesProvider.overrideWith((_) async => userPrefs),
+        locationServiceProvider.overrideWithValue(fakeLocation),
+        widgetServiceProvider.overrideWithValue(null),
+        localProvider.overrideWith((_) => const Locale('en')),
+      ]);
+      addTearDown(container.dispose);
+
+      final listenable = RouterListenable.fromContainer(container);
+      addTearDown(listenable.dispose);
+
+      final router = GoRouter(
+        initialLocation: '/onboarding',
+        refreshListenable: listenable,
+        redirect: (context, state) => onboardingRedirect(
+          onboardingComplete: listenable.onboardingComplete,
+          matchedLocation: state.matchedLocation,
+        ),
+        routes: [
+          GoRoute(
+            path: '/onboarding',
+            builder: (_, _) => const OnboardingScreen(),
+          ),
+          GoRoute(
+            path: '/',
+            builder: (_, _) => const Scaffold(
+              body: Center(child: Text('__HOME__')),
+            ),
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp.router(
+            routerConfig: router,
+            locale: const Locale('en'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
+
+      await tester.tap(find.text('Begin'));
+      await _settle(tester);
+      await tester.tap(find.text('Next'));
+      await _settle(tester);
+      await tester.tap(find.text('Allow access'));
+      await _settle(tester);
+      await tester.tap(find.text('Enable reminders'));
+      await _settle(tester);
+      await tester.tap(find.text('Enter Qadr'));
+      await _settle(tester);
+
       expect(find.text('__HOME__'), findsOneWidget);
     });
 

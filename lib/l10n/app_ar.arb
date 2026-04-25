@@ -117,5 +117,70 @@
   "onboardingBismillahTranslation": "باسم الله — لنبدأ.",
   "onboardingBismillahHeadline1": "لتُقبل",
   "onboardingBismillahHeadline2": "كل صلاة.",
-  "onboardingBismillahCta": "ادخل قدر"
+  "onboardingBismillahCta": "ادخل قدر",
+  "kaaba": "الكعبة",
+  "degreesFromNorth": "{degrees}° من الشمال",
+  "@degreesFromNorth": {
+    "placeholders": {
+      "degrees": {"type": "int"}
+    }
+  },
+  "facingKaaba": "باتجاه الكعبة",
+  "turnRight": "يمين",
+  "turnLeft": "يسار",
+  "compassUnavailable": "البوصلة غير متاحة على هذا الجهاز",
+  "calibrateCompass": "حرك هاتفك على شكل رقم 8 للمعايرة",
+  "calibrationHigh": "دقة المعايرة: عالية",
+  "calibrationMedium": "دقة المعايرة: متوسطة",
+  "calibrationLow": "دقة المعايرة: منخفضة — يلزم المعايرة",
+  "qiblaLocationTitle": "السماح بالوصول إلى الموقع",
+  "qiblaLocationDesc": "يلزم تحديد موقعك لتوجيه السهم نحو الكعبة.",
+  "detectLocation": "تحديد الموقع",
+  "aiChat": "محادثة ذكية",
+  "apiBaseUrl": "رابط API الأساسي",
+  "apiKey": "مفتاح API",
+  "saveApiSettings": "حفظ إعدادات API",
+  "apiSettingsSaved": "تم حفظ إعدادات API",
+  "ofTarget": "من {target}",
+  "@ofTarget": {
+    "placeholders": {
+      "target": {"type": "int"}
+    }
+  },
+  "compassN": "N",
+  "compassE": "E",
+  "compassS": "S",
+  "compassW": "W",
+  "lessonCount": "{count, plural, =1{درس واحد} other{{count} دروس}}",
+  "@lessonCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "stepCount": "{count, plural, =1{خطوة واحدة} other{{count} خطوات}}",
+  "@stepCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "chatGreeting": "السلام عليكم",
+  "chatSubtitle": "اطرح سؤالاً أو اختر موضوعاً",
+  "qiblaLocationRequired": "الموقع مطلوب لبوصلة القبلة",
+  "enableLocation": "تفعيل الموقع",
+  "duaComingSoon": "قائمة الأدعية — قريباً",
+  "invalidLesson": "درس غير صالح",
+  "lessonNotFound": "الدرس غير موجود: {lessonId}",
+  "@lessonNotFound": {
+    "placeholders": {
+      "lessonId": {"type": "String"}
+    }
+  },
+  "errorWithMessage": "خطأ: {error}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "searchResultsAyahs": "الآيات",
+  "searchNoResults": "لا توجد نتائج"
 }

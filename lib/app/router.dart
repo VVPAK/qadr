@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/onboarding/presentation/onboarding_screen.dart';
 import '../features/quran/presentation/surah_reader_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
+import '../core/data/preferences/user_preferences.dart';
 import '../core/providers/preferences_provider.dart';
 import 'main_shell.dart';
 
@@ -21,13 +23,57 @@ String? onboardingRedirect({
   return null;
 }
 
+/// Bridges Riverpod preference state to GoRouter's refreshListenable.
+///
+/// Keeps GoRouter stable (created once) while still re-evaluating redirects
+/// when onboarding status changes. Prevents the router from being recreated
+/// when unrelated preferences (e.g. location) are updated, which would
+/// otherwise reset MainShell's PageView back to the first tab.
+class RouterListenable extends ChangeNotifier {
+  RouterListenable(Ref ref) {
+    ref.listen<AsyncValue<UserPreferences>>(
+      userPreferencesProvider,
+      (_, next) => _onChanged(next),
+    );
+  }
+
+  @visibleForTesting
+  RouterListenable.fromContainer(ProviderContainer container) {
+    _subscription = container.listen<AsyncValue<UserPreferences>>(
+      userPreferencesProvider,
+      (_, next) => _onChanged(next),
+    );
+  }
+
+  ProviderSubscription<AsyncValue<UserPreferences>>? _subscription;
+
+  @override
+  void dispose() {
+    _subscription?.close();
+    super.dispose();
+  }
+
+  void _onChanged(AsyncValue<UserPreferences> next) {
+    final newVal = next.valueOrNull?.onboardingComplete ?? false;
+    if (newVal != _onboardingComplete) {
+      _onboardingComplete = newVal;
+      notifyListeners();
+    }
+  }
+
+  bool _onboardingComplete = false;
+  bool get onboardingComplete => _onboardingComplete;
+}
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final prefs = ref.watch(userPreferencesProvider);
+  final listenable = RouterListenable(ref);
+  ref.onDispose(listenable.dispose);
 
   return GoRouter(
     initialLocation: '/',
+    refreshListenable: listenable,
     redirect: (context, state) => onboardingRedirect(
-      onboardingComplete: prefs.valueOrNull?.onboardingComplete ?? false,
+      onboardingComplete: listenable.onboardingComplete,
       matchedLocation: state.matchedLocation,
     ),
     routes: [

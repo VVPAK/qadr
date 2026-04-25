@@ -26,16 +26,17 @@ class QuranDao extends DatabaseAccessor<AppDatabase> with _$QuranDaoMixin {
       .getSingle();
 
   Future<List<Ayah>> searchAyahs(String query, String language) {
-    final pattern = '%$query%';
+    final pattern = '%${query.toLowerCase()}%';
     return (select(ayahs)
           ..where((a) {
             switch (language) {
               case 'ar':
-                return a.textArabic.like(pattern);
+                return a.textArabic.lower().like(pattern);
               case 'ru':
-                return a.textRussian.like(pattern);
+                return a.textRussian.lower().like(pattern);
               default:
-                return a.textEnglish.like(pattern) | a.textArabic.like(pattern);
+                return a.textEnglish.lower().like(pattern) |
+                    a.textArabic.lower().like(pattern);
             }
           })
           ..limit(20))

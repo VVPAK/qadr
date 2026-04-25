@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../../../../core/extensions/context_extensions.dart';
 import '../../domain/models/component_data.dart';
 import '../../domain/models/llm_response.dart';
 import '../../../../features/prayer/presentation/widgets/prayer_times_card.dart';
@@ -54,7 +55,7 @@ class ChatMessageRenderer extends StatelessWidget {
       'qibla' => const QiblaCompassWidget(),
       'learningStart' => _buildLearningStart(context),
       'learningProgress' => const LearningProgressCard(),
-      'lessonCard' => _buildLessonCard(component.data),
+      'lessonCard' => _buildLessonCard(context, component.data),
       _ => MarkdownBody(
           data: response.text ?? 'Unknown component: ${component.type}',
         ),
@@ -78,14 +79,13 @@ class ChatMessageRenderer extends StatelessWidget {
     return LessonCardWidget(lesson: firstLesson);
   }
 
-  Widget _buildLessonCard(Map<String, dynamic> data) {
+  Widget _buildLessonCard(BuildContext context, Map<String, dynamic> data) {
     final lessonId = data['lessonId'] as String?
         ?? data['lesson_id'] as String?;
     if (lessonId == null) {
-      return const Text('Invalid lesson');
+      return Text(context.l10n.invalidLesson);
     }
 
-    // Find the lesson in curriculum
     for (final module in learningCurriculum) {
       for (final lesson in module.lessons) {
         if (lesson.id == lessonId) {
@@ -94,6 +94,6 @@ class ChatMessageRenderer extends StatelessWidget {
       }
     }
 
-    return Text('Lesson not found: $lessonId');
+    return Text(context.l10n.lessonNotFound(lessonId));
   }
 }

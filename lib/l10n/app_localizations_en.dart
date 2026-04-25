@@ -293,4 +293,134 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingBismillahCta => 'Enter Qadr';
+
+  @override
+  String get kaaba => 'Kaaba';
+
+  @override
+  String degreesFromNorth(int degrees) {
+    return '$degrees° from north';
+  }
+
+  @override
+  String get facingKaaba => 'Facing the Kaaba';
+
+  @override
+  String get turnRight => 'right';
+
+  @override
+  String get turnLeft => 'left';
+
+  @override
+  String get compassUnavailable => 'Compass unavailable on this device';
+
+  @override
+  String get calibrateCompass => 'Move your phone in a figure-8 to calibrate';
+
+  @override
+  String get calibrationHigh => 'Calibration accuracy: high';
+
+  @override
+  String get calibrationMedium => 'Calibration accuracy: medium';
+
+  @override
+  String get calibrationLow => 'Calibration accuracy: low — calibrate';
+
+  @override
+  String get qiblaLocationTitle => 'Allow location access';
+
+  @override
+  String get qiblaLocationDesc =>
+      'Your location is needed to point the arrow towards the Kaaba.';
+
+  @override
+  String get detectLocation => 'Detect location';
+
+  @override
+  String get aiChat => 'AI Chat';
+
+  @override
+  String get apiBaseUrl => 'API Base URL';
+
+  @override
+  String get apiKey => 'API Key';
+
+  @override
+  String get saveApiSettings => 'Save API Settings';
+
+  @override
+  String get apiSettingsSaved => 'API settings saved';
+
+  @override
+  String ofTarget(int target) {
+    return 'of $target';
+  }
+
+  @override
+  String get compassN => 'N';
+
+  @override
+  String get compassE => 'E';
+
+  @override
+  String get compassS => 'S';
+
+  @override
+  String get compassW => 'W';
+
+  @override
+  String lessonCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lessons',
+      one: '$count lesson',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String stepCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steps',
+      one: '$count step',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chatGreeting => 'Assalamu Alaikum';
+
+  @override
+  String get chatSubtitle => 'Ask a question or choose a topic';
+
+  @override
+  String get qiblaLocationRequired => 'Location required for Qibla compass';
+
+  @override
+  String get enableLocation => 'Enable location';
+
+  @override
+  String get duaComingSoon => 'Dua List — coming soon';
+
+  @override
+  String get invalidLesson => 'Invalid lesson';
+
+  @override
+  String lessonNotFound(String lessonId) {
+    return 'Lesson not found: $lessonId';
+  }
+
+  @override
+  String errorWithMessage(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get searchResultsAyahs => 'Verses';
+
+  @override
+  String get searchNoResults => 'No results found';
 }

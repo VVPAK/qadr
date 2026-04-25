@@ -11,8 +11,11 @@ import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/scene_background.dart';
 import '../../../core/widgets/scene_page.dart';
 import '../../../core/models/prayer_time_model.dart';
+import '../../../core/extensions/context_extensions.dart';
 import '../../../core/services/clock.dart';
 import 'providers/prayer_times_provider.dart';
+import 'widgets/prayer_rows_widget.dart';
+import '../../../features/chat/domain/models/component_data.dart';
 
 class PrayerScreen extends ConsumerStatefulWidget {
   final ValueChanged<NavSection> onNavChanged;
@@ -59,20 +62,17 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         color: Color(0xFF2A2420),
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (e, _) => Center(child: Text('Error: $e')),
+      error: (e, _) =>
+          Center(child: Text(context.l10n.errorWithMessage(e.toString()))),
       data: (prefs) {
-        final lat = prefs.latitude ?? 55.79; // Kazan default
+        final lat = prefs.latitude ?? 55.79;
         final lng = prefs.longitude ?? 49.12;
-        final service = ref.read(prayerTimesServiceProvider);
-        final prayerModel = service.calculate(
-          latitude: lat,
-          longitude: lng,
-          date: _now,
-        );
-        return _buildContent(
-          prayerModel,
-          cityName: prefs.cityName ?? 'Казань',
-        );
+        final model = ref.read(prayerTimesServiceProvider).calculate(
+              latitude: lat,
+              longitude: lng,
+              date: _now,
+            );
+        return _buildContent(model, cityName: prefs.cityName ?? 'Казань');
       },
     );
   }
@@ -81,18 +81,18 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
     PrayerTimeModel model, {
     required String cityName,
   }) {
-    final prayers = [
-      _PrayerRow('Фаджр', model.fajr, false),
-      _PrayerRow('Восход', model.sunrise, true),
-      _PrayerRow('Зухр', model.dhuhr, false),
-      _PrayerRow('Аср', model.asr, false),
-      _PrayerRow('Магриб', model.maghrib, false),
-      _PrayerRow('Иша', model.isha, false),
+    final rawPrayers = [
+      (key: 'fajr', time: model.fajr, isPassive: false),
+      (key: 'sunrise', time: model.sunrise, isPassive: true),
+      (key: 'dhuhr', time: model.dhuhr, isPassive: false),
+      (key: 'asr', time: model.asr, isPassive: false),
+      (key: 'maghrib', time: model.maghrib, isPassive: false),
+      (key: 'isha', time: model.isha, isPassive: false),
     ];
 
-    // Find next prayer
-    final activePrayers = prayers.where((p) => !p.passive).toList();
-    _PrayerRow? next;
+    // Find next active prayer
+    final activePrayers = rawPrayers.where((p) => !p.isPassive).toList();
+    ({String key, DateTime time, bool isPassive})? next;
     for (final p in activePrayers) {
       if (p.time.isAfter(_now)) {
         next = p;
@@ -108,12 +108,31 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
     final countdown =
         '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
 
+    final prayers = rawPrayers.map((p) {
+      final isPassed = !p.isPassive && p.time.isBefore(_now) && p.key != next!.key;
+      return PrayerTimeEntry(
+        name: p.key,
+        time: p.time.timeString,
+        isNext: p.key == next!.key,
+        isPassed: isPassed,
+        isPassive: p.isPassive,
+      );
+    }).toList();
+
+    final nextName = switch (next.key) {
+      'fajr' => context.l10n.fajr,
+      'dhuhr' => context.l10n.dhuhr,
+      'asr' => context.l10n.asr,
+      'maghrib' => context.l10n.maghrib,
+      'isha' => context.l10n.isha,
+      _ => next.key,
+    };
+
     final topPadding = MediaQuery.of(context).padding.top;
 
     return ScenePage(
       scene: _scenes[_sceneIdx],
       children: [
-        // Top row: scene picker + city info
         Positioned(
           top: topPadding + 10,
           left: 22,
@@ -121,16 +140,13 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Scene picker dots
               _buildScenePicker(),
               const Spacer(),
-              // City + Hijri date
               _buildCityInfo(cityName: cityName),
             ],
           ),
         ),
 
-        // Floating glass prayer card — centred vertically and horizontally
         Positioned.fill(
           child: Center(
             child: Padding(
@@ -138,7 +154,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: 280),
                 child: IntrinsicWidth(
-                  child: _buildPrayerCard(prayers, next, countdown),
+                  child: _buildPrayerCard(prayers, nextName, countdown),
                 ),
               ),
             ),
@@ -149,18 +165,20 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   }
 
   Widget _buildScenePicker() {
-    return GlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      borderRadius: 999,
-      blur: 10,
-      backgroundOpacity: 0.35,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(_scenes.length, (i) {
-          final isActive = i == _sceneIdx;
-          return GestureDetector(
-            onTap: () => setState(() => _sceneIdx = i),
-            child: AnimatedContainer(
+    return GestureDetector(
+      onTap: () => setState(
+        () => _sceneIdx = (_sceneIdx + 1) % _scenes.length,
+      ),
+      child: GlassContainer(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        borderRadius: 999,
+        blur: 10,
+        backgroundOpacity: 0.35,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(_scenes.length, (i) {
+            final isActive = i == _sceneIdx;
+            return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               width: isActive ? 18 : 6,
               height: 6,
@@ -171,9 +189,9 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
                     ? const Color(0xFFF4EFE6)
                     : const Color(0x73F4EFE6),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }
@@ -214,7 +232,7 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
   }
 
   Widget _buildPrayerCard(
-      List<_PrayerRow> prayers, _PrayerRow next, String countdown) {
+      List<PrayerTimeEntry> prayers, String nextName, String countdown) {
     return GlassContainer(
       borderRadius: 24,
       blur: 22,
@@ -224,27 +242,21 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(QadrSpacing.screenH, 14, QadrSpacing.screenH, QadrSpacing.sm),
-            child: Column(
-              children: [
-                for (int i = 0; i < prayers.length; i++)
-                  _buildPrayerRow(prayers[i], next, i < prayers.length - 1),
-              ],
-            ),
+            padding: const EdgeInsets.symmetric(
+                horizontal: QadrSpacing.screenH, vertical: 14),
+            child: PrayerRowsWidget(prayers: prayers),
           ),
-          // Countdown footer
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.screenH, vertical: 13),
+            padding: const EdgeInsets.symmetric(
+                horizontal: QadrSpacing.screenH, vertical: 13),
             decoration: const BoxDecoration(
               color: Color(0x8C8A6E4F),
-              border: Border(
-                top: BorderSide(color: Color(0x14FFFFFF)),
-              ),
+              border: Border(top: BorderSide(color: Color(0x14FFFFFF))),
             ),
             child: Row(
               children: [
                 Text(
-                  next.name,
+                  nextName,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -267,83 +279,4 @@ class _PrayerScreenState extends ConsumerState<PrayerScreen> {
       ),
     );
   }
-
-  Widget _buildPrayerRow(_PrayerRow prayer, _PrayerRow next, bool showBorder) {
-    final isNext = prayer.name == next.name;
-    final passed = !prayer.passive &&
-        prayer.time.isBefore(_now) &&
-        !isNext;
-    final muted = const Color(0x6BF4EFE6);
-
-    Color textColor;
-    if (prayer.passive || passed) {
-      textColor = muted;
-    } else {
-      textColor = const Color(0xFFF4EFE6);
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 2),
-      decoration: showBorder
-          ? const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Color(0x12FFFFFF)),
-              ),
-            )
-          : null,
-      child: Opacity(
-        opacity: prayer.passive ? 0.6 : (passed ? 0.5 : 1.0),
-        child: Row(
-          children: [
-            Text(
-              prayer.name,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: isNext ? FontWeight.w500 : FontWeight.w400,
-                color: textColor,
-                letterSpacing: -0.1,
-              ),
-            ),
-            if (prayer.passive)
-              Padding(
-                padding: const EdgeInsets.only(left: QadrSpacing.sm),
-                child: Text(
-                  'восход',
-                  style: TextStyle(fontSize: 11, color: muted),
-                ),
-              ),
-            const Spacer(),
-            const SizedBox(width: QadrSpacing.md),
-            Container(
-              padding: isNext
-                  ? const EdgeInsets.symmetric(horizontal: 9, vertical: 3)
-                  : EdgeInsets.zero,
-              decoration: isNext
-                  ? BoxDecoration(
-                      color: const Color(0x1AFFFFFF),
-                      borderRadius: BorderRadius.circular(7),
-                    )
-                  : null,
-              child: Text(
-                prayer.time.timeString,
-                style: QadrTheme.numeral(
-                  fontSize: 16,
-                  fontWeight: isNext ? FontWeight.w500 : FontWeight.w400,
-                  color: textColor,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _PrayerRow {
-  final String name;
-  final DateTime time;
-  final bool passive;
-
-  _PrayerRow(this.name, this.time, this.passive);
 }

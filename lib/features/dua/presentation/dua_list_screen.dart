@@ -11,8 +11,8 @@ class DuaListScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.l10n.dua),
       ),
-      body: const Center(
-        child: Text('Dua List — coming soon'),
+      body: Center(
+        child: Text(context.l10n.duaComingSoon),
       ),
     );
   }

@@ -38,6 +38,8 @@ class PrayerTimeEntry with _$PrayerTimeEntry {
     required String name,
     required String time,
     @Default(false) bool isNext,
+    @Default(false) bool isPassed,
+    @Default(false) bool isPassive,
   }) = _PrayerTimeEntry;
 
   factory PrayerTimeEntry.fromJson(Map<String, dynamic> json) =>

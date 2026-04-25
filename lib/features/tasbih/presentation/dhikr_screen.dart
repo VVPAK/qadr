@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/theme.dart';
+import '../../../core/extensions/context_extensions.dart';
 import '../../../core/services/haptic_service.dart';
 import '../../../core/widgets/floating_nav_bar.dart';
 import '../../../core/widgets/glass_container.dart';
@@ -37,18 +38,51 @@ class DhikrScreen extends ConsumerStatefulWidget {
   ConsumerState<DhikrScreen> createState() => _DhikrScreenState();
 }
 
-class _DhikrScreenState extends ConsumerState<DhikrScreen> {
+class _DhikrScreenState extends ConsumerState<DhikrScreen>
+    with SingleTickerProviderStateMixin {
   int _idx = 0;
   final Map<String, int> _counts = {};
+
+  late final AnimationController _bounceCtrl;
+  late final Animation<double> _scaleAnim;
 
   _Formula get _formula => _formulas[_idx];
   int get _count => _counts[_formula.id] ?? 0;
   double get _pct => (_count / _formula.target).clamp(0.0, 1.0);
+  bool get _done => _count >= _formula.target;
+
+  @override
+  void initState() {
+    super.initState();
+    _bounceCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 350),
+    );
+    _scaleAnim = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween(begin: 1.0, end: 1.1)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 35,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 1.1, end: 1.0)
+            .chain(CurveTween(curve: Curves.elasticOut)),
+        weight: 65,
+      ),
+    ]).animate(_bounceCtrl);
+  }
+
+  @override
+  void dispose() {
+    _bounceCtrl.dispose();
+    super.dispose();
+  }
 
   void _tap() {
     setState(() {
       _counts[_formula.id] = _count + 1;
     });
+    _bounceCtrl.forward(from: 0);
 
     final haptic = ref.read(hapticServiceProvider);
     if (_count == _formula.target) {
@@ -62,101 +96,48 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top;
-
     return ScenePage(
       scene: SceneType.dawn,
       topGradientStrength: 0.3,
       children: [
-        // Formula selector
-        Positioned(
-          top: topPadding + 10,
-          left: 20,
-          right: 20,
-          child: _buildFormulaSelector(),
-        ),
-
-        // Formula text card
-        Positioned(
-          top: topPadding + 86,
-          left: 28,
-          right: 28,
-          child: _buildFormulaCard(),
-        ),
-
-        // Tap zone with counter
-        Positioned(
-          left: 0,
-          right: 0,
-          top: topPadding + 250,
-          bottom: 145,
-          child: GestureDetector(
-            onTap: _tap,
-            behavior: HitTestBehavior.opaque,
-            child: Center(
-              child: SizedBox(
-                width: 300,
-                height: 300,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // Progress ring
-                    CustomPaint(
-                      size: const Size(300, 300),
-                      painter: _ProgressRingPainter(pct: _pct),
-                    ),
-
-                    // Counter number
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '$_count',
-                          style: QadrTheme.numeral(
-                            fontSize: 92,
-                            fontWeight: FontWeight.w300,
-                            color: const Color(0xFFF4EFE6),
-                          ).copyWith(
-                            height: 1,
-                            letterSpacing: -3,
-                            shadows: const [
-                              Shadow(
-                                color: Color(0x40000000),
-                                blurRadius: 18,
-                                offset: Offset(0, 2),
+        Positioned.fill(
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: QadrSpacing.screenH + 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 8),
+                  _buildFormulaSelector(),
+                  const SizedBox(height: 12),
+                  _buildFormulaCard(),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: _tap,
+                      behavior: HitTestBehavior.opaque,
+                      child: Center(
+                        child: LayoutBuilder(
+                          builder: (ctx, constraints) {
+                            final size = math.min(
+                              math.min(
+                                constraints.maxWidth * 0.85,
+                                constraints.maxHeight * 0.88,
                               ),
-                            ],
-                          ),
+                              280.0,
+                            );
+                            return _buildCounterRing(size);
+                          },
                         ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'из ${_formula.target}',
-                          style: const TextStyle(
-                            fontSize: 11,
-                            letterSpacing: 2,
-                            color: Color(0xB3F4EFE6),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  _buildFooterRow(),
+                  const SizedBox(height: 110),
+                ],
               ),
             ),
-          ),
-        ),
-
-        // Footer actions
-        Positioned(
-          left: 30,
-          right: 30,
-          bottom: 145,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildFooterButton('Сбросить', onTap: _reset),
-              _buildFooterButton('История'),
-            ],
           ),
         ),
       ],
@@ -184,8 +165,8 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen> {
                   onTap: () => setState(() => _idx = i),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
                       borderRadius: QadrRadius.pillAll,
                       color: isActive
@@ -214,7 +195,8 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen> {
 
   Widget _buildFormulaCard() {
     return GlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.screenH, vertical: 18),
+      padding: const EdgeInsets.symmetric(
+          horizontal: QadrSpacing.screenH, vertical: 18),
       borderRadius: 18,
       backgroundOpacity: 0.38,
       child: Column(
@@ -223,7 +205,7 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen> {
             _formula.ar,
             style: GoogleFonts.amiri(
               fontSize: 30,
-              height: 1.4,
+              height: 1.8,
               color: const Color(0xFFF4EFE6),
             ),
             textDirection: TextDirection.rtl,
@@ -248,6 +230,77 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildCounterRing(double size) {
+    final counterColor =
+        _done ? const Color(0xFFFFD88A) : const Color(0xFFF4EFE6);
+    final subtleColor = _done
+        ? const Color(0xFFFFD88A).withValues(alpha: 0.7)
+        : const Color(0xB3F4EFE6);
+
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+            size: Size(size, size),
+            painter: _ProgressRingPainter(pct: _pct, done: _done),
+          ),
+          AnimatedBuilder(
+            animation: _scaleAnim,
+            builder: (_, child) =>
+                Transform.scale(scale: _scaleAnim.value, child: child),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 200),
+                  style: QadrTheme.numeral(
+                    fontSize: (size * 0.325).clamp(64.0, 96.0),
+                    fontWeight: FontWeight.w300,
+                    color: counterColor,
+                  ).copyWith(
+                    height: 1,
+                    letterSpacing: -3,
+                    shadows: const [
+                      Shadow(
+                        color: Color(0x40000000),
+                        blurRadius: 18,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Text('$_count'),
+                ),
+                const SizedBox(height: 10),
+                AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 200),
+                  style: TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 2,
+                    color: subtleColor,
+                  ),
+                  child: Text(context.l10n.ofTarget(_formula.target)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFooterRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildFooterButton(context.l10n.reset, onTap: _reset),
+        _buildFooterButton(context.l10n.history),
+      ],
     );
   }
 
@@ -281,12 +334,13 @@ class _DhikrScreenState extends ConsumerState<DhikrScreen> {
 
 class _ProgressRingPainter extends CustomPainter {
   final double pct;
-  _ProgressRingPainter({required this.pct});
+  final bool done;
+  _ProgressRingPainter({required this.pct, required this.done});
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    const radius = 120.0;
+    final radius = size.width * 0.4;
 
     // Background ring
     canvas.drawCircle(
@@ -305,20 +359,21 @@ class _ProgressRingPainter extends CustomPainter {
       2 * math.pi * pct,
       false,
       Paint()
-        ..color = const Color(0xFFF4EFE6)
+        ..color = done ? const Color(0xFFFFD88A) : const Color(0xFFF4EFE6)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2.5
         ..strokeCap = StrokeCap.round,
     );
 
-    // Subtle 8-point star motif in center
+    // 8-point star motif in center
     final starPaint = Paint()
-      ..color = const Color(0x1FF4EFE6)
+      ..color = done
+          ? const Color(0xFFFFD88A).withValues(alpha: 0.25)
+          : const Color(0x1FF4EFE6)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.5;
     const s = 50.0;
-    final rect =
-        Rect.fromCenter(center: center, width: s, height: s);
+    final rect = Rect.fromCenter(center: center, width: s, height: s);
     canvas.drawRect(rect, starPaint);
     canvas.save();
     canvas.translate(center.dx, center.dy);
@@ -329,5 +384,6 @@ class _ProgressRingPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ProgressRingPainter old) => old.pct != pct;
+  bool shouldRepaint(_ProgressRingPainter old) =>
+      old.pct != pct || old.done != done;
 }

@@ -292,4 +292,136 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get onboardingBismillahCta => 'Войти в Qadr';
+
+  @override
+  String get kaaba => 'Кааба';
+
+  @override
+  String degreesFromNorth(int degrees) {
+    return '$degrees° от севера';
+  }
+
+  @override
+  String get facingKaaba => 'Точно на Каабу';
+
+  @override
+  String get turnRight => 'вправо';
+
+  @override
+  String get turnLeft => 'влево';
+
+  @override
+  String get compassUnavailable => 'Компас недоступен на этом устройстве';
+
+  @override
+  String get calibrateCompass => 'Покачайте телефон восьмёркой для калибровки';
+
+  @override
+  String get calibrationHigh => 'Точность калибровки: высокая';
+
+  @override
+  String get calibrationMedium => 'Точность калибровки: средняя';
+
+  @override
+  String get calibrationLow => 'Точность калибровки: низкая — калибруйте';
+
+  @override
+  String get qiblaLocationTitle => 'Разрешите доступ к геолокации';
+
+  @override
+  String get qiblaLocationDesc =>
+      'Нужно определить ваше местоположение, чтобы направить стрелку на Каабу.';
+
+  @override
+  String get detectLocation => 'Определить местоположение';
+
+  @override
+  String get aiChat => 'AI-чат';
+
+  @override
+  String get apiBaseUrl => 'API Base URL';
+
+  @override
+  String get apiKey => 'API-ключ';
+
+  @override
+  String get saveApiSettings => 'Сохранить настройки API';
+
+  @override
+  String get apiSettingsSaved => 'Настройки API сохранены';
+
+  @override
+  String ofTarget(int target) {
+    return 'из $target';
+  }
+
+  @override
+  String get compassN => 'С';
+
+  @override
+  String get compassE => 'В';
+
+  @override
+  String get compassS => 'Ю';
+
+  @override
+  String get compassW => 'З';
+
+  @override
+  String lessonCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count уроков',
+      few: '$count урока',
+      one: '$count урок',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String stepCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count шагов',
+      few: '$count шага',
+      one: '$count шаг',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chatGreeting => 'Ассаламу алейкум';
+
+  @override
+  String get chatSubtitle => 'Задай вопрос или выбери тему';
+
+  @override
+  String get qiblaLocationRequired => 'Для компаса Киблы нужна геолокация';
+
+  @override
+  String get enableLocation => 'Включить геолокацию';
+
+  @override
+  String get duaComingSoon => 'Список дуа — скоро';
+
+  @override
+  String get invalidLesson => 'Некорректный урок';
+
+  @override
+  String lessonNotFound(String lessonId) {
+    return 'Урок не найден: $lessonId';
+  }
+
+  @override
+  String errorWithMessage(String error) {
+    return 'Ошибка: $error';
+  }
+
+  @override
+  String get searchResultsAyahs => 'Аяты';
+
+  @override
+  String get searchNoResults => 'Ничего не найдено';
 }

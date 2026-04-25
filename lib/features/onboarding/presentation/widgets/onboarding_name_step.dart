@@ -51,6 +51,7 @@ class _OnboardingNameStepState extends ConsumerState<OnboardingNameStep>
   }
 
   Future<void> _submit() async {
+    FocusScope.of(context).unfocus();
     final name = _controller.text.trim();
     final prefs = await ref.read(userPreferencesProvider.future);
     prefs.name = name.isEmpty ? null : name;
@@ -63,7 +64,10 @@ class _OnboardingNameStepState extends ConsumerState<OnboardingNameStep>
     final topPadding = MediaQuery.of(context).padding.top;
     final hasText = _controller.text.isNotEmpty;
 
-    return ScenePage(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      behavior: HitTestBehavior.translucent,
+      child: ScenePage(
       scene: SceneType.dusk,
       topGradientStrength: 0.42,
       children: [
@@ -210,6 +214,7 @@ class _OnboardingNameStepState extends ConsumerState<OnboardingNameStep>
         const OnbDots(current: 1),
         OnbCTA(label: l10n.next, onTap: _submit),
       ],
+    ),
     );
   }
 }
