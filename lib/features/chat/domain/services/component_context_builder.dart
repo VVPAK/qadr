@@ -17,10 +17,7 @@ class ComponentContextBuilder {
     return switch (component.type) {
       'lessonCard' => _enrichLessonData(component.data),
       'learningStart' => _enrichLearningStartData(),
-      _ => {
-          'type': component.type,
-          ...component.data,
-        },
+      _ => {'type': component.type, ...component.data},
     };
   }
 

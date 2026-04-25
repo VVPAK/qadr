@@ -21,12 +21,12 @@ final _fakeSurahs = List.generate(
 );
 
 Ayah _fakeAyah(int surahNumber, int ayahNumber, String en) => Ayah(
-      surahNumber: surahNumber,
-      ayahNumber: ayahNumber,
-      textArabic: 'بِسْمِ ٱللَّٰهِ',
-      textEnglish: en,
-      textRussian: 'Во имя Аллаха',
-    );
+  surahNumber: surahNumber,
+  ayahNumber: ayahNumber,
+  textArabic: 'بِسْمِ ٱللَّٰهِ',
+  textEnglish: en,
+  textRussian: 'Во имя Аллаха',
+);
 
 final _fakeAyahResults = [
   _fakeAyah(1, 1, 'In the name of Allah the Most Gracious'),

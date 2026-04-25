@@ -3,11 +3,11 @@ import 'package:qadr/features/chat/data/chat_repository.dart';
 import 'package:qadr/features/chat/domain/models/chat_message.dart';
 
 ChatMessage _msg(String id, {String content = 'hi'}) => ChatMessage(
-      id: id,
-      role: MessageRole.user,
-      content: content,
-      timestamp: DateTime(2026, 1, 1),
-    );
+  id: id,
+  role: MessageRole.user,
+  content: content,
+  timestamp: DateTime(2026, 1, 1),
+);
 
 void main() {
   test('a new repository exposes an empty message list', () {

@@ -21,22 +21,19 @@ final _fakeSurahs = List.generate(
 );
 
 Ayah _fakeAyah(int surahNumber, int ayahNumber, String text) => Ayah(
-      surahNumber: surahNumber,
-      ayahNumber: ayahNumber,
-      textArabic: 'عربي',
-      textEnglish: text,
-      textRussian: 'русский',
-    );
+  surahNumber: surahNumber,
+  ayahNumber: ayahNumber,
+  textArabic: 'عربي',
+  textEnglish: text,
+  textRussian: 'русский',
+);
 
 final _fakeAyahs = [
   _fakeAyah(1, 1, 'In the name of Allah'),
   _fakeAyah(1, 2, 'All praise is due to Allah'),
 ];
 
-Widget _buildApp({
-  required List<Override> overrides,
-  String locale = 'en',
-}) {
+Widget _buildApp({required List<Override> overrides, String locale = 'en'}) {
   final router = GoRouter(
     routes: [
       GoRoute(
@@ -45,9 +42,7 @@ Widget _buildApp({
       ),
       GoRoute(
         path: '/quran/:surahNumber',
-        builder: (context, state) => const Scaffold(
-          body: Text('Surah Reader'),
-        ),
+        builder: (context, state) => const Scaffold(body: Text('Surah Reader')),
       ),
     ],
   );
@@ -67,32 +62,38 @@ Widget _buildApp({
 
 void main() {
   group('QuranListScreen search', () {
-    testWidgets('initial state shows surah list, not search results',
-        (tester) async {
-      await tester.pumpWidget(_buildApp(
-        overrides: [
-          surahListProvider.overrideWith((_) async => _fakeSurahs),
-          quranInitProvider.overrideWith((_) async {}),
-          quranSearchQueryProvider.overrideWith((_) => ''),
-        ],
-      ));
+    testWidgets('initial state shows surah list, not search results', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _buildApp(
+          overrides: [
+            surahListProvider.overrideWith((_) async => _fakeSurahs),
+            quranInitProvider.overrideWith((_) async {}),
+            quranSearchQueryProvider.overrideWith((_) => ''),
+          ],
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Surah 1'), findsOneWidget);
       expect(find.text('Surah 5'), findsOneWidget);
     });
 
-    testWidgets('entering text triggers search results after debounce',
-        (tester) async {
-      await tester.pumpWidget(_buildApp(
-        overrides: [
-          surahListProvider.overrideWith((_) async => _fakeSurahs),
-          quranInitProvider.overrideWith((_) async {}),
-          quranSearchProvider('en').overrideWith(
-            (_) async => QuranSearchResults(surahs: [], ayahs: _fakeAyahs),
-          ),
-        ],
-      ));
+    testWidgets('entering text triggers search results after debounce', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _buildApp(
+          overrides: [
+            surahListProvider.overrideWith((_) async => _fakeSurahs),
+            quranInitProvider.overrideWith((_) async {}),
+            quranSearchProvider('en').overrideWith(
+              (_) async => QuranSearchResults(surahs: [], ayahs: _fakeAyahs),
+            ),
+          ],
+        ),
+      );
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'al');
@@ -103,16 +104,17 @@ void main() {
     });
 
     testWidgets('empty search results shows no-results text', (tester) async {
-      await tester.pumpWidget(_buildApp(
-        overrides: [
-          surahListProvider.overrideWith((_) async => _fakeSurahs),
-          quranInitProvider.overrideWith((_) async {}),
-          quranSearchProvider('en').overrideWith(
-            (_) async =>
-                const QuranSearchResults(surahs: [], ayahs: []),
-          ),
-        ],
-      ));
+      await tester.pumpWidget(
+        _buildApp(
+          overrides: [
+            surahListProvider.overrideWith((_) async => _fakeSurahs),
+            quranInitProvider.overrideWith((_) async {}),
+            quranSearchProvider('en').overrideWith(
+              (_) async => const QuranSearchResults(surahs: [], ayahs: []),
+            ),
+          ],
+        ),
+      );
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'xyz');
@@ -124,17 +126,18 @@ void main() {
 
     testWidgets('section headers appear when results exist', (tester) async {
       final surahResults = [_fakeSurahs.first];
-      await tester.pumpWidget(_buildApp(
-        overrides: [
-          surahListProvider
-              .overrideWith((_) async => _fakeSurahs),
-          quranInitProvider.overrideWith((_) async {}),
-          quranSearchProvider('en').overrideWith(
-            (_) async => QuranSearchResults(
-                surahs: surahResults, ayahs: _fakeAyahs),
-          ),
-        ],
-      ));
+      await tester.pumpWidget(
+        _buildApp(
+          overrides: [
+            surahListProvider.overrideWith((_) async => _fakeSurahs),
+            quranInitProvider.overrideWith((_) async {}),
+            quranSearchProvider('en').overrideWith(
+              (_) async =>
+                  QuranSearchResults(surahs: surahResults, ayahs: _fakeAyahs),
+            ),
+          ],
+        ),
+      );
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'al');
@@ -146,15 +149,15 @@ void main() {
       expect(find.text('VERSES'), findsOneWidget);
     });
 
-    testWidgets('tapping ayah result navigates with ayah param',
-        (tester) async {
+    testWidgets('tapping ayah result navigates with ayah param', (
+      tester,
+    ) async {
       String? pushedRoute;
       final router = GoRouter(
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) =>
-                QuranListScreen(onNavChanged: (_) {}),
+            builder: (context, state) => QuranListScreen(onNavChanged: (_) {}),
           ),
           GoRoute(
             path: '/quran/:surahNumber',
@@ -167,23 +170,25 @@ void main() {
         ],
       );
 
-      await tester.pumpWidget(ProviderScope(
-        overrides: [
-          surahListProvider.overrideWith((_) async => _fakeSurahs),
-          quranInitProvider.overrideWith((_) async {}),
-          quranSearchProvider('en').overrideWith(
-            (_) async =>
-                QuranSearchResults(surahs: [], ayahs: [_fakeAyahs.first]),
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            surahListProvider.overrideWith((_) async => _fakeSurahs),
+            quranInitProvider.overrideWith((_) async {}),
+            quranSearchProvider('en').overrideWith(
+              (_) async =>
+                  QuranSearchResults(surahs: [], ayahs: [_fakeAyahs.first]),
+            ),
+          ],
+          child: MaterialApp.router(
+            locale: const Locale('en'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: QadrTheme.light(),
+            routerConfig: router,
           ),
-        ],
-        child: MaterialApp.router(
-          locale: const Locale('en'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          theme: QadrTheme.light(),
-          routerConfig: router,
         ),
-      ));
+      );
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'al');
@@ -197,16 +202,17 @@ void main() {
     });
 
     testWidgets('clearing text restores surah list', (tester) async {
-      await tester.pumpWidget(_buildApp(
-        overrides: [
-          surahListProvider.overrideWith((_) async => _fakeSurahs),
-          quranInitProvider.overrideWith((_) async {}),
-          quranSearchProvider('en').overrideWith(
-            (_) async =>
-                const QuranSearchResults(surahs: [], ayahs: []),
-          ),
-        ],
-      ));
+      await tester.pumpWidget(
+        _buildApp(
+          overrides: [
+            surahListProvider.overrideWith((_) async => _fakeSurahs),
+            quranInitProvider.overrideWith((_) async {}),
+            quranSearchProvider('en').overrideWith(
+              (_) async => const QuranSearchResults(surahs: [], ayahs: []),
+            ),
+          ],
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Enter search

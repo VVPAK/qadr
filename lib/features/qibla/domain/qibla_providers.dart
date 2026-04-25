@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/providers/preferences_provider.dart';
 import 'qibla_service.dart';
 
-final qiblaServiceProvider =
-    Provider<QiblaService>((_) => const QiblaService());
+final qiblaServiceProvider = Provider<QiblaService>(
+  (_) => const QiblaService(),
+);
 
 final qiblaReadingProvider = FutureProvider<QiblaReading?>((ref) async {
   final prefs = await ref.watch(userPreferencesProvider.future);

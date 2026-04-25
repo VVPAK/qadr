@@ -10,9 +10,8 @@ sealed class ComponentData with _$ComponentData {
     required String date,
   }) = PrayerTimesData;
 
-  const factory ComponentData.quranAyah({
-    required List<AyahEntry> ayahs,
-  }) = QuranAyahData;
+  const factory ComponentData.quranAyah({required List<AyahEntry> ayahs}) =
+      QuranAyahData;
 
   const factory ComponentData.dua({
     required String arabic,

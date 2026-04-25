@@ -26,7 +26,8 @@ class QiblaService {
     final userLng = lng * math.pi / 180;
     final dLng = kaabaLng - userLng;
     final y = math.sin(dLng);
-    final x = math.cos(userLat) * math.tan(kaabaLat) -
+    final x =
+        math.cos(userLat) * math.tan(kaabaLat) -
         math.sin(userLat) * math.cos(dLng);
     return (math.atan2(y, x) * 180 / math.pi + 360) % 360;
   }
@@ -43,7 +44,8 @@ class QiblaService {
     final userLng = lng * math.pi / 180;
     final dLng = poleLng - userLng;
     final y = math.sin(dLng) * math.cos(poleLat);
-    final x = math.cos(userLat) * math.sin(poleLat) -
+    final x =
+        math.cos(userLat) * math.sin(poleLat) -
         math.sin(userLat) * math.cos(poleLat) * math.cos(dLng);
     return math.atan2(y, x) * 180 / math.pi;
   }

@@ -5,11 +5,11 @@ enum Madhab {
   hanbali;
 
   String get displayName => switch (this) {
-        hanafi => 'Hanafi',
-        shafii => "Shafi'i",
-        maliki => 'Maliki',
-        hanbali => 'Hanbali',
-      };
+    hanafi => 'Hanafi',
+    shafii => "Shafi'i",
+    maliki => 'Maliki',
+    hanbali => 'Hanbali',
+  };
 }
 
 enum PrayerName {
@@ -21,13 +21,13 @@ enum PrayerName {
   isha;
 
   String get displayName => switch (this) {
-        fajr => 'Fajr',
-        sunrise => 'Sunrise',
-        dhuhr => 'Dhuhr',
-        asr => 'Asr',
-        maghrib => 'Maghrib',
-        isha => 'Isha',
-      };
+    fajr => 'Fajr',
+    sunrise => 'Sunrise',
+    dhuhr => 'Dhuhr',
+    asr => 'Asr',
+    maghrib => 'Maghrib',
+    isha => 'Isha',
+  };
 }
 
 enum ChatIntent {
@@ -37,5 +37,5 @@ enum ChatIntent {
   tasbih,
   qibla,
   learning,
-  generalQuestion;
+  generalQuestion,
 }

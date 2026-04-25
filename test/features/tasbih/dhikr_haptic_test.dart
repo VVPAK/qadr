@@ -32,10 +32,7 @@ void main() {
   group('DhikrScreen haptics', () {
     testWidgets('every tap triggers lightImpact', (tester) async {
       final fake = _FakeHapticService();
-      await tester.pumpWidget(_wrap(
-        DhikrScreen(onNavChanged: (_) {}),
-        fake,
-      ));
+      await tester.pumpWidget(_wrap(DhikrScreen(onNavChanged: (_) {}), fake));
       await tester.pump();
 
       await tester.tap(find.text('0'));
@@ -44,13 +41,11 @@ void main() {
       expect(fake.calls, equals(['light']));
     });
 
-    testWidgets('reaching target triggers success instead of lightImpact',
-        (tester) async {
+    testWidgets('reaching target triggers success instead of lightImpact', (
+      tester,
+    ) async {
       final fake = _FakeHapticService();
-      await tester.pumpWidget(_wrap(
-        DhikrScreen(onNavChanged: (_) {}),
-        fake,
-      ));
+      await tester.pumpWidget(_wrap(DhikrScreen(onNavChanged: (_) {}), fake));
       await tester.pump();
 
       // Default formula is СубханАллах with target=33. Tap 33 times.
@@ -67,10 +62,7 @@ void main() {
   group('DhikrScreen done state', () {
     testWidgets('counter continues incrementing past target', (tester) async {
       final fake = _FakeHapticService();
-      await tester.pumpWidget(_wrap(
-        DhikrScreen(onNavChanged: (_) {}),
-        fake,
-      ));
+      await tester.pumpWidget(_wrap(DhikrScreen(onNavChanged: (_) {}), fake));
       await tester.pump();
 
       for (var i = 0; i < 34; i++) {
@@ -81,12 +73,11 @@ void main() {
       expect(find.text('34'), findsOneWidget);
     });
 
-    testWidgets('tap past target fires lightImpact not success', (tester) async {
+    testWidgets('tap past target fires lightImpact not success', (
+      tester,
+    ) async {
       final fake = _FakeHapticService();
-      await tester.pumpWidget(_wrap(
-        DhikrScreen(onNavChanged: (_) {}),
-        fake,
-      ));
+      await tester.pumpWidget(_wrap(DhikrScreen(onNavChanged: (_) {}), fake));
       await tester.pump();
 
       for (var i = 0; i < 33; i++) {
@@ -106,12 +97,14 @@ void main() {
   group('TasbihCounterWidget haptics', () {
     testWidgets('every tap triggers lightImpact', (tester) async {
       final fake = _FakeHapticService();
-      await tester.pumpWidget(_wrap(
-        const TasbihCounterWidget(
-          data: TasbihData(dhikrText: 'Test', targetCount: 5),
+      await tester.pumpWidget(
+        _wrap(
+          const TasbihCounterWidget(
+            data: TasbihData(dhikrText: 'Test', targetCount: 5),
+          ),
+          fake,
         ),
-        fake,
-      ));
+      );
       await tester.pump();
 
       await tester.tap(find.text('0'));
@@ -120,15 +113,18 @@ void main() {
       expect(fake.calls, equals(['light']));
     });
 
-    testWidgets('reaching target triggers success instead of lightImpact',
-        (tester) async {
+    testWidgets('reaching target triggers success instead of lightImpact', (
+      tester,
+    ) async {
       final fake = _FakeHapticService();
-      await tester.pumpWidget(_wrap(
-        const TasbihCounterWidget(
-          data: TasbihData(dhikrText: 'Test', targetCount: 3),
+      await tester.pumpWidget(
+        _wrap(
+          const TasbihCounterWidget(
+            data: TasbihData(dhikrText: 'Test', targetCount: 3),
+          ),
+          fake,
         ),
-        fake,
-      ));
+      );
       await tester.pump();
 
       for (var i = 0; i < 3; i++) {

@@ -24,8 +24,7 @@ void main() {
     expect(notifier.state, 1);
   });
 
-  test('state increments on every call to trigger listener rebuilds',
-      () async {
+  test('state increments on every call to trigger listener rebuilds', () async {
     final notifier = await _build();
     notifier.completeStep('shahada', 0);
     notifier.completeStep('shahada', 1);
@@ -34,8 +33,7 @@ void main() {
     expect(notifier.store.getCompletedStep('shahada'), 2);
   });
 
-  test('startLearning sets hasStarted on the store and bumps state',
-      () async {
+  test('startLearning sets hasStarted on the store and bumps state', () async {
     final notifier = await _build();
     expect(notifier.store.hasStarted, isFalse);
     notifier.startLearning();
@@ -43,8 +41,7 @@ void main() {
     expect(notifier.state, 1);
   });
 
-  test('state bumps even when completeStep is a no-op (lower index)',
-      () async {
+  test('state bumps even when completeStep is a no-op (lower index)', () async {
     // The notifier bumps unconditionally — the store decides whether to
     // persist. That's intentional: a rebuild after any interaction is safe,
     // persisting a regression is not.

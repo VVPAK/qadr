@@ -9,8 +9,8 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
   PrayerTimesRepositoryImpl({
     required AladhanApiService apiService,
     required PrayerTimesService fallback,
-  })  : _api = apiService,
-        _fallback = fallback;
+  }) : _api = apiService,
+       _fallback = fallback;
 
   final AladhanApiService _api;
   final PrayerTimesService _fallback;
@@ -46,7 +46,12 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
     DateTime parse(String hhmm) {
       final parts = hhmm.split(':');
       return DateTime(
-          date.year, date.month, date.day, int.parse(parts[0]), int.parse(parts[1]));
+        date.year,
+        date.month,
+        date.day,
+        int.parse(parts[0]),
+        int.parse(parts[1]),
+      );
     }
 
     return PrayerTimeModel(

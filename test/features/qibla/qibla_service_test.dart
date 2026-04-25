@@ -62,8 +62,7 @@ void main() {
       for (final lat in [-85.0, -30.0, 0.0, 30.0, 85.0]) {
         for (final lng in [-170.0, 0.0, 170.0]) {
           final d = service.calculateDeclination(lat, lng);
-          expect(d.isFinite, isTrue,
-              reason: 'lat=$lat lng=$lng produced $d');
+          expect(d.isFinite, isTrue, reason: 'lat=$lat lng=$lng produced $d');
         }
       }
     });
@@ -83,8 +82,7 @@ void main() {
       expect(d.abs(), lessThan(15));
     });
 
-    test('North American east coast declination stays within dipole range',
-        () {
+    test('North American east coast declination stays within dipole range', () {
       // The simple dipole approximation can't capture regional distortion
       // (WMM puts NY at ~-13°) but must stay within a ~±15° envelope.
       final d = service.calculateDeclination(40.7128, -74.0060);
@@ -103,11 +101,13 @@ void main() {
       expect(r.magneticBearing, closeTo(340.0, 0.0001));
     });
 
-    test('handles eastern declination by subtracting (bearing shifts west)',
-        () {
-      const r = QiblaReading(bearing: 90.0, declination: 10.0);
-      expect(r.magneticBearing, closeTo(80.0, 0.0001));
-    });
+    test(
+      'handles eastern declination by subtracting (bearing shifts west)',
+      () {
+        const r = QiblaReading(bearing: 90.0, declination: 10.0);
+        expect(r.magneticBearing, closeTo(80.0, 0.0001));
+      },
+    );
 
     test('handles western (negative) declination by adding', () {
       const r = QiblaReading(bearing: 90.0, declination: -10.0);

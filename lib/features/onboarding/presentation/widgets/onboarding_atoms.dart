@@ -31,8 +31,7 @@ class OnbDots extends StatelessWidget {
             width: active ? 20 : 6,
             height: 6,
             decoration: BoxDecoration(
-              color:
-                  _cream.withValues(alpha: active ? 0.95 : 0.32),
+              color: _cream.withValues(alpha: active ? 0.95 : 0.32),
               borderRadius: QadrRadius.pillAll,
             ),
           );
@@ -67,7 +66,10 @@ class OnbCTA extends StatelessWidget {
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.lg, vertical: 15),
+          padding: const EdgeInsets.symmetric(
+            horizontal: QadrSpacing.lg,
+            vertical: 15,
+          ),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: primary
@@ -76,9 +78,7 @@ class OnbCTA extends StatelessWidget {
             borderRadius: QadrRadius.pillAll,
             border: primary
                 ? null
-                : Border.all(
-                    color: _cream.withValues(alpha: 0.28),
-                  ),
+                : Border.all(color: _cream.withValues(alpha: 0.28)),
             boxShadow: primary
                 ? [
                     BoxShadow(
@@ -135,8 +135,10 @@ class OnbCTAStack extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             child: Container(
               width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: QadrSpacing.lg, vertical: 15),
+              padding: const EdgeInsets.symmetric(
+                horizontal: QadrSpacing.lg,
+                vertical: 15,
+              ),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: _cream.withValues(alpha: 0.96),
@@ -167,8 +169,7 @@ class OnbCTAStack extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             child: Container(
               width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               alignment: Alignment.center,
               child: Text(
                 secondaryLabel,
@@ -340,9 +341,7 @@ class OnbGlassPill extends StatelessWidget {
           decoration: BoxDecoration(
             color: const Color(0xFF14100C).withValues(alpha: 0.32),
             borderRadius: QadrRadius.pillAll,
-            border: Border.all(
-              color: _cream.withValues(alpha: 0.12),
-            ),
+            border: Border.all(color: _cream.withValues(alpha: 0.12)),
           ),
           child: child,
         ),

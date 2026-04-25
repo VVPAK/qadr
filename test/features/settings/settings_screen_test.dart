@@ -10,8 +10,9 @@ import 'package:qadr/features/settings/presentation/settings_screen.dart';
 import 'package:qadr/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _secureChannel =
-    MethodChannel('plugins.it_nomads.com/flutter_secure_storage');
+const _secureChannel = MethodChannel(
+  'plugins.it_nomads.com/flutter_secure_storage',
+);
 
 class _SecureStorageFake {
   final Map<String, String?> values = {};
@@ -20,18 +21,18 @@ class _SecureStorageFake {
   void install() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(_secureChannel, (call) async {
-      final args = (call.arguments as Map).cast<String, dynamic>();
-      final key = args['key'] as String?;
-      switch (call.method) {
-        case 'read':
-          return values[key];
-        case 'write':
-          values[key!] = args['value'] as String?;
-          writes.add(key);
+          final args = (call.arguments as Map).cast<String, dynamic>();
+          final key = args['key'] as String?;
+          switch (call.method) {
+            case 'read':
+              return values[key];
+            case 'write':
+              values[key!] = args['value'] as String?;
+              writes.add(key);
+              return null;
+          }
           return null;
-      }
-      return null;
-    });
+        });
   }
 
   void uninstall() {
@@ -74,8 +75,9 @@ Future<({UserPreferences prefs, _SecureStorageFake secure})> _pump(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('loads the stored API key and base URL into the text fields',
-      (tester) async {
+  testWidgets('loads the stored API key and base URL into the text fields', (
+    tester,
+  ) async {
     final secure = _SecureStorageFake()
       ..values.addAll({
         'llm_api_key': 'sk-stored-key',
@@ -103,8 +105,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.widgetWithText(TextField, 'sk-stored-key'), findsOneWidget);
-    expect(find.widgetWithText(TextField, 'https://proxy.example/v1'),
-        findsOneWidget);
+    expect(
+      find.widgetWithText(TextField, 'https://proxy.example/v1'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('tapping Save writes both API fields to SecureStorage and '
@@ -112,10 +116,10 @@ void main() {
     final ctx = await _pump(tester);
 
     await tester.enterText(
-        find.widgetWithText(TextField, 'https://api.openai.com/v1'),
-        'https://my.proxy/v1');
-    await tester.enterText(
-        find.widgetWithText(TextField, ''), 'sk-new-key');
+      find.widgetWithText(TextField, 'https://api.openai.com/v1'),
+      'https://my.proxy/v1',
+    );
+    await tester.enterText(find.widgetWithText(TextField, ''), 'sk-new-key');
     await tester.tap(find.text('Save API Settings'));
     await tester.pump(); // snackbar frame
 
@@ -124,29 +128,28 @@ void main() {
     expect(find.text('API settings saved'), findsOneWidget);
   });
 
-  testWidgets('API key field is obscured by default and toggles on button tap',
-      (tester) async {
-    await _pump(tester);
+  testWidgets(
+    'API key field is obscured by default and toggles on button tap',
+    (tester) async {
+      await _pump(tester);
 
-    await tester.enterText(
-      find.widgetWithText(TextField, ''),
-      'sk-visible',
-    );
-    await tester.pump();
+      await tester.enterText(find.widgetWithText(TextField, ''), 'sk-visible');
+      await tester.pump();
 
-    final keyField = tester.widget<TextField>(
-      find.widgetWithText(TextField, 'sk-visible'),
-    );
-    expect(keyField.obscureText, isTrue);
+      final keyField = tester.widget<TextField>(
+        find.widgetWithText(TextField, 'sk-visible'),
+      );
+      expect(keyField.obscureText, isTrue);
 
-    await tester.tap(find.byIcon(Icons.visibility_off));
-    await tester.pump();
+      await tester.tap(find.byIcon(Icons.visibility_off));
+      await tester.pump();
 
-    final after = tester.widget<TextField>(
-      find.widgetWithText(TextField, 'sk-visible'),
-    );
-    expect(after.obscureText, isFalse);
-  });
+      final after = tester.widget<TextField>(
+        find.widgetWithText(TextField, 'sk-visible'),
+      );
+      expect(after.obscureText, isFalse);
+    },
+  );
 
   testWidgets('language tile opens the dialog and selecting Русский '
       'persists + updates localProvider', (tester) async {
@@ -158,24 +161,29 @@ void main() {
     final dialog = find.byType(SimpleDialog);
     expect(dialog, findsOneWidget);
     expect(
-        find.descendant(of: dialog, matching: find.text('English')),
-        findsOneWidget);
+      find.descendant(of: dialog, matching: find.text('English')),
+      findsOneWidget,
+    );
     expect(
-        find.descendant(of: dialog, matching: find.text('العربية')),
-        findsOneWidget);
+      find.descendant(of: dialog, matching: find.text('العربية')),
+      findsOneWidget,
+    );
     expect(
-        find.descendant(of: dialog, matching: find.text('Русский')),
-        findsOneWidget);
+      find.descendant(of: dialog, matching: find.text('Русский')),
+      findsOneWidget,
+    );
 
     await tester.tap(
-        find.descendant(of: dialog, matching: find.text('Русский')));
+      find.descendant(of: dialog, matching: find.text('Русский')),
+    );
     await tester.pumpAndSettle();
 
     expect(ctx.prefs.language, 'ru');
   });
 
-  testWidgets('madhab tile opens the dialog and each option persists',
-      (tester) async {
+  testWidgets('madhab tile opens the dialog and each option persists', (
+    tester,
+  ) async {
     final ctx = await _pump(tester);
 
     await tester.tap(find.text('Madhab'));
@@ -185,13 +193,18 @@ void main() {
     expect(dialog, findsOneWidget);
     for (final m in Madhab.values) {
       expect(
-          find.descendant(of: dialog, matching: find.text(m.displayName)),
-          findsOneWidget,
-          reason: m.name);
+        find.descendant(of: dialog, matching: find.text(m.displayName)),
+        findsOneWidget,
+        reason: m.name,
+      );
     }
 
-    await tester.tap(find.descendant(
-        of: dialog, matching: find.text(Madhab.hanbali.displayName)));
+    await tester.tap(
+      find.descendant(
+        of: dialog,
+        matching: find.text(Madhab.hanbali.displayName),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(ctx.prefs.madhab, Madhab.hanbali);

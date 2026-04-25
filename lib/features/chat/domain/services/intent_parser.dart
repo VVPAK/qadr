@@ -21,12 +21,18 @@ class IntentParser {
   static LlmResponse _parseJson(Map<String, dynamic> json) {
     // Parse intent
     final intentStr = json['intent'] as String? ?? 'generalQuestion';
-    final intent = ChatIntent.values.where((e) => e.name == intentStr).firstOrNull
-        ?? ChatIntent.generalQuestion;
+    final intent =
+        ChatIntent.values.where((e) => e.name == intentStr).firstOrNull ??
+        ChatIntent.generalQuestion;
 
     // Parse response type
-    final typeStr = json['responseType'] as String? ?? json['response_type'] as String? ?? 'text';
-    final responseType = typeStr == 'component' ? ResponseType.component : ResponseType.text;
+    final typeStr =
+        json['responseType'] as String? ??
+        json['response_type'] as String? ??
+        'text';
+    final responseType = typeStr == 'component'
+        ? ResponseType.component
+        : ResponseType.text;
 
     // Parse text
     final text = json['text'] as String?;
@@ -45,10 +51,7 @@ class IntentParser {
           // LLM sometimes puts fields at component level instead of in "data"
           data = Map<String, dynamic>.from(componentJson)..remove('type');
         }
-        component = ComponentPayload(
-          type: compType,
-          data: data,
-        );
+        component = ComponentPayload(type: compType, data: data);
       }
     }
 

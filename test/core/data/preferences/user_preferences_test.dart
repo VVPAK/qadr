@@ -3,7 +3,9 @@ import 'package:qadr/core/constants/islamic_constants.dart';
 import 'package:qadr/core/data/preferences/user_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<UserPreferences> _buildPrefs([Map<String, Object> initial = const {}]) async {
+Future<UserPreferences> _buildPrefs([
+  Map<String, Object> initial = const {},
+]) async {
   SharedPreferences.setMockInitialValues(initial);
   return UserPreferences(await SharedPreferences.getInstance());
 }

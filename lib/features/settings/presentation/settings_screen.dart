@@ -51,9 +51,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await SecureStorage.setApiKey(_apiKeyController.text.trim());
     await SecureStorage.setApiBaseUrl(_baseUrlController.text.trim());
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.apiSettingsSaved)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.apiSettingsSaved)));
     }
   }
 
@@ -110,18 +110,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (context) => SimpleDialog(
         title: Text(context.l10n.madhab),
-        children: Madhab.values.map((m) => SimpleDialogOption(
-          onPressed: () => Navigator.pop(context, m),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(m.displayName, style: const TextStyle(fontSize: 16)),
+        children: Madhab.values
+            .map(
+              (m) => SimpleDialogOption(
+                onPressed: () => Navigator.pop(context, m),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        m.displayName,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    if (m == currentMadhab)
+                      Icon(
+                        Icons.check,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                  ],
+                ),
               ),
-              if (m == currentMadhab)
-                Icon(Icons.check, color: Theme.of(context).colorScheme.primary),
-            ],
-          ),
-        )).toList(),
+            )
+            .toList(),
       ),
     );
 
@@ -141,9 +151,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     };
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.settings),
-      ),
+      appBar: AppBar(title: Text(context.l10n.settings)),
       body: ListView(
         padding: const EdgeInsets.all(QadrSpacing.md),
         children: [

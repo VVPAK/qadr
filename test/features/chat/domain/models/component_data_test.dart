@@ -25,8 +25,11 @@ void main() {
       expect(data.prayers, hasLength(2));
       expect(data.prayers.first.name, 'fajr');
       expect(data.prayers.first.isNext, isTrue);
-      expect(data.prayers.last.isNext, isFalse,
-          reason: 'isNext defaults to false when omitted');
+      expect(
+        data.prayers.last.isNext,
+        isFalse,
+        reason: 'isNext defaults to false when omitted',
+      );
     });
 
     test('dispatches to QuranAyahData on runtimeType "quranAyah"', () {
@@ -38,7 +41,7 @@ void main() {
             'ayah': 1,
             'arabic': 'بسم الله',
             'translation': 'In the name of Allah',
-          }
+          },
         ],
       });
       expect(data, isA<QuranAyahData>());

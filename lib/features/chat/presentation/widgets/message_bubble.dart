@@ -26,7 +26,10 @@ class MessageBubble extends StatelessWidget {
           top: QadrSpacing.xs,
           bottom: QadrSpacing.xs,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.md, vertical: 12),
+        padding: const EdgeInsets.symmetric(
+          horizontal: QadrSpacing.md,
+          vertical: 12,
+        ),
         decoration: BoxDecoration(
           color: isUser
               ? context.colorScheme.primaryContainer
@@ -35,7 +38,9 @@ class MessageBubble extends StatelessWidget {
             topLeft: const Radius.circular(QadrRadius.lg),
             topRight: const Radius.circular(QadrRadius.lg),
             bottomLeft: Radius.circular(isUser ? QadrRadius.lg : QadrRadius.xs),
-            bottomRight: Radius.circular(isUser ? QadrRadius.xs : QadrRadius.lg),
+            bottomRight: Radius.circular(
+              isUser ? QadrRadius.xs : QadrRadius.lg,
+            ),
           ),
         ),
         child: child,

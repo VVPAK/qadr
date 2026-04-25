@@ -15,7 +15,7 @@ class WidgetService {
   final PrayerTimesService _prayerService;
 
   WidgetService(this._prefs, [PrayerTimesService? prayerService])
-      : _prayerService = prayerService ?? PrayerTimesService();
+    : _prayerService = prayerService ?? PrayerTimesService();
 
   static (String name, DateTime time) findNextPrayer(
     PrayerTimeModel model,
@@ -49,7 +49,10 @@ class WidgetService {
 
     await Future.wait([
       HomeWidget.saveWidgetData<String>(_keyPrayerName, prayerName),
-      HomeWidget.saveWidgetData<String>(_keyPrayerTime, prayerTime.toIso8601String()),
+      HomeWidget.saveWidgetData<String>(
+        _keyPrayerTime,
+        prayerTime.toIso8601String(),
+      ),
       HomeWidget.saveWidgetData<String>(_keyCityName, _prefs.cityName ?? ''),
       HomeWidget.saveWidgetData<String>(_keyLanguage, _prefs.language),
     ]);

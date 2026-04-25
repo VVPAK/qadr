@@ -21,8 +21,7 @@ class HapticService {
     await HapticFeedback.lightImpact();
   }
 
-  Future<void> completion() =>
-      Vibration.vibrate(duration: 600, amplitude: 255);
+  Future<void> completion() => Vibration.vibrate(duration: 600, amplitude: 255);
 
   Future<void> error() async {
     await HapticFeedback.heavyImpact();
@@ -39,5 +38,6 @@ class HapticService {
   }
 }
 
-final hapticServiceProvider =
-    Provider<HapticService>((_) => const HapticService());
+final hapticServiceProvider = Provider<HapticService>(
+  (_) => const HapticService(),
+);

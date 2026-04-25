@@ -52,7 +52,9 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(QadrRadius.xl)),
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(QadrRadius.xl),
+          ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -64,7 +66,9 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
                   ? _buildEmptyState(context)
                   : ListView.builder(
                       controller: _scrollController,
-                      padding: const EdgeInsets.symmetric(vertical: QadrSpacing.sm),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: QadrSpacing.sm,
+                      ),
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
                         return _buildMessage(context, messages[index]);
@@ -121,27 +125,52 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
   }
 
   List<({String icon, String label, String message})> _getShortcuts(
-      BuildContext context) {
+    BuildContext context,
+  ) {
     final lang = Localizations.localeOf(context).languageCode;
     return switch (lang) {
       'ru' => [
-          (icon: '🕌', label: 'Я новичок', message: 'Привет, я хочу начать практиковать Ислам'),
-          (icon: '🤲', label: 'Намаз', message: 'Научи меня как делать намаз, шаг за шагом'),
-          (icon: '💧', label: 'Вуду', message: 'Покажи мне как правильно делать омовение'),
-          (icon: '📖', label: 'Дуа', message: 'Покажи мне дуа на каждый день'),
-        ],
+        (
+          icon: '🕌',
+          label: 'Я новичок',
+          message: 'Привет, я хочу начать практиковать Ислам',
+        ),
+        (
+          icon: '🤲',
+          label: 'Намаз',
+          message: 'Научи меня как делать намаз, шаг за шагом',
+        ),
+        (
+          icon: '💧',
+          label: 'Вуду',
+          message: 'Покажи мне как правильно делать омовение',
+        ),
+        (icon: '📖', label: 'Дуа', message: 'Покажи мне дуа на каждый день'),
+      ],
       'ar' => [
-          (icon: '🕌', label: 'أنا مبتدئ', message: 'مرحباً، أريد أن أبدأ ممارسة الإسلام'),
-          (icon: '🤲', label: 'الصلاة', message: 'علمني كيف أصلي خطوة بخطوة'),
-          (icon: '💧', label: 'الوضوء', message: 'أرني كيف أتوضأ'),
-          (icon: '📖', label: 'دعاء', message: 'أرني أدعية يومية'),
-        ],
+        (
+          icon: '🕌',
+          label: 'أنا مبتدئ',
+          message: 'مرحباً، أريد أن أبدأ ممارسة الإسلام',
+        ),
+        (icon: '🤲', label: 'الصلاة', message: 'علمني كيف أصلي خطوة بخطوة'),
+        (icon: '💧', label: 'الوضوء', message: 'أرني كيف أتوضأ'),
+        (icon: '📖', label: 'دعاء', message: 'أرني أدعية يومية'),
+      ],
       _ => [
-          (icon: '🕌', label: 'New to Islam', message: "Hi, I want to start practicing Islam"),
-          (icon: '🤲', label: 'Prayer', message: 'Teach me how to pray step by step'),
-          (icon: '💧', label: 'Wudu', message: 'Show me how to perform wudu'),
-          (icon: '📖', label: 'Dua', message: 'Show me daily duas'),
-        ],
+        (
+          icon: '🕌',
+          label: 'New to Islam',
+          message: "Hi, I want to start practicing Islam",
+        ),
+        (
+          icon: '🤲',
+          label: 'Prayer',
+          message: 'Teach me how to pray step by step',
+        ),
+        (icon: '💧', label: 'Wudu', message: 'Show me how to perform wudu'),
+        (icon: '📖', label: 'Dua', message: 'Show me daily duas'),
+      ],
     };
   }
 
@@ -181,11 +210,13 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
               runSpacing: QadrSpacing.sm,
               alignment: WrapAlignment.center,
               children: shortcuts
-                  .map((s) => ActionChip(
-                        avatar: Text(s.icon),
-                        label: Text(s.label),
-                        onPressed: () => _handleSubmit(s.message),
-                      ))
+                  .map(
+                    (s) => ActionChip(
+                      avatar: Text(s.icon),
+                      label: Text(s.label),
+                      onPressed: () => _handleSubmit(s.message),
+                    ),
+                  )
                   .toList(),
             ),
           ],
@@ -236,9 +267,7 @@ class _ChatSheetState extends ConsumerState<ChatSheet> {
       padding: const EdgeInsets.all(QadrSpacing.sm),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
-        border: Border(
-          top: BorderSide(color: context.colorScheme.outline),
-        ),
+        border: Border(top: BorderSide(color: context.colorScheme.outline)),
       ),
       child: SafeArea(
         top: false,
@@ -280,9 +309,7 @@ Future<void> showChatSheet(BuildContext context) {
     backgroundColor: Colors.transparent,
     barrierColor: Colors.black.withValues(alpha: 0.4),
     useSafeArea: true,
-    builder: (_) => FractionallySizedBox(
-      heightFactor: 0.92,
-      child: const ChatSheet(),
-    ),
+    builder: (_) =>
+        FractionallySizedBox(heightFactor: 0.92, child: const ChatSheet()),
   );
 }

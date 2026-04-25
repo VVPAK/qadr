@@ -43,19 +43,19 @@ const _dubaiTimings = {
 };
 
 String _buildResponse(Map<String, String> timings) => jsonEncode({
-      'code': 200,
-      'status': 'OK',
-      'data': {
-        'timings': timings,
-        'date': {'readable': '24 Apr 2026', 'timestamp': '1745443261'},
-        'meta': {
-          'latitude': 25.2048,
-          'longitude': 55.2708,
-          'timezone': 'Asia/Dubai',
-          'method': {'id': 8, 'name': 'Gulf Region'},
-        },
-      },
-    });
+  'code': 200,
+  'status': 'OK',
+  'data': {
+    'timings': timings,
+    'date': {'readable': '24 Apr 2026', 'timestamp': '1745443261'},
+    'meta': {
+      'latitude': 25.2048,
+      'longitude': 55.2708,
+      'timezone': 'Asia/Dubai',
+      'method': {'id': 8, 'name': 'Gulf Region'},
+    },
+  },
+});
 
 void main() {
   group('AladhanApiService.methodForLocation', () {
@@ -128,7 +128,9 @@ void main() {
     }
 
     test('parses Dubai API response correctly', () async {
-      final service = AladhanApiService(dio: fakeDio(_buildResponse(_dubaiTimings)));
+      final service = AladhanApiService(
+        dio: fakeDio(_buildResponse(_dubaiTimings)),
+      );
 
       final timings = await service.getTimings(
         latitude: 25.2048,
@@ -151,7 +153,8 @@ void main() {
         'Isha': '20:05 (+04)',
       };
       final service = AladhanApiService(
-          dio: fakeDio(_buildResponse(timingsWithSuffix)));
+        dio: fakeDio(_buildResponse(timingsWithSuffix)),
+      );
 
       final timings = await service.getTimings(
         latitude: 25.2048,
@@ -181,29 +184,34 @@ void main() {
       );
     });
 
-    test('sends correct date format (DD-MM-YYYY) and method in query', () async {
-      RequestOptions? captured;
-      final dio = Dio();
-      dio.httpClientAdapter = _FakeAdapter(body: _buildResponse(_dubaiTimings));
-      dio.interceptors.add(
-        InterceptorsWrapper(
-          onRequest: (options, handler) {
-            captured = options;
-            handler.next(options);
-          },
-        ),
-      );
+    test(
+      'sends correct date format (DD-MM-YYYY) and method in query',
+      () async {
+        RequestOptions? captured;
+        final dio = Dio();
+        dio.httpClientAdapter = _FakeAdapter(
+          body: _buildResponse(_dubaiTimings),
+        );
+        dio.interceptors.add(
+          InterceptorsWrapper(
+            onRequest: (options, handler) {
+              captured = options;
+              handler.next(options);
+            },
+          ),
+        );
 
-      final service = AladhanApiService(dio: dio);
-      await service.getTimings(
-        latitude: 25.2048,
-        longitude: 55.2708,
-        date: DateTime(2026, 4, 5), // day < 10 to test zero-padding
-      );
+        final service = AladhanApiService(dio: dio);
+        await service.getTimings(
+          latitude: 25.2048,
+          longitude: 55.2708,
+          date: DateTime(2026, 4, 5), // day < 10 to test zero-padding
+        );
 
-      expect(captured, isNotNull);
-      expect(captured!.uri.path, contains('05-04-2026'));
-      expect(captured!.queryParameters['method'], 8); // Gulf for Dubai
-    });
+        expect(captured, isNotNull);
+        expect(captured!.uri.path, contains('05-04-2026'));
+        expect(captured!.queryParameters['method'], 8); // Gulf for Dubai
+      },
+    );
   });
 }

@@ -23,8 +23,9 @@ class MainShell extends StatefulWidget {
 
 class _MainShellState extends State<MainShell> {
   NavSection _active = NavSection.prayer;
-  late final PageController _pageController =
-      PageController(initialPage: _active.index);
+  late final PageController _pageController = PageController(
+    initialPage: _active.index,
+  );
 
   double _dragDy = 0;
   bool _swipeActive = false;
@@ -179,7 +180,10 @@ class _PullHandleState extends State<_PullHandle> {
       },
       child: Padding(
         // Enlarge hit area beyond the visible pill.
-        padding: const EdgeInsets.symmetric(horizontal: QadrSpacing.xl, vertical: QadrSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+          horizontal: QadrSpacing.xl,
+          vertical: QadrSpacing.sm,
+        ),
         child: AnimatedScale(
           duration: const Duration(milliseconds: 140),
           scale: _pressed ? 0.92 : 1.0,
@@ -189,7 +193,9 @@ class _PullHandleState extends State<_PullHandle> {
               filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 14, vertical: 6),
+                  horizontal: 14,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0x4D140C0C),
                   borderRadius: QadrRadius.pillAll,

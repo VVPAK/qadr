@@ -11,7 +11,9 @@ Future<int> _insertDua(
   String translationRu = 'ru',
   String source = 's',
 }) {
-  return db.into(db.duas).insert(
+  return db
+      .into(db.duas)
+      .insert(
         DuasCompanion.insert(
           category: category,
           arabic: arabic,
@@ -97,8 +99,12 @@ void main() {
     });
 
     test('matches on English translation', () async {
-      await _insertDua(db,
-          category: 'daily', arabic: 'a', translationEn: 'Alhamdulillah');
+      await _insertDua(
+        db,
+        category: 'daily',
+        arabic: 'a',
+        translationEn: 'Alhamdulillah',
+      );
       await _insertDua(db, category: 'daily', arabic: 'b');
 
       final hits = await db.duaDao.searchDuas('hamdul');
@@ -107,10 +113,12 @@ void main() {
     });
 
     test('matches on Russian translation', () async {
-      await _insertDua(db,
-          category: 'daily',
-          arabic: 'a',
-          translationRu: 'Хвала Аллаху');
+      await _insertDua(
+        db,
+        category: 'daily',
+        arabic: 'a',
+        translationRu: 'Хвала Аллаху',
+      );
       await _insertDua(db, category: 'daily', arabic: 'b');
 
       final hits = await db.duaDao.searchDuas('Хвала');

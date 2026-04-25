@@ -16,9 +16,7 @@ class QiblaCompassWidget extends ConsumerStatefulWidget with ChatComponent {
   const QiblaCompassWidget({super.key});
 
   @override
-  Map<String, dynamic> toContextJson() => {
-        'type': 'qibla',
-      };
+  Map<String, dynamic> toContextJson() => {'type': 'qibla'};
 
   @override
   ConsumerState<QiblaCompassWidget> createState() => _QiblaCompassWidgetState();
@@ -68,8 +66,10 @@ class _QiblaCompassWidgetState extends ConsumerState<QiblaCompassWidget>
                 children: [
                   const Icon(Icons.location_on_outlined, size: 36),
                   const SizedBox(height: QadrSpacing.sm),
-                  Text(context.l10n.qiblaLocationRequired,
-                      style: context.textTheme.bodyMedium),
+                  Text(
+                    context.l10n.qiblaLocationRequired,
+                    style: context.textTheme.bodyMedium,
+                  ),
                   const SizedBox(height: 12),
                   FilledButton(
                     onPressed: _locating ? null : _requestLocation,
@@ -77,8 +77,7 @@ class _QiblaCompassWidgetState extends ConsumerState<QiblaCompassWidget>
                         ? const SizedBox(
                             height: 16,
                             width: 16,
-                            child:
-                                CircularProgressIndicator(strokeWidth: 2),
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : Text(context.l10n.enableLocation),
                   ),
@@ -111,10 +110,7 @@ class _CompassCard extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text(
-              context.l10n.qibla,
-              style: context.textTheme.titleMedium,
-            ),
+            Text(context.l10n.qibla, style: context.textTheme.titleMedium),
             const SizedBox(height: QadrSpacing.md),
             SizedBox(
               height: 200,
@@ -213,5 +209,9 @@ class _CompassPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_CompassPainter old) =>
-      old.color != color || old.n != n || old.e != e || old.s != s || old.w != w;
+      old.color != color ||
+      old.n != n ||
+      old.e != e ||
+      old.s != s ||
+      old.w != w;
 }

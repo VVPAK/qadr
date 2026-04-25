@@ -58,21 +58,17 @@ void main() {
     setUp(() {
       channelCalls = [];
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(
-        const MethodChannel('home_widget'),
-        (call) async {
-          channelCalls.add(call);
-          return null;
-        },
-      );
+          .setMockMethodCallHandler(const MethodChannel('home_widget'), (
+            call,
+          ) async {
+            channelCalls.add(call);
+            return null;
+          });
     });
 
     tearDown(() {
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(
-        const MethodChannel('home_widget'),
-        null,
-      );
+          .setMockMethodCallHandler(const MethodChannel('home_widget'), null);
     });
 
     test('does nothing when location is not set', () async {
@@ -99,20 +95,29 @@ void main() {
           .map((c) => c.arguments['id'] as String)
           .toSet();
 
-      expect(savedKeys, containsAll([
-        'qadr_next_prayer_name',
-        'qadr_next_prayer_time',
-        'qadr_city_name',
-        'qadr_language',
-      ]));
+      expect(
+        savedKeys,
+        containsAll([
+          'qadr_next_prayer_name',
+          'qadr_next_prayer_time',
+          'qadr_city_name',
+          'qadr_language',
+        ]),
+      );
 
       final nameCall = channelCalls.firstWhere(
-        (c) => c.method == 'saveWidgetData' && c.arguments['id'] == 'qadr_next_prayer_name',
+        (c) =>
+            c.method == 'saveWidgetData' &&
+            c.arguments['id'] == 'qadr_next_prayer_name',
       );
-      expect(
-        ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
-        contains(nameCall.arguments['data'] as String),
-      );
+      expect([
+        'Fajr',
+        'Sunrise',
+        'Dhuhr',
+        'Asr',
+        'Maghrib',
+        'Isha',
+      ], contains(nameCall.arguments['data'] as String));
 
       final updateCall = channelCalls.firstWhere(
         (c) => c.method == 'updateWidget',
@@ -133,7 +138,9 @@ void main() {
       await service.update();
 
       final cityCall = channelCalls.firstWhere(
-        (c) => c.method == 'saveWidgetData' && c.arguments['id'] == 'qadr_city_name',
+        (c) =>
+            c.method == 'saveWidgetData' &&
+            c.arguments['id'] == 'qadr_city_name',
       );
       expect(cityCall.arguments['data'], 'Kazan');
     });

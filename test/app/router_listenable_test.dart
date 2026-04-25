@@ -16,73 +16,85 @@ void main() {
       expect(listenable.onboardingComplete, isFalse);
     });
 
-    test('notifies and updates flag when onboarding becomes complete', () async {
-      SharedPreferences.setMockInitialValues({'onboarding_complete': true});
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
+    test(
+      'notifies and updates flag when onboarding becomes complete',
+      () async {
+        SharedPreferences.setMockInitialValues({'onboarding_complete': true});
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
 
-      final listenable = RouterListenable.fromContainer(container);
-      addTearDown(listenable.dispose);
+        final listenable = RouterListenable.fromContainer(container);
+        addTearDown(listenable.dispose);
 
-      var notified = false;
-      listenable.addListener(() => notified = true);
+        var notified = false;
+        listenable.addListener(() => notified = true);
 
-      await container.read(userPreferencesProvider.future);
+        await container.read(userPreferencesProvider.future);
 
-      expect(listenable.onboardingComplete, isTrue);
-      expect(notified, isTrue);
-    });
+        expect(listenable.onboardingComplete, isTrue);
+        expect(notified, isTrue);
+      },
+    );
 
-    test('does not notify when onboardingComplete value stays the same', () async {
-      SharedPreferences.setMockInitialValues({'onboarding_complete': false});
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
+    test(
+      'does not notify when onboardingComplete value stays the same',
+      () async {
+        SharedPreferences.setMockInitialValues({'onboarding_complete': false});
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
 
-      final listenable = RouterListenable.fromContainer(container);
-      addTearDown(listenable.dispose);
+        final listenable = RouterListenable.fromContainer(container);
+        addTearDown(listenable.dispose);
 
-      await container.read(userPreferencesProvider.future);
+        await container.read(userPreferencesProvider.future);
 
-      var notifyCount = 0;
-      listenable.addListener(() => notifyCount++);
+        var notifyCount = 0;
+        listenable.addListener(() => notifyCount++);
 
-      // Simulate location being saved — onboarding flag stays false
-      SharedPreferences.setMockInitialValues({
-        'onboarding_complete': false,
-        'latitude': 21.4225,
-        'longitude': 39.8262,
-      });
-      container.invalidate(userPreferencesProvider);
-      await container.read(userPreferencesProvider.future);
+        // Simulate location being saved — onboarding flag stays false
+        SharedPreferences.setMockInitialValues({
+          'onboarding_complete': false,
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+        });
+        container.invalidate(userPreferencesProvider);
+        await container.read(userPreferencesProvider.future);
 
-      expect(notifyCount, 0);
-    });
+        expect(notifyCount, 0);
+      },
+    );
 
-    test('does not notify router when only location changes (onboarding already true)', () async {
-      SharedPreferences.setMockInitialValues({'onboarding_complete': true});
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
+    test(
+      'does not notify router when only location changes (onboarding already true)',
+      () async {
+        SharedPreferences.setMockInitialValues({'onboarding_complete': true});
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
 
-      final listenable = RouterListenable.fromContainer(container);
-      addTearDown(listenable.dispose);
+        final listenable = RouterListenable.fromContainer(container);
+        addTearDown(listenable.dispose);
 
-      // First load — captures initial onboarding = true
-      await container.read(userPreferencesProvider.future);
+        // First load — captures initial onboarding = true
+        await container.read(userPreferencesProvider.future);
 
-      var notifyCount = 0;
-      listenable.addListener(() => notifyCount++);
+        var notifyCount = 0;
+        listenable.addListener(() => notifyCount++);
 
-      // Simulate qibla location permission granted (onboarding still true)
-      SharedPreferences.setMockInitialValues({
-        'onboarding_complete': true,
-        'latitude': 21.4225,
-        'longitude': 39.8262,
-      });
-      container.invalidate(userPreferencesProvider);
-      await container.read(userPreferencesProvider.future);
+        // Simulate qibla location permission granted (onboarding still true)
+        SharedPreferences.setMockInitialValues({
+          'onboarding_complete': true,
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+        });
+        container.invalidate(userPreferencesProvider);
+        await container.read(userPreferencesProvider.future);
 
-      expect(notifyCount, 0,
-          reason: 'Router must not refresh when only location changes');
-    });
+        expect(
+          notifyCount,
+          0,
+          reason: 'Router must not refresh when only location changes',
+        );
+      },
+    );
   });
 }

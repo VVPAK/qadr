@@ -53,10 +53,12 @@ class GlassContainer extends StatelessWidget {
                 begin: const Alignment(-0.5, -0.8),
                 end: const Alignment(0.5, 0.8),
                 colors: [
-                  (backgroundColor ?? const Color(0xFF14120E))
-                      .withValues(alpha: backgroundOpacity),
-                  (backgroundColor ?? const Color(0xFF1C1612))
-                      .withValues(alpha: backgroundOpacity + 0.15),
+                  (backgroundColor ?? const Color(0xFF14120E)).withValues(
+                    alpha: backgroundOpacity,
+                  ),
+                  (backgroundColor ?? const Color(0xFF1C1612)).withValues(
+                    alpha: backgroundOpacity + 0.15,
+                  ),
                 ],
               ),
               borderRadius: BorderRadius.circular(borderRadius),

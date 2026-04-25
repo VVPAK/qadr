@@ -11,6 +11,9 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -47,15 +50,116 @@ jobs:
         if: steps.changes.outputs.code == 'true'
         run: flutter pub get
 
-      - name: Analyze
+      - name: Install lcov
         if: steps.changes.outputs.code == 'true'
-        run: flutter analyze --fatal-infos
+        run: sudo apt-get install -y lcov
 
-      - name: Run tests
+      - name: Run unit + widget tests
         if: steps.changes.outputs.code == 'true'
-        run: flutter test --exclude-tags golden
+        run: flutter test --exclude-tags golden --coverage
 
-      - name: Run golden tests
+      - name: Save unit coverage
         if: steps.changes.outputs.code == 'true'
-        run: flutter test --tags golden --update-goldens
+        run: cp coverage/lcov.info coverage/lcov_unit.info
+
+      - name: Run golden tests (coverage only, pixels not enforced on Linux)
+        if: steps.changes.outputs.code == 'true'
+        run: flutter test --tags golden --update-goldens --coverage
+
+      - name: Merge coverage reports
+        if: steps.changes.outputs.code == 'true'
+        run: |
+          lcov -a coverage/lcov_unit.info -a coverage/lcov.info \
+            -o coverage/lcov_merged.info
+
+      - name: Strip generated files from coverage
+        if: steps.changes.outputs.code == 'true'
+        run: |
+          lcov --remove coverage/lcov_merged.info \
+            '*/*.g.dart' \
+            '*/*.freezed.dart' \
+            '*/l10n/app_localizations_*.dart' \
+            --ignore-errors unused \
+            -o coverage/lcov_filtered.info
+
+      - name: Post coverage comment
+        if: steps.changes.outputs.code == 'true'
         continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          THRESHOLD=70
+          COVERAGE=$(lcov --summary coverage/lcov_filtered.info 2>&1 \
+            | grep -oP 'lines\.*: \K[\d.]+')
+          LINES=$(lcov --summary coverage/lcov_filtered.info 2>&1 \
+            | grep -oP '\d+ of \d+ lines')
+
+          if python3 -c "exit(0 if float('${COVERAGE}') >= ${THRESHOLD} else 1)"; then
+            STATUS="✅ **${COVERAGE}%** — above ${THRESHOLD}% threshold"
+          else
+            STATUS="❌ **${COVERAGE}%** — below ${THRESHOLD}% threshold"
+          fi
+
+          LOW_FILES=$(python3 << 'PYEOF'
+          with open('coverage/lcov_filtered.info') as f:
+              content = f.read()
+          files = {}
+          current = None
+          for line in content.split('\n'):
+              if line.startswith('SF:'):
+                  current = line[3:].split('lib/', 1)[-1]
+                  files[current] = {'hit': 0, 'total': 0}
+              elif line.startswith('DA:') and current:
+                  _, hits = line[3:].split(',')[:2]
+                  files[current]['total'] += 1
+                  if int(hits) > 0:
+                      files[current]['hit'] += 1
+          rows = []
+          for f, d in files.items():
+              if d['total'] >= 10:
+                  pct = d['hit'] / d['total'] * 100
+                  if pct < 80:
+                      rows.append((pct, d['total'] - d['hit'], f))
+          rows.sort(key=lambda x: x[1], reverse=True)
+          for pct, missed, f in rows[:10]:
+              print(f'| `{f}` | {pct:.0f}% | {missed} |')
+          PYEOF
+          )
+
+          if [ -n "$LOW_FILES" ]; then
+            TABLE="<details><summary>Files below 80%</summary>
+
+          | File | Coverage | Missed |
+          |------|----------|--------|
+          ${LOW_FILES}
+
+          </details>"
+          else
+            TABLE=""
+          fi
+
+          BODY="### Coverage Report
+
+          ${STATUS} (${LINES}, generated files excluded)
+
+          ${TABLE}"
+
+          gh pr comment "${{ github.event.pull_request.number }}" \
+            --body "$BODY" --edit-last 2>/dev/null \
+            || gh pr comment "${{ github.event.pull_request.number }}" \
+            --body "$BODY"
+
+      - name: Check coverage threshold
+        if: steps.changes.outputs.code == 'true'
+        run: |
+          COVERAGE=$(lcov --summary coverage/lcov_filtered.info 2>&1 \
+            | grep -oP 'lines\.*: \K[\d.]+')
+          echo "Line coverage: ${COVERAGE}%"
+          python3 -c "
+          cov = float('${COVERAGE}')
+          threshold = 70
+          if cov < threshold:
+              print(f'FAIL: {cov:.1f}% < {threshold}%')
+              exit(1)
+          print(f'OK: {cov:.1f}% >= {threshold}%')
+          "

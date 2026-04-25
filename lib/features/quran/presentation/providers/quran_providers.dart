@@ -18,14 +18,19 @@ final surahListProvider = FutureProvider<List<Surah>>((ref) async {
   return dao.getAllSurahs();
 });
 
-final surahProvider = FutureProvider.family<Surah, int>((ref, surahNumber) async {
+final surahProvider = FutureProvider.family<Surah, int>((
+  ref,
+  surahNumber,
+) async {
   await ref.watch(quranInitProvider.future);
   final dao = ref.watch(quranDaoProvider);
   return dao.getSurah(surahNumber);
 });
 
-final ayahsProvider =
-    FutureProvider.family<List<Ayah>, int>((ref, surahNumber) async {
+final ayahsProvider = FutureProvider.family<List<Ayah>, int>((
+  ref,
+  surahNumber,
+) async {
   await ref.watch(quranInitProvider.future);
   final dao = ref.watch(quranDaoProvider);
   return dao.getAyahsForSurah(surahNumber);
@@ -45,8 +50,10 @@ class QuranSearchResults {
 final quranSearchQueryProvider = StateProvider<String>((_) => '');
 
 /// Keyed by language code ('en', 'ar', 'ru').
-final quranSearchProvider =
-    FutureProvider.family<QuranSearchResults, String>((ref, language) async {
+final quranSearchProvider = FutureProvider.family<QuranSearchResults, String>((
+  ref,
+  language,
+) async {
   final query = ref.watch(quranSearchQueryProvider);
   if (query.trim().length < _kMinSearchLength) {
     return const QuranSearchResults(surahs: [], ayahs: []);

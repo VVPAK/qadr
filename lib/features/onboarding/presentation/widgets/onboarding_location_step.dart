@@ -32,9 +32,7 @@ class _OnboardingLocationStepState
     setState(() => _requesting = true);
     try {
       final prefs = await ref.read(userPreferencesProvider.future);
-      await ref
-          .read(locationServiceProvider)
-          .requestAndFetchPosition(prefs);
+      await ref.read(locationServiceProvider).requestAndFetchPosition(prefs);
       unawaited(ref.read(widgetServiceProvider)?.update());
     } finally {
       if (mounted) setState(() => _requesting = false);
@@ -117,8 +115,7 @@ class _OnboardingLocationStepState
                           Text(
                             l10n.onboardingLocationCardDesc,
                             style: TextStyle(
-                              color:
-                                  QadrColors.cream.withValues(alpha: 0.62),
+                              color: QadrColors.cream.withValues(alpha: 0.62),
                               fontFamily: 'GeneralSans',
                               fontSize: 12.5,
                               height: 1.45,

@@ -55,8 +55,9 @@ void main() {
       expect(_currentScene(tester), SceneType.dusk);
     });
 
-    testWidgets('tapping the picker cycles through all scenes in order and wraps',
-        (tester) async {
+    testWidgets('tapping the picker cycles through all scenes in order and wraps', (
+      tester,
+    ) async {
       await _pump(tester);
 
       // The scene picker is the GestureDetector that contains the AnimatedContainers

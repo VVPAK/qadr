@@ -12,7 +12,9 @@ Future<void> _insertSurah(
   String revelationType = 'Meccan',
   int ayahCount = 7,
 }) {
-  return db.into(db.surahs).insert(
+  return db
+      .into(db.surahs)
+      .insert(
         SurahsCompanion.insert(
           number: Value(number),
           nameArabic: nameArabic,
@@ -32,7 +34,9 @@ Future<void> _insertAyah(
   String textEnglish = 'en',
   String textRussian = 'ru',
 }) {
-  return db.into(db.ayahs).insert(
+  return db
+      .into(db.ayahs)
+      .insert(
         AyahsCompanion.insert(
           surahNumber: surahNumber,
           ayahNumber: ayahNumber,
@@ -48,7 +52,8 @@ void main() {
 
   setUp(() {
     db = AppDatabase.withExecutor(
-        NativeDatabase.memory(setup: AppDatabase.setupDatabase));
+      NativeDatabase.memory(setup: AppDatabase.setupDatabase),
+    );
   });
 
   tearDown(() async {
@@ -87,18 +92,20 @@ void main() {
   });
 
   group('QuranDao.getAyahsForSurah', () {
-    test('returns only ayahs of the requested surah, ordered by ayah number',
-        () async {
-      await _insertSurah(db, number: 1);
-      await _insertSurah(db, number: 2);
-      await _insertAyah(db, surahNumber: 1, ayahNumber: 3);
-      await _insertAyah(db, surahNumber: 1, ayahNumber: 1);
-      await _insertAyah(db, surahNumber: 1, ayahNumber: 2);
-      await _insertAyah(db, surahNumber: 2, ayahNumber: 1);
+    test(
+      'returns only ayahs of the requested surah, ordered by ayah number',
+      () async {
+        await _insertSurah(db, number: 1);
+        await _insertSurah(db, number: 2);
+        await _insertAyah(db, surahNumber: 1, ayahNumber: 3);
+        await _insertAyah(db, surahNumber: 1, ayahNumber: 1);
+        await _insertAyah(db, surahNumber: 1, ayahNumber: 2);
+        await _insertAyah(db, surahNumber: 2, ayahNumber: 1);
 
-      final ayahs = await db.quranDao.getAyahsForSurah(1);
-      expect(ayahs.map((a) => a.ayahNumber).toList(), [1, 2, 3]);
-    });
+        final ayahs = await db.quranDao.getAyahsForSurah(1);
+        expect(ayahs.map((a) => a.ayahNumber).toList(), [1, 2, 3]);
+      },
+    );
 
     test('returns empty when the surah has no ayahs', () async {
       await _insertSurah(db, number: 1);
@@ -109,10 +116,18 @@ void main() {
   group('QuranDao.getAyah', () {
     test('returns the exact ayah by (surah, ayah) composite key', () async {
       await _insertSurah(db, number: 1);
-      await _insertAyah(db,
-          surahNumber: 1, ayahNumber: 1, textEnglish: 'In the name');
-      await _insertAyah(db,
-          surahNumber: 1, ayahNumber: 2, textEnglish: 'Praise be');
+      await _insertAyah(
+        db,
+        surahNumber: 1,
+        ayahNumber: 1,
+        textEnglish: 'In the name',
+      );
+      await _insertAyah(
+        db,
+        surahNumber: 1,
+        ayahNumber: 2,
+        textEnglish: 'Praise be',
+      );
 
       final ayah = await db.quranDao.getAyah(1, 2);
       expect(ayah.textEnglish, 'Praise be');
@@ -127,18 +142,22 @@ void main() {
   group('QuranDao.searchAyahs', () {
     setUp(() async {
       await _insertSurah(db, number: 1);
-      await _insertAyah(db,
-          surahNumber: 1,
-          ayahNumber: 1,
-          textArabic: 'بسم الله',
-          textEnglish: 'In the name of Allah',
-          textRussian: 'Именем Аллаха');
-      await _insertAyah(db,
-          surahNumber: 1,
-          ayahNumber: 2,
-          textArabic: 'الحمد لله',
-          textEnglish: 'Praise be to Allah',
-          textRussian: 'Хвала Аллаху');
+      await _insertAyah(
+        db,
+        surahNumber: 1,
+        ayahNumber: 1,
+        textArabic: 'بسم الله',
+        textEnglish: 'In the name of Allah',
+        textRussian: 'Именем Аллаха',
+      );
+      await _insertAyah(
+        db,
+        surahNumber: 1,
+        ayahNumber: 2,
+        textArabic: 'الحمد لله',
+        textEnglish: 'Praise be to Allah',
+        textRussian: 'Хвала Аллаху',
+      );
     });
 
     test('ar language matches only Arabic column', () async {
@@ -154,8 +173,7 @@ void main() {
     });
 
     test('unknown language falls back to English OR Arabic', () async {
-      final english =
-          await db.quranDao.searchAyahs('Praise', 'en');
+      final english = await db.quranDao.searchAyahs('Praise', 'en');
       expect(english, hasLength(1));
       expect(english.single.ayahNumber, 2);
 
@@ -169,10 +187,12 @@ void main() {
     test('caps results at 20', () async {
       await _insertSurah(db, number: 2, ayahCount: 30);
       for (var i = 1; i <= 30; i++) {
-        await _insertAyah(db,
-            surahNumber: 2,
-            ayahNumber: i,
-            textEnglish: 'abundance $i');
+        await _insertAyah(
+          db,
+          surahNumber: 2,
+          ayahNumber: i,
+          textEnglish: 'abundance $i',
+        );
       }
       final hits = await db.quranDao.searchAyahs('abundance', 'en');
       expect(hits, hasLength(20));

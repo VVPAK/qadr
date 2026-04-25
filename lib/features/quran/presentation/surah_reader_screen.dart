@@ -44,7 +44,9 @@ class SurahReaderScreen extends ConsumerWidget {
             bottom: 0,
             child: ayahsAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => Center(child: Text(context.l10n.errorWithMessage(error.toString()))),
+              error: (error, _) => Center(
+                child: Text(context.l10n.errorWithMessage(error.toString())),
+              ),
               data: (ayahs) => _AyahListView(
                 surahNumber: surahNumber,
                 ayahs: ayahs,
@@ -68,7 +70,9 @@ class SurahReaderScreen extends ConsumerWidget {
         bottom: 10,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.94),
+        color: Theme.of(
+          context,
+        ).scaffoldBackgroundColor.withValues(alpha: 0.94),
         border: Border(
           bottom: BorderSide(color: Theme.of(context).colorScheme.outline),
         ),
@@ -101,10 +105,7 @@ class SurahReaderScreen extends ConsumerWidget {
                   ),
                   Text(
                     'сура ${surah.number} · ${surah.revelationType == 'Meccan' ? 'мекканская' : 'мединская'}',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: QadrColors.textFaint,
-                    ),
+                    style: TextStyle(fontSize: 11, color: QadrColors.textFaint),
                   ),
                 ],
               ),
@@ -233,10 +234,7 @@ class _BismillahHeader extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Star8Medallion(
-                  size: 10,
-                  color: QadrColors.textFaint,
-                ),
+                child: Star8Medallion(size: 10, color: QadrColors.textFaint),
               ),
               Expanded(
                 child: Container(

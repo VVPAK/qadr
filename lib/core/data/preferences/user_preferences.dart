@@ -15,13 +15,16 @@ class UserPreferences {
   static const _keyCityName = 'city_name';
   static const _keyNotificationsEnabled = 'notifications_enabled';
 
-  bool get onboardingComplete => _prefs.getBool(_keyOnboardingComplete) ?? false;
-  set onboardingComplete(bool value) => _prefs.setBool(_keyOnboardingComplete, value);
+  bool get onboardingComplete =>
+      _prefs.getBool(_keyOnboardingComplete) ?? false;
+  set onboardingComplete(bool value) =>
+      _prefs.setBool(_keyOnboardingComplete, value);
 
   Madhab get madhab {
     final index = _prefs.getInt(_keyMadhab) ?? 0;
     return Madhab.values[index];
   }
+
   set madhab(Madhab value) => _prefs.setInt(_keyMadhab, value.index);
 
   String get language => _prefs.getString(_keyLanguage) ?? 'en';
@@ -63,6 +66,8 @@ class UserPreferences {
     }
   }
 
-  bool get notificationsEnabled => _prefs.getBool(_keyNotificationsEnabled) ?? true;
-  set notificationsEnabled(bool value) => _prefs.setBool(_keyNotificationsEnabled, value);
+  bool get notificationsEnabled =>
+      _prefs.getBool(_keyNotificationsEnabled) ?? true;
+  set notificationsEnabled(bool value) =>
+      _prefs.setBool(_keyNotificationsEnabled, value);
 }

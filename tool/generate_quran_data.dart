@@ -268,9 +268,7 @@ Future<Map<String, dynamic>> _fetchJson(String url) async {
 
 Future<List<Map<String, dynamic>>> _fetchEdition(String edition) async {
   print('  Fetching $edition...');
-  final json = await _fetchJson(
-    'https://api.alquran.cloud/v1/quran/$edition',
-  );
+  final json = await _fetchJson('https://api.alquran.cloud/v1/quran/$edition');
   final data = json['data'] as Map<String, dynamic>;
   final surahs = data['surahs'] as List;
   return surahs.cast<Map<String, dynamic>>();
@@ -303,8 +301,7 @@ Future<void> main() async {
     final arAyahs = arSurah['ayahs'] as List;
     final numberOfAyahs = arAyahs.length;
     final revelationType = arSurah['revelationType'] as String;
-    final englishNameTranslation =
-        arSurah['englishNameTranslation'] as String;
+    final englishNameTranslation = arSurah['englishNameTranslation'] as String;
 
     surahList.add({
       'number': surahNumber,
@@ -335,14 +332,17 @@ Future<void> main() async {
   }
 
   // 4. Validate
-  assert(surahList.length == 114, 'Expected 114 surahs, got ${surahList.length}');
-  assert(ayahList.length == 6236, 'Expected 6236 ayahs, got ${ayahList.length}');
+  assert(
+    surahList.length == 114,
+    'Expected 114 surahs, got ${surahList.length}',
+  );
+  assert(
+    ayahList.length == 6236,
+    'Expected 6236 ayahs, got ${ayahList.length}',
+  );
 
   // 5. Write JSON
-  final output = {
-    'surahs': surahList,
-    'ayahs': ayahList,
-  };
+  final output = {'surahs': surahList, 'ayahs': ayahList};
 
   final encoder = JsonEncoder.withIndent('  ');
   final jsonString = encoder.convert(output);

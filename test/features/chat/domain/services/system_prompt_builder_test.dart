@@ -15,44 +15,55 @@ void main() {
 
       test('embeds each madhab in the fiqh rule', () {
         for (final m in Madhab.values) {
-          final prompt = SystemPromptBuilder.build(
-            madhab: m,
-            language: 'en',
+          final prompt = SystemPromptBuilder.build(madhab: m, language: 'en');
+          expect(
+            prompt,
+            contains('Follow ${m.displayName} fiqh'),
+            reason: 'madhab=${m.name}',
           );
-          expect(prompt, contains('Follow ${m.displayName} fiqh'),
-              reason: 'madhab=${m.name}');
         }
       });
     });
 
     group('language', () {
       test('maps "ar" to Arabic with native name', () {
-        final prompt =
-            SystemPromptBuilder.build(madhab: Madhab.shafii, language: 'ar');
+        final prompt = SystemPromptBuilder.build(
+          madhab: Madhab.shafii,
+          language: 'ar',
+        );
         expect(prompt, contains('Arabic (العربية)'));
         expect(prompt, contains("User's language: Arabic (العربية)"));
       });
 
       test('maps "ru" to Russian with native name', () {
-        final prompt =
-            SystemPromptBuilder.build(madhab: Madhab.hanafi, language: 'ru');
+        final prompt = SystemPromptBuilder.build(
+          madhab: Madhab.hanafi,
+          language: 'ru',
+        );
         expect(prompt, contains('Russian (Русский)'));
       });
 
       test('maps anything else (including "en") to English', () {
-        final en =
-            SystemPromptBuilder.build(madhab: Madhab.hanafi, language: 'en');
-        final other =
-            SystemPromptBuilder.build(madhab: Madhab.hanafi, language: 'xx');
+        final en = SystemPromptBuilder.build(
+          madhab: Madhab.hanafi,
+          language: 'en',
+        );
+        final other = SystemPromptBuilder.build(
+          madhab: Madhab.hanafi,
+          language: 'xx',
+        );
         expect(en, contains("User's language: English"));
         expect(other, contains("User's language: English"));
       });
 
       test('repeats the language multiple times (critical + rules)', () {
-        final prompt =
-            SystemPromptBuilder.build(madhab: Madhab.hanafi, language: 'ru');
+        final prompt = SystemPromptBuilder.build(
+          madhab: Madhab.hanafi,
+          language: 'ru',
+        );
         // Appears in header, CRITICAL RULE, and in Rules section.
-        final occurrences = 'Russian (Русский)'.allMatches(prompt).length +
+        final occurrences =
+            'Russian (Русский)'.allMatches(prompt).length +
             'Russian'.allMatches(prompt).length;
         expect(occurrences, greaterThanOrEqualTo(3));
         expect(prompt, contains('CRITICAL RULE'));
@@ -186,8 +197,11 @@ void main() {
         // Every ChatIntent value must appear in the documented schema
         // so the LLM learns the exact set it can emit.
         for (final intent in ChatIntent.values) {
-          expect(prompt, contains(intent.name),
-              reason: 'intent ${intent.name} missing from prompt');
+          expect(
+            prompt,
+            contains(intent.name),
+            reason: 'intent ${intent.name} missing from prompt',
+          );
         }
         // Required component types documented in the schema.
         const componentTypes = [
@@ -201,8 +215,11 @@ void main() {
           'lessonCard',
         ];
         for (final type in componentTypes) {
-          expect(prompt, contains(type),
-              reason: 'component type $type missing from prompt');
+          expect(
+            prompt,
+            contains(type),
+            reason: 'component type $type missing from prompt',
+          );
         }
       });
 

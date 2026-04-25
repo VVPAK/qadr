@@ -50,64 +50,112 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.appTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.push('/settings'),
-          ),
-        ],
+        appBar: AppBar(
+          title: Text(context.l10n.appTitle),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings_outlined),
+              onPressed: () => context.push('/settings'),
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: messages.isEmpty
+                  ? _buildEmptyState(context)
+                  : ListView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: QadrSpacing.sm,
+                      ),
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        final message = messages[index];
+                        return _buildMessage(context, message);
+                      },
+                    ),
+            ),
+            if (messages.isNotEmpty) _buildShortcutsBar(context),
+            _buildInputBar(context),
+          ],
+        ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: messages.isEmpty
-                ? _buildEmptyState(context)
-                : ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.symmetric(vertical: QadrSpacing.sm),
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-                      return _buildMessage(context, message);
-                    },
-                  ),
-          ),
-          if (messages.isNotEmpty) _buildShortcutsBar(context),
-          _buildInputBar(context),
-        ],
-      ),
-    ),
     );
   }
 
-  List<({String icon, String label, String message})> _getShortcuts(BuildContext context) {
+  List<({String icon, String label, String message})> _getShortcuts(
+    BuildContext context,
+  ) {
     final lang = Localizations.localeOf(context).languageCode;
     return switch (lang) {
       'ru' => [
-        (icon: '🕌', label: 'Я новичок в Исламе', message: 'Привет, я хочу начать практиковать Ислам'),
-        (icon: '🤲', label: 'Научи меня намазу', message: 'Научи меня как делать намаз, шаг за шагом'),
-        (icon: '💧', label: 'Как делать омовение?', message: 'Покажи мне как правильно делать омовение (вуду)'),
-        (icon: '📖', label: 'Покажи дуа', message: 'Покажи мне дуа на каждый день'),
+        (
+          icon: '🕌',
+          label: 'Я новичок в Исламе',
+          message: 'Привет, я хочу начать практиковать Ислам',
+        ),
+        (
+          icon: '🤲',
+          label: 'Научи меня намазу',
+          message: 'Научи меня как делать намаз, шаг за шагом',
+        ),
+        (
+          icon: '💧',
+          label: 'Как делать омовение?',
+          message: 'Покажи мне как правильно делать омовение (вуду)',
+        ),
+        (
+          icon: '📖',
+          label: 'Покажи дуа',
+          message: 'Покажи мне дуа на каждый день',
+        ),
         (icon: '📿', label: 'Тасбих', message: 'Давай сделаем тасбих'),
         (icon: '🧭', label: 'Где Кибла?', message: 'Покажи направление Киблы'),
       ],
       'ar' => [
-        (icon: '🕌', label: 'أنا مبتدئ في الإسلام', message: 'مرحباً، أريد أن أبدأ ممارسة الإسلام'),
-        (icon: '🤲', label: 'علمني الصلاة', message: 'علمني كيف أصلي خطوة بخطوة'),
-        (icon: '💧', label: 'كيف أتوضأ؟', message: 'أرني كيف أتوضأ بالطريقة الصحيحة'),
+        (
+          icon: '🕌',
+          label: 'أنا مبتدئ في الإسلام',
+          message: 'مرحباً، أريد أن أبدأ ممارسة الإسلام',
+        ),
+        (
+          icon: '🤲',
+          label: 'علمني الصلاة',
+          message: 'علمني كيف أصلي خطوة بخطوة',
+        ),
+        (
+          icon: '💧',
+          label: 'كيف أتوضأ؟',
+          message: 'أرني كيف أتوضأ بالطريقة الصحيحة',
+        ),
         (icon: '📖', label: 'أرني دعاء', message: 'أرني أدعية يومية'),
         (icon: '📿', label: 'تسبيح', message: 'هيا نسبح'),
         (icon: '🧭', label: 'أين القبلة؟', message: 'أرني اتجاه القبلة'),
       ],
       _ => [
-        (icon: '🕌', label: "I'm new to Islam", message: "Hi, I want to start practicing Islam"),
-        (icon: '🤲', label: 'Teach me to pray', message: 'Teach me how to pray step by step'),
-        (icon: '💧', label: 'How to do wudu?', message: 'Show me how to perform wudu (ablution)'),
+        (
+          icon: '🕌',
+          label: "I'm new to Islam",
+          message: "Hi, I want to start practicing Islam",
+        ),
+        (
+          icon: '🤲',
+          label: 'Teach me to pray',
+          message: 'Teach me how to pray step by step',
+        ),
+        (
+          icon: '💧',
+          label: 'How to do wudu?',
+          message: 'Show me how to perform wudu (ablution)',
+        ),
         (icon: '📖', label: 'Show me a dua', message: 'Show me daily duas'),
         (icon: '📿', label: 'Tasbih', message: "Let's do tasbih"),
-        (icon: '🧭', label: 'Where is Qibla?', message: 'Show me the Qibla direction'),
+        (
+          icon: '🧭',
+          label: 'Where is Qibla?',
+          message: 'Show me the Qibla direction',
+        ),
       ],
     };
   }
@@ -136,11 +184,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               spacing: QadrSpacing.sm,
               runSpacing: QadrSpacing.sm,
               alignment: WrapAlignment.center,
-              children: shortcuts.map((s) => ActionChip(
-                avatar: Text(s.icon),
-                label: Text(s.label),
-                onPressed: () => _handleSubmit(s.message),
-              )).toList(),
+              children: shortcuts
+                  .map(
+                    (s) => ActionChip(
+                      avatar: Text(s.icon),
+                      label: Text(s.label),
+                      onPressed: () => _handleSubmit(s.message),
+                    ),
+                  )
+                  .toList(),
             ),
           ],
         ),
@@ -150,18 +202,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   Widget _buildMessage(BuildContext context, ChatMessage message) {
     if (message.role == MessageRole.user) {
-      return MessageBubble(
-        message: message,
-        child: Text(message.content),
-      );
+      return MessageBubble(message: message, child: Text(message.content));
     }
 
     // Assistant message
     if (message.isStreaming && message.content.isEmpty) {
-      return MessageBubble(
-        message: message,
-        child: const TypingIndicator(),
-      );
+      return MessageBubble(message: message, child: const TypingIndicator());
     }
 
     if (message.llmResponse != null) {
@@ -171,10 +217,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       );
     }
 
-    return MessageBubble(
-      message: message,
-      child: Text(message.content),
-    );
+    return MessageBubble(message: message, child: Text(message.content));
   }
 
   Widget _buildShortcutsBar(BuildContext context) {

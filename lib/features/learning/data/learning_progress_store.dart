@@ -17,8 +17,9 @@ class LearningProgressStore {
   Map<String, int> get progress {
     final raw = _prefs.getString(_keyProgress);
     if (raw == null) return {};
-    return (jsonDecode(raw) as Map<String, dynamic>)
-        .map((k, v) => MapEntry(k, v as int));
+    return (jsonDecode(raw) as Map<String, dynamic>).map(
+      (k, v) => MapEntry(k, v as int),
+    );
   }
 
   void _saveProgress(Map<String, int> p) {
@@ -68,7 +69,9 @@ class LearningProgressStore {
 
   /// Check if a module is fully completed.
   bool isModuleComplete(String moduleId) {
-    final module = learningCurriculum.where((m) => m.id == moduleId).firstOrNull;
+    final module = learningCurriculum
+        .where((m) => m.id == moduleId)
+        .firstOrNull;
     if (module == null) return false;
     return module.lessons.every((l) => isLessonComplete(l.id));
   }

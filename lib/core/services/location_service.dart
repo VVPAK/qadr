@@ -45,8 +45,8 @@ class LocationService {
       final city = p.locality?.isNotEmpty == true
           ? p.locality
           : p.subAdministrativeArea?.isNotEmpty == true
-              ? p.subAdministrativeArea
-              : p.administrativeArea;
+          ? p.subAdministrativeArea
+          : p.administrativeArea;
       if (city != null && city.isNotEmpty) {
         prefs.cityName = city;
         return city;
@@ -58,5 +58,6 @@ class LocationService {
   }
 }
 
-final locationServiceProvider =
-    Provider<LocationService>((_) => const LocationService());
+final locationServiceProvider = Provider<LocationService>(
+  (_) => const LocationService(),
+);

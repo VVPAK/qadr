@@ -36,7 +36,11 @@ class PrayerRowsWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(BuildContext context, PrayerTimeEntry prayer, bool showBorder) {
+  Widget _buildRow(
+    BuildContext context,
+    PrayerTimeEntry prayer,
+    bool showBorder,
+  ) {
     const cream = Color(0xFFF4EFE6);
     const muted = Color(0x6BF4EFE6);
 

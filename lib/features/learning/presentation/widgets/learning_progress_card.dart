@@ -13,9 +13,7 @@ class LearningProgressCard extends ConsumerWidget with ChatComponent {
   final void Function(Lesson lesson)? onContinue;
 
   @override
-  Map<String, dynamic> toContextJson() => {
-        'type': 'learningProgress',
-      };
+  Map<String, dynamic> toContextJson() => {'type': 'learningProgress'};
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -86,8 +84,9 @@ class LearningProgressCard extends ConsumerWidget with ChatComponent {
                       child: Text(
                         '${module.icon} ${module.localizedTitle(lang)}',
                         style: context.textTheme.bodyMedium?.copyWith(
-                          decoration:
-                              isComplete ? TextDecoration.lineThrough : null,
+                          decoration: isComplete
+                              ? TextDecoration.lineThrough
+                              : null,
                         ),
                       ),
                     ),
