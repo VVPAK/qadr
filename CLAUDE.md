@@ -87,6 +87,12 @@ The red-green-refactor loop:
 - Fake async time with `fake_async` for timers (`PrayerScreen` countdown, dhikr debounce, etc.).
 - When fixing a bug, the first commit in the fix must be a regression test that reproduces it.
 
+## Boy Scout Rule
+
+Whenever you touch a file — for any reason — leave it a little cleaner than you found it. This does NOT mean refactoring entire modules. It means small, zero-risk improvements scoped to lines you're already reading: rename a cryptic variable, delete dead code, fix a misspelling, extract a magic literal into a named constant, add a missing blank line. No separate commit needed; fold it into the current change.
+
+Scope: changes within the lines you already modified or the function you're already in. Do NOT use this as a license to refactor adjacent code, change public APIs, or break test goldens.
+
 ## Golden Tests (REQUIRED for every screen)
 
 Every screen (`*Screen` widget) must have a golden test using the helper in `test/helpers/golden_test_helpers.dart`. The helper runs **9 combinations** automatically: 3 locales (en, ar, ru) × 3 screen sizes (small 375×667, medium 390×844, tablet 768×1024).

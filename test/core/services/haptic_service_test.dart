@@ -1,5 +1,6 @@
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:qadr/core/services/haptic_service.dart';
 
@@ -75,6 +76,53 @@ void main() {
         async.elapse(const Duration(milliseconds: 100));
         expect(log, hasLength(2));
       });
+    });
+  });
+
+  group('HapticService Vibration methods', () {
+    late List<MethodCall> vibrationLog;
+
+    setUp(() {
+      vibrationLog = [];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(const MethodChannel('vibration'), (
+            call,
+          ) async {
+            vibrationLog.add(call);
+            if (call.method == 'hasVibrator') return true;
+            return null;
+          });
+    });
+
+    tearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(const MethodChannel('vibration'), null);
+    });
+
+    test('completion calls vibrate channel', () async {
+      const service = HapticService();
+      await service.completion();
+      expect(vibrationLog.any((c) => c.method == 'vibrate'), isTrue);
+    });
+
+    test('vibrate calls vibrate channel with custom params', () async {
+      const service = HapticService();
+      await service.vibrate(duration: 200, amplitude: 128);
+      expect(vibrationLog.any((c) => c.method == 'vibrate'), isTrue);
+    });
+
+    test('cancel calls cancel channel', () async {
+      const service = HapticService();
+      await service.cancel();
+      expect(vibrationLog.any((c) => c.method == 'cancel'), isTrue);
+    });
+  });
+
+  group('hapticServiceProvider', () {
+    test('creates a HapticService instance', () {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      expect(container.read(hapticServiceProvider), isA<HapticService>());
     });
   });
 }
