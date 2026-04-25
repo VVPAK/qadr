@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:qadr/app/router.dart';
 import 'package:qadr/core/providers/preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,5 +97,17 @@ void main() {
         );
       },
     );
+  });
+
+  group('routerProvider', () {
+    test('creates a GoRouter instance', () async {
+      SharedPreferences.setMockInitialValues({});
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      final router = container.read(routerProvider);
+      expect(router, isA<GoRouter>());
+      container.invalidate(routerProvider);
+    });
   });
 }
