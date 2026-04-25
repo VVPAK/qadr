@@ -11,6 +11,9 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -83,8 +86,9 @@ jobs:
             --ignore-errors unused \
             -o coverage/lcov_filtered.info
 
-      - name: Check coverage threshold and post comment
+      - name: Post coverage comment
         if: steps.changes.outputs.code == 'true'
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -93,7 +97,6 @@ jobs:
             | grep -oP 'lines\.*: \K[\d.]+')
           LINES=$(lcov --summary coverage/lcov_filtered.info 2>&1 \
             | grep -oP '\d+ of \d+ lines')
-          echo "Line coverage: ${COVERAGE}%"
 
           if python3 -c "exit(0 if float('${COVERAGE}') >= ${THRESHOLD} else 1)"; then
             STATUS="✅ **${COVERAGE}%** — above ${THRESHOLD}% threshold"
@@ -101,61 +104,66 @@ jobs:
             STATUS="❌ **${COVERAGE}%** — below ${THRESHOLD}% threshold"
           fi
 
-          LOW_FILES=$(python3 - << 'PYEOF'
-          import re, sys
-
+          LOW_FILES=$(python3 << 'PYEOF'
           with open('coverage/lcov_filtered.info') as f:
               content = f.read()
-
           files = {}
           current = None
           for line in content.split('\n'):
               if line.startswith('SF:'):
-                  current = line[3:].replace('/Users/runner/work/qadr/qadr/', '')
+                  current = line[3:].split('lib/', 1)[-1]
                   files[current] = {'hit': 0, 'total': 0}
               elif line.startswith('DA:') and current:
                   _, hits = line[3:].split(',')[:2]
                   files[current]['total'] += 1
                   if int(hits) > 0:
                       files[current]['hit'] += 1
-
           rows = []
           for f, d in files.items():
               if d['total'] >= 10:
                   pct = d['hit'] / d['total'] * 100
                   if pct < 80:
                       rows.append((pct, d['total'] - d['hit'], f))
-
           rows.sort(key=lambda x: x[1], reverse=True)
           for pct, missed, f in rows[:10]:
-              short = f.replace('lib/', '')
-              print(f'| `{short}` | {pct:.0f}% | {missed} |')
+              print(f'| `{f}` | {pct:.0f}% | {missed} |')
           PYEOF
           )
+
+          if [ -n "$LOW_FILES" ]; then
+            TABLE="<details><summary>Files below 80%</summary>
+
+          | File | Coverage | Missed |
+          |------|----------|--------|
+          ${LOW_FILES}
+
+          </details>"
+          else
+            TABLE=""
+          fi
 
           BODY="### Coverage Report
 
           ${STATUS} (${LINES}, generated files excluded)
 
-          $(if [ -n "$LOW_FILES" ]; then
-            echo "<details><summary>Files below 80%</summary>"
-            echo ""
-            echo "| File | Coverage | Missed lines |"
-            echo "|------|----------|-------------|"
-            echo "$LOW_FILES"
-            echo ""
-            echo "</details>"
-          fi)"
+          ${TABLE}"
 
           gh pr comment "${{ github.event.pull_request.number }}" \
             --body "$BODY" --edit-last 2>/dev/null \
             || gh pr comment "${{ github.event.pull_request.number }}" \
             --body "$BODY"
 
+      - name: Check coverage threshold
+        if: steps.changes.outputs.code == 'true'
+        run: |
+          COVERAGE=$(lcov --summary coverage/lcov_filtered.info 2>&1 \
+            | grep -oP 'lines\.*: \K[\d.]+')
+          echo "Line coverage: ${COVERAGE}%"
           python3 -c "
           cov = float('${COVERAGE}')
-          if cov < ${THRESHOLD}:
-              print(f'FAIL: {cov:.1f}% < ${THRESHOLD}%')
+          threshold = 70
+          if cov < threshold:
+              print(f'FAIL: {cov:.1f}% < {threshold}%')
               exit(1)
-          print(f'OK: {cov:.1f}% >= ${THRESHOLD}%')
+          print(f'OK: {cov:.1f}% >= {threshold}%')
           "
