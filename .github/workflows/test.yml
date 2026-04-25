@@ -53,7 +53,27 @@ jobs:
 
       - name: Run tests
         if: steps.changes.outputs.code == 'true'
-        run: flutter test --exclude-tags golden
+        run: flutter test --exclude-tags golden --coverage
+
+      - name: Install lcov
+        if: steps.changes.outputs.code == 'true'
+        run: sudo apt-get install -y lcov
+
+      - name: Check coverage threshold
+        if: steps.changes.outputs.code == 'true'
+        run: |
+          SUMMARY=$(lcov --summary coverage/lcov.info 2>&1)
+          echo "$SUMMARY"
+          COVERAGE=$(echo "$SUMMARY" | grep -oP 'lines\.*: \K[\d.]+')
+          echo "Line coverage: ${COVERAGE}%"
+          python3 -c "
+          cov = float('${COVERAGE}')
+          threshold = 60
+          if cov < threshold:
+              print(f'FAIL: coverage {cov:.1f}% is below threshold {threshold}%')
+              exit(1)
+          print(f'OK: coverage {cov:.1f}% meets threshold {threshold}%')
+          "
 
       - name: Run golden tests
         if: steps.changes.outputs.code == 'true'

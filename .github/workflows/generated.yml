@@ -1,4 +1,4 @@
-name: Analyze
+name: Generated files
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  analyze:
+  check-generated:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,18 +21,14 @@ jobs:
           filters: |
             code:
               - 'lib/**'
-              - 'test/**'
-              - 'integration_test/**'
-              - 'tool/**'
               - 'pubspec.yaml'
               - 'pubspec.lock'
-              - 'analysis_options.yaml'
               - 'l10n.yaml'
-              - '.github/workflows/analyze.yml'
+              - '.github/workflows/generated.yml'
 
       - name: Skip (no relevant changes)
         if: steps.changes.outputs.code != 'true'
-        run: echo "No code changes — analyze skipped."
+        run: echo "No code changes — generated files check skipped."
 
       - uses: subosito/flutter-action@v2
         if: steps.changes.outputs.code == 'true'
@@ -45,10 +41,21 @@ jobs:
         if: steps.changes.outputs.code == 'true'
         run: flutter pub get
 
-      - name: Dart format
+      - name: Run build_runner
         if: steps.changes.outputs.code == 'true'
-        run: dart format --output=none --set-exit-if-changed .
+        run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Dart analyze
+      - name: Regenerate l10n
         if: steps.changes.outputs.code == 'true'
-        run: flutter analyze --fatal-infos --fatal-warnings
+        run: flutter gen-l10n
+
+      - name: Check for uncommitted generated files
+        if: steps.changes.outputs.code == 'true'
+        run: |
+          if ! git diff --exit-code; then
+            echo ""
+            echo "Generated files are out of date. Run the following locally and commit:"
+            echo "  dart run build_runner build --delete-conflicting-outputs"
+            echo "  flutter gen-l10n"
+            exit 1
+          fi
