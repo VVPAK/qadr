@@ -9,10 +9,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-test:
     runs-on: macos-latest
-    outputs:
-      has_changes: ${{ steps.changes.outputs.code }}
 
     steps:
       - uses: actions/checkout@v4
@@ -50,6 +48,16 @@ jobs:
           key: pods-${{ hashFiles('ios/Podfile.lock') }}
           restore-keys: pods-
 
+      - name: Cache Xcode DerivedData
+        if: steps.changes.outputs.code == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: xcode-${{ hashFiles('ios/Podfile.lock', 'pubspec.lock') }}-${{ github.sha }}
+          restore-keys: |
+            xcode-${{ hashFiles('ios/Podfile.lock', 'pubspec.lock') }}-
+            xcode-
+
       - name: Install dependencies
         if: steps.changes.outputs.code == 'true'
         run: flutter pub get
@@ -60,55 +68,14 @@ jobs:
           cd ios
           pod install --repo-update
 
-      - name: Build iOS for simulator
-        if: steps.changes.outputs.code == 'true'
-        run: flutter build ios --debug --simulator
-
-      - name: Upload Runner.app
-        if: steps.changes.outputs.code == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-runner-app
-          path: build/ios/iphonesimulator/Runner.app
-          retention-days: 1
-
-  integration-test:
-    runs-on: macos-latest
-    needs: build
-    if: needs.build.outputs.has_changes == 'true'
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.41.6"
-          channel: stable
-          cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Download Runner.app
-        uses: actions/download-artifact@v4
-        with:
-          name: ios-runner-app
-          path: build/ios/iphonesimulator/Runner.app
-
       - name: Boot iOS simulator
+        if: steps.changes.outputs.code == 'true'
         run: |
           UDID=$(xcrun simctl list devices available | grep -E "iPhone [0-9]" | tail -1 | grep -oE "[0-9A-F-]{36}")
           echo "Booting simulator: $UDID"
           xcrun simctl boot "$UDID" || true
           echo "SIM_UDID=$UDID" >> $GITHUB_ENV
 
-      - name: Install app on simulator
-        run: xcrun simctl install "$SIM_UDID" build/ios/iphonesimulator/Runner.app
-
       - name: Run integration tests
-        run: |
-          flutter drive \
-            --driver=test_driver/integration_test.dart \
-            --target=integration_test/onboarding_test.dart \
-            -d "$SIM_UDID" \
-            --use-application-binary=build/ios/iphonesimulator/Runner.app
+        if: steps.changes.outputs.code == 'true'
+        run: flutter test integration_test/onboarding_test.dart -d "$SIM_UDID"
