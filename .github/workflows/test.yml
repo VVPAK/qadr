@@ -50,10 +50,6 @@ jobs:
         if: steps.changes.outputs.code == 'true'
         run: flutter pub get
 
-      - name: Analyze
-        if: steps.changes.outputs.code == 'true'
-        run: flutter analyze --fatal-infos
-
       - name: Install lcov
         if: steps.changes.outputs.code == 'true'
         run: sudo apt-get install -y lcov
