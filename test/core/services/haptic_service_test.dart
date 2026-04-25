@@ -85,14 +85,13 @@ void main() {
     setUp(() {
       vibrationLog = [];
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(
-        const MethodChannel('vibration'),
-        (call) async {
-          vibrationLog.add(call);
-          if (call.method == 'hasVibrator') return true;
-          return null;
-        },
-      );
+          .setMockMethodCallHandler(const MethodChannel('vibration'), (
+            call,
+          ) async {
+            vibrationLog.add(call);
+            if (call.method == 'hasVibrator') return true;
+            return null;
+          });
     });
 
     tearDown(() {

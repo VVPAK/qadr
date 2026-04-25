@@ -55,7 +55,9 @@ void main() {
       expect(find.byType(FilledButton), findsOneWidget);
     });
 
-    testWidgets('shows all-complete text when all lessons are done', (tester) async {
+    testWidgets('shows all-complete text when all lessons are done', (
+      tester,
+    ) async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
       final store = LearningProgressStore(prefs);
@@ -64,7 +66,9 @@ void main() {
           store.completeStep(lesson.id, lesson.steps.length - 1);
         }
       }
-      await tester.pumpWidget(await _wrap(const LearningProgressCard(), prefs: prefs));
+      await tester.pumpWidget(
+        await _wrap(const LearningProgressCard(), prefs: prefs),
+      );
       await tester.pump();
       // FilledButton should be gone; all-complete text visible
       expect(find.byType(FilledButton), findsNothing);
@@ -75,11 +79,13 @@ void main() {
       expect(card.toContextJson(), {'type': 'learningProgress'});
     });
 
-    testWidgets('onContinue callback is called when button tapped', (tester) async {
+    testWidgets('onContinue callback is called when button tapped', (
+      tester,
+    ) async {
       Lesson? received;
-      await tester.pumpWidget(await _wrap(
-        LearningProgressCard(onContinue: (l) => received = l),
-      ));
+      await tester.pumpWidget(
+        await _wrap(LearningProgressCard(onContinue: (l) => received = l)),
+      );
       await tester.pump();
 
       await tester.tap(find.byType(FilledButton));

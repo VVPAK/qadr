@@ -47,7 +47,9 @@ void main() {
       expect(find.text(_lesson.steps.first.title), findsOneWidget);
     });
 
-    testWidgets('shows Next button (FilledButton) on first step', (tester) async {
+    testWidgets('shows Next button (FilledButton) on first step', (
+      tester,
+    ) async {
       await tester.pumpWidget(await _wrap(LessonCardWidget(lesson: _lesson)));
       await tester.pump();
       expect(find.byType(FilledButton), findsOneWidget);
@@ -59,7 +61,9 @@ void main() {
       expect(find.byIcon(Icons.arrow_back), findsNothing);
     });
 
-    testWidgets('toContextJson returns correct lessonId and stepsCount', (tester) async {
+    testWidgets('toContextJson returns correct lessonId and stepsCount', (
+      tester,
+    ) async {
       final card = LessonCardWidget(lesson: _lesson);
       final json = card.toContextJson();
       expect(json['lessonId'], _lesson.id);
@@ -68,9 +72,9 @@ void main() {
     });
 
     testWidgets('starts at specified step', (tester) async {
-      await tester.pumpWidget(await _wrap(
-        LessonCardWidget(lesson: _lesson, startAtStep: 1),
-      ));
+      await tester.pumpWidget(
+        await _wrap(LessonCardWidget(lesson: _lesson, startAtStep: 1)),
+      );
       await tester.pump();
       expect(find.text('2 / ${_lesson.steps.length}'), findsOneWidget);
     });
@@ -86,9 +90,9 @@ void main() {
       final stepWithTip = _lesson.steps[2];
       expect(stepWithTip.tip, isNotNull);
 
-      await tester.pumpWidget(await _wrap(
-        LessonCardWidget(lesson: _lesson, startAtStep: 2),
-      ));
+      await tester.pumpWidget(
+        await _wrap(LessonCardWidget(lesson: _lesson, startAtStep: 2)),
+      );
       await tester.pump();
       expect(find.text(stepWithTip.tip!), findsOneWidget);
     });
@@ -105,14 +109,17 @@ void main() {
       expect(find.text('2 / ${_lesson.steps.length}'), findsOneWidget);
     });
 
-    testWidgets('shows Back button (arrow_back icon) after advancing to step 2', (tester) async {
-      await tester.pumpWidget(await _wrap(LessonCardWidget(lesson: _lesson)));
-      await tester.pump();
+    testWidgets(
+      'shows Back button (arrow_back icon) after advancing to step 2',
+      (tester) async {
+        await tester.pumpWidget(await _wrap(LessonCardWidget(lesson: _lesson)));
+        await tester.pump();
 
-      await tester.tap(find.byType(FilledButton));
-      await tester.pumpAndSettle();
+        await tester.tap(find.byType(FilledButton));
+        await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.arrow_back), findsOneWidget);
-    });
+        expect(find.byIcon(Icons.arrow_back), findsOneWidget);
+      },
+    );
   });
 }

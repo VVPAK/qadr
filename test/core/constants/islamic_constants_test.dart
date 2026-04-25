@@ -10,9 +10,15 @@ void main() {
     });
 
     test('hanafi → Hanafi', () => expect(Madhab.hanafi.displayName, 'Hanafi'));
-    test("shafii → Shafi'i", () => expect(Madhab.shafii.displayName, "Shafi'i"));
+    test(
+      "shafii → Shafi'i",
+      () => expect(Madhab.shafii.displayName, "Shafi'i"),
+    );
     test('maliki → Maliki', () => expect(Madhab.maliki.displayName, 'Maliki'));
-    test('hanbali → Hanbali', () => expect(Madhab.hanbali.displayName, 'Hanbali'));
+    test(
+      'hanbali → Hanbali',
+      () => expect(Madhab.hanbali.displayName, 'Hanbali'),
+    );
   });
 
   group('PrayerName.displayName', () {
@@ -23,10 +29,16 @@ void main() {
     });
 
     test('fajr → Fajr', () => expect(PrayerName.fajr.displayName, 'Fajr'));
-    test('sunrise → Sunrise', () => expect(PrayerName.sunrise.displayName, 'Sunrise'));
+    test(
+      'sunrise → Sunrise',
+      () => expect(PrayerName.sunrise.displayName, 'Sunrise'),
+    );
     test('dhuhr → Dhuhr', () => expect(PrayerName.dhuhr.displayName, 'Dhuhr'));
     test('asr → Asr', () => expect(PrayerName.asr.displayName, 'Asr'));
-    test('maghrib → Maghrib', () => expect(PrayerName.maghrib.displayName, 'Maghrib'));
+    test(
+      'maghrib → Maghrib',
+      () => expect(PrayerName.maghrib.displayName, 'Maghrib'),
+    );
     test('isha → Isha', () => expect(PrayerName.isha.displayName, 'Isha'));
   });
 
@@ -37,10 +49,18 @@ void main() {
 
     test('contains all expected intents', () {
       final names = ChatIntent.values.map((e) => e.name).toSet();
-      expect(names, containsAll([
-        'prayerTime', 'quranSearch', 'duaRequest', 'tasbih',
-        'qibla', 'learning', 'generalQuestion',
-      ]));
+      expect(
+        names,
+        containsAll([
+          'prayerTime',
+          'quranSearch',
+          'duaRequest',
+          'tasbih',
+          'qibla',
+          'learning',
+          'generalQuestion',
+        ]),
+      );
     });
   });
 }

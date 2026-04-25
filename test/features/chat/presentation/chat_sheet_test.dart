@@ -33,10 +33,15 @@ Future<Widget> _buildApp(Widget child) async {
   final prefs = await SharedPreferences.getInstance();
   final store = LearningProgressStore(prefs);
 
-  final router = GoRouter(routes: [
-    GoRoute(path: '/', builder: (_, _) => Scaffold(body: child)),
-    GoRoute(path: '/settings', builder: (_, _) => const Scaffold()),
-  ]);
+  final router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (_, _) => Scaffold(body: child),
+      ),
+      GoRoute(path: '/settings', builder: (_, _) => const Scaffold()),
+    ],
+  );
 
   return ProviderScope(
     overrides: [
@@ -118,13 +123,15 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
       final store = LearningProgressStore(prefs);
-      final router = GoRouter(routes: [
-        GoRoute(
-          path: '/',
-          builder: (_, _) => const Scaffold(body: ChatSheet()),
-        ),
-        GoRoute(path: '/settings', builder: (_, _) => const Scaffold()),
-      ]);
+      final router = GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (_, _) => const Scaffold(body: ChatSheet()),
+          ),
+          GoRoute(path: '/settings', builder: (_, _) => const Scaffold()),
+        ],
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -132,7 +139,9 @@ void main() {
             learningProgressProvider.overrideWithValue(store),
             llmServiceProvider.overrideWithValue(_NoopLlmService()),
             chatMessagesProvider.overrideWith(
-              (_) => ChatMessagesNotifier(_FakeRef())..state = [userMsg, assistantMsg],
+              (_) =>
+                  ChatMessagesNotifier(_FakeRef())
+                    ..state = [userMsg, assistantMsg],
             ),
           ],
           child: MaterialApp.router(
@@ -159,13 +168,15 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
       final store = LearningProgressStore(prefs);
-      final router = GoRouter(routes: [
-        GoRoute(
-          path: '/',
-          builder: (_, _) => const Scaffold(body: ChatSheet()),
-        ),
-        GoRoute(path: '/settings', builder: (_, _) => const Scaffold()),
-      ]);
+      final router = GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (_, _) => const Scaffold(body: ChatSheet()),
+          ),
+          GoRoute(path: '/settings', builder: (_, _) => const Scaffold()),
+        ],
+      );
 
       await tester.pumpWidget(
         ProviderScope(
@@ -192,5 +203,6 @@ void main() {
 // Minimal Ref stub - only used by ChatMessagesNotifier constructor.
 class _FakeRef implements Ref {
   @override
-  dynamic noSuchMethod(Invocation i) => throw UnimplementedError(i.memberName.toString());
+  dynamic noSuchMethod(Invocation i) =>
+      throw UnimplementedError(i.memberName.toString());
 }

@@ -17,17 +17,13 @@ void main() {
 
   group('LearnListScreen', () {
     testWidgets('renders without errors', (tester) async {
-      await tester.pumpWidget(_wrap(
-        LearnListScreen(onNavChanged: (_) {}),
-      ));
+      await tester.pumpWidget(_wrap(LearnListScreen(onNavChanged: (_) {})));
       await tester.pump();
       expect(find.byType(LearnListScreen), findsOneWidget);
     });
 
     testWidgets('shows lesson titles from curriculum', (tester) async {
-      await tester.pumpWidget(_wrap(
-        LearnListScreen(onNavChanged: (_) {}),
-      ));
+      await tester.pumpWidget(_wrap(LearnListScreen(onNavChanged: (_) {})));
       await tester.pump();
 
       final firstLesson = learningCurriculum.first.lessons.first;
@@ -36,9 +32,9 @@ void main() {
 
     testWidgets('onNavChanged is not called on render', (tester) async {
       var called = false;
-      await tester.pumpWidget(_wrap(
-        LearnListScreen(onNavChanged: (_) => called = true),
-      ));
+      await tester.pumpWidget(
+        _wrap(LearnListScreen(onNavChanged: (_) => called = true)),
+      );
       await tester.pump();
       expect(called, isFalse);
     });

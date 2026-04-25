@@ -44,9 +44,11 @@ void main() {
       addTearDown(container.dispose);
 
       final result = await container.read(
-        prayerTimesForDayProvider(
-          (lat: 21.4, lng: 39.8, dateKey: '2026-4-24'),
-        ).future,
+        prayerTimesForDayProvider((
+          lat: 21.4,
+          lng: 39.8,
+          dateKey: '2026-4-24',
+        )).future,
       );
 
       expect(result.fajr.hour, 5);
@@ -60,16 +62,12 @@ void main() {
 
       final repo = _CapturingRepo(model, onGet: (d) => capturedDate = d);
       final container = ProviderContainer(
-        overrides: [
-          prayerTimesRepositoryProvider.overrideWithValue(repo),
-        ],
+        overrides: [prayerTimesRepositoryProvider.overrideWithValue(repo)],
       );
       addTearDown(container.dispose);
 
       await container.read(
-        prayerTimesForDayProvider(
-          (lat: 0, lng: 0, dateKey: '2026-1-5'),
-        ).future,
+        prayerTimesForDayProvider((lat: 0, lng: 0, dateKey: '2026-1-5')).future,
       );
 
       expect(capturedDate?.year, 2026);
@@ -87,9 +85,11 @@ void main() {
 
       await expectLater(
         container.read(
-          prayerTimesForDayProvider(
-            (lat: 0, lng: 0, dateKey: '2026-4-24'),
-          ).future,
+          prayerTimesForDayProvider((
+            lat: 0,
+            lng: 0,
+            dateKey: '2026-4-24',
+          )).future,
         ),
         throwsA(isA<Exception>()),
       );
@@ -98,17 +98,23 @@ void main() {
     test('prayerTimesServiceProvider creates a PrayerTimesService', () {
       final container = ProviderContainer();
       addTearDown(container.dispose);
-      expect(container.read(prayerTimesServiceProvider), isA<PrayerTimesService>());
-    });
-
-    test('prayerTimesRepositoryProvider creates a PrayerTimesRepositoryImpl', () {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
       expect(
-        container.read(prayerTimesRepositoryProvider),
-        isA<PrayerTimesRepositoryImpl>(),
+        container.read(prayerTimesServiceProvider),
+        isA<PrayerTimesService>(),
       );
     });
+
+    test(
+      'prayerTimesRepositoryProvider creates a PrayerTimesRepositoryImpl',
+      () {
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
+        expect(
+          container.read(prayerTimesRepositoryProvider),
+          isA<PrayerTimesRepositoryImpl>(),
+        );
+      },
+    );
   });
 }
 

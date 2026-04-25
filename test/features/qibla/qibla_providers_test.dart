@@ -12,27 +12,33 @@ void main() {
       expect(container.read(qiblaServiceProvider), isA<QiblaService>());
     });
 
-    test('qiblaReadingProvider returns null when no location is stored', () async {
-      SharedPreferences.setMockInitialValues({});
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
+    test(
+      'qiblaReadingProvider returns null when no location is stored',
+      () async {
+        SharedPreferences.setMockInitialValues({});
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
 
-      final result = await container.read(qiblaReadingProvider.future);
-      expect(result, isNull);
-    });
+        final result = await container.read(qiblaReadingProvider.future);
+        expect(result, isNull);
+      },
+    );
 
-    test('qiblaReadingProvider returns QiblaReading when location is available', () async {
-      SharedPreferences.setMockInitialValues({
-        'latitude': 21.4225,
-        'longitude': 39.8262,
-      });
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
+    test(
+      'qiblaReadingProvider returns QiblaReading when location is available',
+      () async {
+        SharedPreferences.setMockInitialValues({
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+        });
+        final container = ProviderContainer();
+        addTearDown(container.dispose);
 
-      final result = await container.read(qiblaReadingProvider.future);
-      expect(result, isNotNull);
-      expect(result!.bearing, greaterThanOrEqualTo(0));
-      expect(result.bearing, lessThan(360));
-    });
+        final result = await container.read(qiblaReadingProvider.future);
+        expect(result, isNotNull);
+        expect(result!.bearing, greaterThanOrEqualTo(0));
+        expect(result.bearing, lessThan(360));
+      },
+    );
   });
 }

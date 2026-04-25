@@ -8,11 +8,11 @@ import 'package:qadr/l10n/app_localizations.dart';
 Widget _wrap(Widget child) {
   final router = GoRouter(
     routes: [
-      GoRoute(path: '/', builder: (_, _) => Scaffold(body: child)),
       GoRoute(
-        path: '/quran/:surahNumber',
-        builder: (_, _) => const Scaffold(),
+        path: '/',
+        builder: (_, _) => Scaffold(body: child),
       ),
+      GoRoute(path: '/quran/:surahNumber', builder: (_, _) => const Scaffold()),
     ],
   );
   return MaterialApp.router(
@@ -60,7 +60,9 @@ void main() {
       expect((json['ayahs'] as List), hasLength(1));
     });
 
-    testWidgets('empty ayahs list renders nothing but is valid', (tester) async {
+    testWidgets('empty ayahs list renders nothing but is valid', (
+      tester,
+    ) async {
       const emptyCard = QuranAyahCard(data: QuranAyahData(ayahs: []));
       await tester.pumpWidget(_wrap(emptyCard));
       await tester.pumpAndSettle();
